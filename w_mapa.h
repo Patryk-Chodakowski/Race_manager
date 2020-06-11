@@ -6,6 +6,7 @@ class W_Mapa
 {
 public:
     W_Mapa();
+    void rysuj_mape();
 };
 
 #endif // W_MAPA_H

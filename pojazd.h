@@ -10,6 +10,7 @@ class Pojazd
     double skretnosc;
     double zuzycie_opon;
     double predkosc, stan_paliwa, stan_opon;
+    double kat_predkosci;
 public:
     Pojazd();
 };

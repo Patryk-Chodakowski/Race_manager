@@ -26,6 +26,5 @@ private:
     QGraphicsScene *scene;
     QGraphicsEllipseItem *ellipse;
     QGraphicsRectItem *rectangle;
-    QGraphicsTextItem *text;
 };
 #endif // DIALOG_H
