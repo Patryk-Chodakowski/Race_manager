@@ -1,6 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include <iostream>
 
 class Point
 {
@@ -10,8 +11,12 @@ public:
     void set_y(int _y);
     int get_x();
     int get_y();
+    Point direction_vector(Point _end);
+
+    void log_point();
 
     Point();
+    Point(int _x,int _y);
 };
 
 #endif // POINT_H
