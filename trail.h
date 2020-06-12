@@ -7,6 +7,9 @@
 #include <vector>
 #include <sstream>
 
+#include "straight.h"
+#include "curve.h"
+
 using namespace std;
 
 class Trail

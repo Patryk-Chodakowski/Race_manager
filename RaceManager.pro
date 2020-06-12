@@ -16,16 +16,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    curve.cpp \
     dialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    point.cpp \
     qgraphicsarcitem.cpp \
+    route_element.cpp \
+    straight.cpp \
     trail.cpp
 
 HEADERS += \
+    curve.h \
     dialog.h \
     mainwindow.h \
+    point.h \
     qgraphicsarcitem.h \
+    route_element.h \
+    straight.h \
     trail.h
 
 FORMS += \
