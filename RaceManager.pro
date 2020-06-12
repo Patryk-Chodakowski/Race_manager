@@ -17,22 +17,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     dialog.cpp \
-    element_trasy.cpp \
     main.cpp \
     mainwindow.cpp \
-    pojazd.cpp \
-    punkt.cpp \
-    trasa.cpp \
-    w_mapa.cpp
+    qgraphicsarcitem.cpp \
+    trail.cpp
 
 HEADERS += \
     dialog.h \
-    element_trasy.h \
     mainwindow.h \
-    pojazd.h \
-    punkt.h \
-    trasa.h \
-    w_mapa.h
+    qgraphicsarcitem.h \
+    trail.h
 
 FORMS += \
     dialog.ui \

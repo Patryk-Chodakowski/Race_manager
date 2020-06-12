@@ -8,6 +8,8 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 
+#include "qgraphicsarcitem.h"
+
 namespace Ui {
 class Dialog;
 }
@@ -26,5 +28,7 @@ private:
     QGraphicsScene *scene;
     QGraphicsEllipseItem *ellipse;
     QGraphicsRectItem *rectangle;
+    QGraphicsLineItem *line;
+    QGraphicsArcItem *arc;
 };
 #endif // DIALOG_H

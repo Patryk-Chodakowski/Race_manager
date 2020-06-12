@@ -1,10 +1,9 @@
 #include "mainwindow.h"
 #include "dialog.h"
 #include <QApplication>
-#include "punkt.h"
 #include <iostream>
 
-#include "trasa.h"
+#include "trail.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,8 +11,8 @@ int main(int argc, char *argv[])
 //    MainWindow w;
 //    w.show();
 
-    Trasa t;
-    t.tworz_elementy();
+    Trail t;
+    t.create_elements();
 
 
     Dialog d;
