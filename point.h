@@ -11,12 +11,14 @@ public:
     void set_y(int _y);
     int get_x();
     int get_y();
-    Point direction_vector(Point _end);
+    Point direction_vector(Point destination);
 
     void log_point();
 
     Point();
     Point(int _x,int _y);
 };
+
+int ArcQuaterFromPoint(Point start,Point centre, Point end);
 
 #endif // POINT_H

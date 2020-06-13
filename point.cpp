@@ -55,3 +55,13 @@ void Point::log_point()
 }
 
 
+
+int ArcQuaterFromPoint(Point start, Point centre, Point end)
+{
+    if(start.get_x() < end.get_x()){
+
+    }
+    else{
+
+    }
+}

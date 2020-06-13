@@ -9,8 +9,12 @@ class Curve : public Route_Element
 public:
     void drive();
     void set_radius(int r);
-    void set_ends_from_points(Point prev, Point current, Point next);
+    void set_ends_from_points(Point prev, Point current, Point next, int _radius);
+
+    void log_curve();
+
     Curve();
+    Curve(Point prev, Point current, Point next, int _radius);
     Curve(int r);
 };
 

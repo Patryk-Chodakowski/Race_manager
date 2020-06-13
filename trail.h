@@ -16,10 +16,12 @@ class Trail
 {
     double width;
     string name;
+    Route_Element *trail_elements;
 
 public:
     Trail();
     void create_elements();
+    Route_Element *get_elements();
 
 private:
     vector<string> explode(string const & s, char delim);

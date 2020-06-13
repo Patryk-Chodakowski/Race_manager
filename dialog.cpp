@@ -17,6 +17,9 @@ Dialog::Dialog(QWidget *parent) :
     QPen outlinePen(Qt::black);
     outlinePen.setWidth(2);
 
+    V_Map *map = new V_Map();
+    map->drow_map(scene);
+
 
 //    QGraphicsItem *luk;
 //    int start = 90 * 16;
@@ -26,14 +29,13 @@ Dialog::Dialog(QWidget *parent) :
     //luk = scene->addItem(arc);
 
 
-    arc = new QGraphicsArcItem(0,0,200);
+//    arc = new QGraphicsArcItem(0,0,200);
+    //    line = scene->addLine(100,100,200,400,outlinePen);
 
 
-    scene->addItem(arc);
+//    scene->addItem(arc);
 
 
-
-    line = scene->addLine(100,100,200,400,outlinePen);
 
 
     //rectangle = scene->addRect(200, 0, 80, 100, outlinePen, blueBrush);

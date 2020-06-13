@@ -24,7 +24,8 @@ SOURCES += \
     qgraphicsarcitem.cpp \
     route_element.cpp \
     straight.cpp \
-    trail.cpp
+    trail.cpp \
+    v_map.cpp
 
 HEADERS += \
     curve.h \
@@ -34,7 +35,8 @@ HEADERS += \
     qgraphicsarcitem.h \
     route_element.h \
     straight.h \
-    trail.h
+    trail.h \
+    v_map.h
 
 FORMS += \
     dialog.ui \

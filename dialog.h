@@ -9,6 +9,7 @@
 #include <QGraphicsItem>
 
 #include "qgraphicsarcitem.h"
+#include "v_map.h"
 
 namespace Ui {
 class Dialog;
