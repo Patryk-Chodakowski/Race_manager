@@ -58,10 +58,43 @@ void Point::log_point()
 
 int ArcQuaterFromPoint(Point start, Point centre, Point end)
 {
-    if(start.get_x() < end.get_x()){
+    Point dir_1 = centre.direction_vector(start);
+    Point dir_2 = centre.direction_vector(end);
 
-    }
-    else{
+    if (dir_1.get_x() == 1){
+        if(dir_2.get_y() == 1){
+            return 4;
+        }
+        if(dir_2.get_y() == -1){
+            return 1;
+        }
+    };
 
-    }
+    if(dir_1.get_x() == -1){
+        if(dir_2.get_y() == 1){
+            return 3;
+        }
+        if(dir_2.get_y() == -1){
+            return 2;
+        }
+    };
+
+    if(dir_1.get_y() == 1){
+        if(dir_2.get_x() == 1){
+            return 4;
+        }
+        if(dir_2.get_x() == -1){
+            return 3;
+        }
+    };
+
+    if(dir_1.get_y() == -1){
+        if(dir_2.get_x() == 1){
+            return 1;
+        }
+        if(dir_2.get_x() == -1){
+            return 2;
+        }
+    };
+    return 0;
 }

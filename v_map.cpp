@@ -20,4 +20,5 @@ void V_Map::drow_map(QGraphicsScene *scene)
         scene->addItem(elements->get_graphic_item());
         elements = elements->get_next_element();
     }
+    scene->addItem(elements->get_graphic_item());
 }

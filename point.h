@@ -19,6 +19,6 @@ public:
     Point(int _x,int _y);
 };
 
-int ArcQuaterFromPoint(Point start,Point centre, Point end);
+int ArcQuaterFromPoint(Point start, Point centre, Point end);
 
 #endif // POINT_H

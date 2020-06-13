@@ -13,9 +13,7 @@ QGraphicsArcItem::QGraphicsArcItem(Point centre, Point start, Point end, int rad
 {
     //rysowanie luku ze sprawdzeniem strony
 
-    Point dir = centre.direction_vector(end);
-
-
+    quater = ArcQuaterFromPoint(start,centre,end);
 
 //    Point dir = prev.direction_vector(current);
 //    Point s(current.get_x()-dir.get_x()*radius,current.get_y()-dir.get_y()*radius);
@@ -42,7 +40,7 @@ void QGraphicsArcItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     int start_angle = 0;
     if (quater != 0){
-        start_angle = (quater-1)*90 * 16;
+        start_angle = (quater-1) * 90 * 16;
     }
     int end_angle = 90 * 16;
 
