@@ -17,8 +17,8 @@ Dialog::Dialog(QWidget *parent) :
     QPen outlinePen(Qt::black);
     outlinePen.setWidth(2);
 
-    V_Map *map = new V_Map();
-    map->drow_map(scene);
+//    V_Map *map = new V_Map();
+//    map->draw_map(scene);
 
 
 //    QGraphicsItem *luk;

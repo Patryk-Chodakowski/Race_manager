@@ -2,7 +2,14 @@
 
 Route_Element::Route_Element()
 {
+    prev = NULL;
+    next = NULL;
+    pitlane_element = NULL;
 
+    is_pitlane = false;
+    is_turn_to_pitlane = false;
+    pit_start = false;
+    pit_end = false;
 }
 
 QGraphicsItem *Route_Element::get_graphic_item()
@@ -35,9 +42,49 @@ void Route_Element::set_prev(Route_Element *element)
     prev = element;
 }
 
-void Route_Element::set_pitlane(Route_Element *element)
+void Route_Element::set_pitlane()
 {
-    pitlane = element;
+    is_pitlane = true;
+}
+
+void Route_Element::set_turn_to_pitlane()
+{
+    is_turn_to_pitlane = true;
+}
+
+void Route_Element::set_pit_start()
+{
+    pit_start = true;
+}
+
+void Route_Element::set_pit_end()
+{
+    pit_end = true;
+}
+
+bool Route_Element::get_pitlane()
+{
+    return is_pitlane;
+}
+
+bool Route_Element::get_turn_to_pitlane()
+{
+    return is_turn_to_pitlane;
+}
+
+bool Route_Element::get_pit_start()
+{
+    return pit_start;
+}
+
+bool Route_Element::get_pit_end()
+{
+    return pit_end;
+}
+
+void Route_Element::set_pitlane_element(Route_Element *element)
+{
+    pitlane_element = element;
 }
 
 Route_Element *Route_Element::get_next_element()
@@ -52,7 +99,7 @@ Route_Element *Route_Element::get_prev_element()
 
 Route_Element *Route_Element::get_pitlane_element()
 {
-    return pitlane;
+    return pitlane_element;
 }
 
 Point Route_Element::get_dir()

@@ -63,8 +63,10 @@ void Trail::create_elements(){
     file.close();
 
     //tworzenie elementow trasy
+    //prosta tworzona z aktualnego i nastepnego
+    //luk na aktualnym, z poprzedniego i nastepnego
     int size = source.size();
-    int current, next, prev;
+    int current, next, prev, pitStart, pitEnd;
 
     current = finish_line;
     next = current + 1;
@@ -85,6 +87,7 @@ void Trail::create_elements(){
 
     trail_elements = begin;
     Route_Element *list_end = begin;
+    Route_Element *pit_entry, *pit_exit;
 
     for (int i = 0 ; i < size - 1 ; i++){
         cout << i << endl;
@@ -94,6 +97,26 @@ void Trail::create_elements(){
 
         Straight *line = new Straight(source[current].p,source[current].r,source[next].p,source[next].r);
         line->log_straight();
+
+        if (source[prev].type != 'P' && source[current].type == 'P' && source[next].type == 'P'){
+            list_end->set_turn_to_pitlane();
+            list_end->set_pitlane_element(arc);
+            pit_entry = list_end;
+            pitStart = current;
+        };
+
+        if (source[prev].type == 'P' && source[current].type == 'P' && source[next].type != 'P'){
+            arc->set_pitlane();
+            arc->set_pit_end();
+            pitEnd = current;
+            line->set_pitlane_element(arc);
+            pit_exit = line;
+        };
+
+        if (source[current].type == 'P' && source[next].type == 'P'){
+            arc->set_pitlane();
+            line->set_pitlane();
+        };
 
         list_end->set_next(arc);
         arc->set_prev(list_end);
@@ -108,6 +131,14 @@ void Trail::create_elements(){
         if (next > size - 1) next = 0;
         if (prev < 0) prev = size - 1;
     }
+    cout << "ostatnia prosta"<< endl;
+    Straight *line = new Straight(source[pitStart].p, - source[pitStart].r,source[pitEnd].p, - source[pitEnd].r);
+    line->log_straight();
+
+    pit_entry->set_next(line);
+    line->set_prev(pit_entry);
+    line->set_next(pit_exit);
+    pit_exit->set_prev(line);
 }
 
 Route_Element *Trail::get_elements()

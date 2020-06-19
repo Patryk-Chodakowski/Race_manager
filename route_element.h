@@ -10,12 +10,14 @@ class Route_Element
     Point direction;
     Point start, end;
     Route_Element *next, *prev;
-    Route_Element *pitlane;
+    Route_Element *pitlane_element;
+
     bool is_pitlane;
     bool is_turn_to_pitlane;
+    bool pit_start;
+    bool pit_end;
 
 protected:
-    //czy nie wywalic?
     QGraphicsItem *item;
 
 public:
@@ -25,7 +27,17 @@ public:
 
     void set_next(Route_Element *element);
     void set_prev(Route_Element *element);
-    void set_pitlane(Route_Element *element);
+    void set_pitlane_element(Route_Element *element);
+
+    void set_pitlane();
+    void set_turn_to_pitlane();
+    void set_pit_start();
+    void set_pit_end();
+
+    bool get_pitlane();
+    bool get_turn_to_pitlane();
+    bool get_pit_start();
+    bool get_pit_end();
 
     Route_Element* get_next_element();
     Route_Element* get_prev_element();
