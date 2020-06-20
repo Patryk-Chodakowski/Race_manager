@@ -5,10 +5,13 @@
 #include <QGraphicsItem>
 #include "qgraphicsarcitem.h"
 
+
 class Route_Element
 {
+protected:
     Point direction;
     Point start, end;
+    int length;
     Route_Element *next, *prev;
     Route_Element *pitlane_element;
 
@@ -17,7 +20,6 @@ class Route_Element
     bool pit_start;
     bool pit_end;
 
-protected:
     QGraphicsItem *item;
 
 public:
@@ -39,6 +41,8 @@ public:
     bool get_pit_start();
     bool get_pit_end();
 
+    int get_length();
+
     Route_Element* get_next_element();
     Route_Element* get_prev_element();
     Route_Element* get_pitlane_element();
@@ -46,12 +50,18 @@ public:
     Point get_dir();
     Point get_start();
     Point get_end();
-    virtual void drive();
+
+    //rozbic na pozycje, kat, krok
+    virtual int calculateTrajectory(int step = 0);
+
+
     Route_Element();
 //    ~Route_Element();
 
     QGraphicsItem* get_graphic_item();
 
 };
+
+
 
 #endif // ROUTE_ELEMENT_H

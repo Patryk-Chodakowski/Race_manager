@@ -82,6 +82,11 @@ bool Route_Element::get_pit_end()
     return pit_end;
 }
 
+int Route_Element::get_length()
+{
+    return length;
+}
+
 void Route_Element::set_pitlane_element(Route_Element *element)
 {
     pitlane_element = element;
@@ -117,7 +122,7 @@ Point Route_Element::get_end()
     return end;
 }
 
-void Route_Element::drive()
+int Route_Element::calculateTrajectory(int step)
 {
 
 }

@@ -7,7 +7,7 @@ class Curve : public Route_Element
     int radius;
     Point centre;
 public:
-    void drive();
+    int calculateTrajectory(int step = 0);
     void set_radius(int r);
     void set_ends_from_points(Point prev, Point current, Point next, int _radius);
 

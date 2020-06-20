@@ -20,11 +20,6 @@ Curve::Curve(int r)
     radius = r;
 }
 
-void Curve::drive()
-{
-
-}
-
 void Curve::set_radius(int r)
 {
     radius = r;
@@ -43,13 +38,15 @@ void Curve::set_ends_from_points(Point prev, Point current, Point next, int _rad
     Point e(current.get_x()+dir.get_x()*radius,current.get_y()+dir.get_y()*radius);
     this->set_end(e);
 
+    length = 1.5 * radius;
+
     Point c(get_start().get_x()+dir.get_x()*radius,get_start().get_y()+dir.get_y()*radius);
     centre = c;
 }
 
 void Curve::log_curve()
 {
-    std::cout << "curve: " << std::endl;
+    std::cout << "curve: " << length << std::endl;
     std::cout << "start: ";
     get_start().log_point();
     std::cout << "end: ";
@@ -57,6 +54,11 @@ void Curve::log_curve()
     std::cout << "centre: ";
     centre.log_point();
     std::cout << "radius: " << radius << std::endl;
+}
+
+int Curve::calculateTrajectory(int step)
+{
+
 }
 
 

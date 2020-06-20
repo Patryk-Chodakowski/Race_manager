@@ -14,8 +14,9 @@ using namespace std;
 
 class Trail
 {
-    double width;
+    int width;
     string name;
+    int length;
     Route_Element *trail_elements;
 
 public:

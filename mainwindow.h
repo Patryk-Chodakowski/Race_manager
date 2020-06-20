@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QTimer>
 
 #include "qgraphicsarcitem.h"
 #include "simulation.h"

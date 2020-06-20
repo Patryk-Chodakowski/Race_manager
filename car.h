@@ -7,6 +7,7 @@ class Car : public Vehicle
 {
 public:
     Car();
+//    void drive();
 };
 
 #endif // CAR_H

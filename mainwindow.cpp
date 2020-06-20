@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     race->get_map()->draw_map(scene);
     race->get_map()->draw_vehicle(scene);
+    race->setCarsOnStart();
 
 
 }

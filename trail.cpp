@@ -67,6 +67,7 @@ void Trail::create_elements(){
     //luk na aktualnym, z poprzedniego i nastepnego
     int size = source.size();
     int current, next, prev, pitStart, pitEnd;
+    length = 0;
 
     current = finish_line;
     next = current + 1;
@@ -76,6 +77,8 @@ void Trail::create_elements(){
     if (prev < 0) prev = size - 1;
 
     Straight *begin = new Straight(source[current].p,source[current].r,source[next].p,source[next].r);
+    length += begin->get_length();
+
     begin->log_straight();
 
     current++;
@@ -93,9 +96,11 @@ void Trail::create_elements(){
         cout << i << endl;
 
         Curve *arc = new Curve(source[prev].p,source[current].p,source[next].p,source[current].r);
+
         arc->log_curve();
 
         Straight *line = new Straight(source[current].p,source[current].r,source[next].p,source[next].r);
+
         line->log_straight();
 
         if (source[prev].type != 'P' && source[current].type == 'P' && source[next].type == 'P'){
@@ -115,8 +120,11 @@ void Trail::create_elements(){
 
         if (source[current].type == 'P' && source[next].type == 'P'){
             arc->set_pitlane();
-            line->set_pitlane();
+            line->set_pitlane();            
         };
+
+        if (!arc->get_pitlane()) length += arc->get_length();
+        if (!line->get_pitlane()) length += line->get_length();
 
         list_end->set_next(arc);
         arc->set_prev(list_end);
@@ -133,7 +141,10 @@ void Trail::create_elements(){
     }
     cout << "ostatnia prosta"<< endl;
     Straight *line = new Straight(source[pitStart].p, - source[pitStart].r,source[pitEnd].p, - source[pitEnd].r);
+    length += line->get_length();
+
     line->log_straight();
+    cout << "trasa: " << length << endl;
 
     pit_entry->set_next(line);
     line->set_prev(pit_entry);
