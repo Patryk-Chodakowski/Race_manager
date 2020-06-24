@@ -4,11 +4,13 @@
 #include <QGraphicsItem>
 #include "route_element.h"
 
+class Route_Element;
+
 class Vehicle
 {
-    friend class Route_Element;
-
 protected:
+    bool goToPitstop = false;
+
     Point position;
     double angle;
     int width,height;
@@ -21,11 +23,13 @@ protected:
 public:
     Vehicle();
 
+    void togglePitStop();
+
     void set_position(Point _position);
     void set_angle(double value);
     void set_route_element(Route_Element *element);
 
-    void drive();
+    void drive(int step_time);
 
     Route_Element* get_route_element();
     Point get_position();

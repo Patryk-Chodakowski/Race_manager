@@ -5,10 +5,11 @@
 class Straight : public Route_Element
 {
 public:
-    int calculateTrajectory(int step = 0);
     Straight();
     Straight(Point _start, int start_radius,Point _end,int end_radius);
 
+    int calculateTrajectory(Vehicle* v,int step);
+//    Route_Element* calculateTrajectory(Point& position, int& angle ,int step);
     void log_straight();
 
 };

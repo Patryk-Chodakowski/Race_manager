@@ -78,6 +78,7 @@ void Trail::create_elements(){
 
     Straight *begin = new Straight(source[current].p,source[current].r,source[next].p,source[next].r);
     length += begin->get_length();
+    begin->set_finish_line();
 
     begin->log_straight();
 
@@ -115,7 +116,7 @@ void Trail::create_elements(){
             arc->set_pit_end();
             pitEnd = current;
             line->set_pitlane_element(arc);
-            pit_exit = line;
+            pit_exit = arc;
         };
 
         if (source[current].type == 'P' && source[next].type == 'P'){
@@ -150,6 +151,9 @@ void Trail::create_elements(){
     line->set_prev(pit_entry);
     line->set_next(pit_exit);
     pit_exit->set_prev(line);
+
+    list_end->set_next(begin);
+    begin->set_prev(list_end);
 }
 
 Route_Element *Trail::get_elements()

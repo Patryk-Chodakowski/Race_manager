@@ -4,7 +4,9 @@
 
 #include <QGraphicsItem>
 #include "qgraphicsarcitem.h"
+#include "vehicle.h"
 
+class Vehicle;
 
 class Route_Element
 {
@@ -12,13 +14,14 @@ protected:
     Point direction;
     Point start, end;
     int length;
-    Route_Element *next, *prev;
-    Route_Element *pitlane_element;
+    Route_Element *next = nullptr, *prev = nullptr;
+    Route_Element *pitlane_element = nullptr;
 
     bool is_pitlane;
-    bool is_turn_to_pitlane;
-    bool pit_start;
-    bool pit_end;
+    bool is_turn_to_pitlane = false;
+    bool pit_start = false;
+    bool pit_end = false;
+    bool is_finish_line = false;
 
     QGraphicsItem *item;
 
@@ -35,11 +38,13 @@ public:
     void set_turn_to_pitlane();
     void set_pit_start();
     void set_pit_end();
+    void set_finish_line();
 
     bool get_pitlane();
     bool get_turn_to_pitlane();
     bool get_pit_start();
     bool get_pit_end();
+    bool get_finish_line();
 
     int get_length();
 
@@ -52,8 +57,8 @@ public:
     Point get_end();
 
     //rozbic na pozycje, kat, krok
-    virtual int calculateTrajectory(int step = 0);
-
+    virtual int calculateTrajectory(Vehicle* v,int step);
+//    virtual Route_Element* calculateTrajectory(Point& position, int& angle ,int step);
 
     Route_Element();
 //    ~Route_Element();

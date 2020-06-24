@@ -22,17 +22,46 @@ Straight::Straight(Point _start, int start_radius,Point _end,int end_radius)
     item = new QGraphicsLineItem((qreal) s.get_x(),(qreal) s.get_y(),(qreal) e.get_x(),(qreal) e.get_y());
 }
 
+int Straight::calculateTrajectory(Vehicle *v, int step)
+{
+    Point position = v->get_position();
+
+    position.set_x(position.get_x() + direction.get_x()*step);
+    position.set_y(position.get_y() + direction.get_y()*step);
+
+    //jesli przekroczono element
+    if (
+            (1 == direction.get_x() && position.get_x() > end.get_x()) ||
+            (-1 == direction.get_x() && position.get_x() < end.get_x()) ||
+            (1 == direction.get_y() && position.get_y() > end.get_y()) ||
+            (-1 == direction.get_y() && position.get_y() < end.get_y())
+       )
+    {
+        step = abs((end.get_x() - position.get_x()) + (end.get_y() - position.get_y()) );
+        position = end;
+        return step;
+    }
+    else{
+        v->set_position(position);
+        return 0;
+    }
+}
+
+//Route_Element *Straight::calculateTrajectory(Point &position, int &angle, int step)
+//{
+//    std::cout << "Prosta" << std::endl;
+//    return this;
+//}
+
 void Straight::log_straight()
 {
     std::cout << "line " << length << std::endl;
+    if (is_pitlane) std::cout << "pit" << std::endl;
+    else std::cout << " . " << is_pitlane << std::endl;
     get_dir().log_point();
     std::cout << "start: ";
     get_start().log_point();
     std::cout << "end: ";
     get_end().log_point();
-}
-
-int Straight::calculateTrajectory(int step)
-{
-    std::cout << "Prosta" << std::endl;
+    std::cout << std::endl;
 }

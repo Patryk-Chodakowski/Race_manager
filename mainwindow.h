@@ -22,13 +22,20 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    Simulation *race;
 
     QGraphicsScene *scene;
     QGraphicsEllipseItem *ellipse;
     QGraphicsRectItem *rectangle;
     QGraphicsLineItem *line;
     QGraphicsArcItem *arc;
+
+    void togglePitLabel();
 };
 #endif // MAINWINDOW_H

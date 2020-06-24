@@ -19,7 +19,10 @@ void V_Map::draw_map(QGraphicsScene *scene)
 {
     Route_Element *elements = way->get_elements();
 
-    while(elements->get_next_element() != NULL){
+    scene->addItem(elements->get_graphic_item());
+    elements = elements->get_next_element();
+
+    while(!elements->get_finish_line()){
         scene->addItem(elements->get_graphic_item());
 
         if(elements->get_turn_to_pitlane()){

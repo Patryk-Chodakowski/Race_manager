@@ -14,6 +14,7 @@ class Simulation : public QObject
     Vehicle *contestants;
     Trail *road;
     V_Map *map;
+    int sample_time = 20;
 
 public:
     Simulation();
@@ -22,7 +23,8 @@ public:
     Vehicle *get_vehicles();
     V_Map *get_map();
 
-    void setCarsOnStart();
+    void setVehiclesOnStart();
+//    void moveVehicles();
 
 public slots:
     void makeMoves();
