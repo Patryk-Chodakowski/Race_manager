@@ -25,14 +25,67 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     Point position = v->get_position();
     int angle = v->get_angle();
 
-    int dangle =  90 * step / length;
-
-//    Point position(pointOnCurve(dangle));
+    Point begin = start;
+    Point finish = end;
+    Point dir;
+    int arcLength = length;
+    int arcRadius = radius;
 
     int start_angle{0}, end_angle{0}, rest(0);
     bool x_from_sin{0}, turn_right{0};
     double z;
+    int tmp = 1;
+    if (is_inner) tmp = -1;
 
+    //wyznaczenie pasa
+    if (!is_pitlane){
+        switch (v->get_track()) {
+        case 1:
+            arcRadius = radius + tmp*interspace;
+
+            dir = start.direction_vector(centre);
+            begin.set_x(start.get_x() - tmp*dir.get_x()*interspace);
+            begin.set_y(start.get_y() - tmp*dir.get_y()*interspace);
+
+            dir = end.direction_vector(centre);
+            finish.set_x(end.get_x() - tmp*dir.get_x()*interspace);
+            finish.set_y(end.get_y() - tmp*dir.get_y()*interspace);
+
+            break;
+        case -1:
+            arcRadius = radius - tmp*interspace;
+
+            dir = start.direction_vector(centre);
+            begin.set_x(start.get_x() + tmp*dir.get_x()*interspace);
+            begin.set_y(start.get_y() + tmp*dir.get_y()*interspace);
+
+            dir = end.direction_vector(centre);
+            finish.set_x(end.get_x() + tmp*dir.get_x()*interspace);
+            finish.set_y(end.get_y() + tmp*dir.get_y()*interspace);
+
+            break;
+        }
+    }
+
+    int dradius = 0.5 * step;
+    if (dradius == 0) dradius = 1;
+    int curRadius = sqrt(pow((position.get_x() - centre.get_x()),2) + pow((position.get_y() - centre.get_y()),2));
+
+    if (abs(curRadius - arcRadius) <= 2) curRadius = arcRadius;
+    else{
+        if((curRadius - arcRadius) < 0){
+            curRadius += dradius;
+        }else{
+            curRadius -= dradius;
+        }
+    }
+
+    arcLength = curRadius * 1.5;
+
+     std::cout << "curR " << curRadius << " R " << radius << " dR " << dradius << " arcR " << arcRadius << std::endl;
+
+
+    //wyznaczenie luku
     switch (quater) {
     case 1:
         if (direction.get_x() <0){
@@ -82,30 +135,33 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
         }else{
             turn_right = false;
             start_angle = 90;
-            end_angle = 180;
-            x_from_sin = false;
+            end_angle = 0;
+            x_from_sin = true;
         }
         break;
     }
 
+    int dangle =  90 * step / arcLength;
+
+    //wyznaczenie pozycji
     if (turn_right){
         angle+=dangle;
 
         if(angle >=end_angle){
-            rest = (angle - end_angle) * length / 90;
+            rest = (angle - end_angle) * arcLength / 90;
             if (end_angle == 360) end_angle = 0;
             angle = end_angle;
-            position = end;
+            position = finish;
             if (rest == 0) rest++;
         }else{
-            z = (sin(double((angle - start_angle)*3.14/180))*radius);
+            z = (sin(double((angle - start_angle)*3.14/180))*curRadius);
 
             if(x_from_sin){
-                position.set_x(start.get_x() + direction.get_x()*z);
-                position.set_y(start.get_y() + direction.get_y()*(radius -sqrt(radius*radius - z*z)));
+                position.set_x(begin.get_x() + direction.get_x()*z);
+                position.set_y(begin.get_y() + direction.get_y()*(curRadius -sqrt(curRadius*curRadius - z*z)));
             }else {
-                position.set_x(start.get_x() + direction.get_x()*(radius - sqrt(radius*radius - z*z)));
-                position.set_y(start.get_y() + direction.get_y()*z);
+                position.set_x(begin.get_x() + direction.get_x()*(curRadius - sqrt(curRadius*curRadius - z*z)));
+                position.set_y(begin.get_y() + direction.get_y()*z);
             }
 
             rest = 0;
@@ -115,41 +171,32 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
         angle-=dangle;
 
         if(angle <= end_angle){
-            rest = (end_angle - angle) * length / 90;
+            rest = (end_angle - angle) * arcLength / 90;
             angle = end_angle;
-            position = end;
+            position = finish;
             if (rest == 0) rest++;
         }else{
             if(start_angle == 0) start_angle = 360;
-            z = (sin(double((start_angle - angle)*3.14/180))*radius);
+            z = (sin(double((start_angle - angle)*3.14/180))*curRadius);
 
             if(x_from_sin){
-                position.set_x(start.get_x() + direction.get_x()*z);
-                position.set_y(start.get_y() + direction.get_y()*(radius -sqrt(radius*radius - z*z)));
+                position.set_x(begin.get_x() + direction.get_x()*z);
+                position.set_y(begin.get_y() + direction.get_y()*(curRadius -sqrt(curRadius*curRadius - z*z)));
             }else {
-                position.set_x(start.get_x() + direction.get_x()*(radius - sqrt(radius*radius - z*z)));
-                position.set_y(start.get_y() + direction.get_y()*z);
+                position.set_x(begin.get_x() + direction.get_x()*(curRadius - sqrt(curRadius*curRadius - z*z)));
+                position.set_y(begin.get_y() + direction.get_y()*z);
             }
-
             rest = 0;
-
         }
     }
-
-//    position.set_x();
 
     v->set_position(position);
     v->set_angle(angle);
 
-      std::cout << "luk " << angle << " " << dangle << std::endl;
+
+//      std::cout << "luk " << angle << " " << dangle << std::endl;
       return rest;
 }
-
-//Route_Element *Curve::calculateTrajectory(Point &position, int &angle, int step)
-//{
-//    std::cout << "luk" << std::endl;
-//    return this;
-//}
 
 void Curve::set_radius(int r)
 {
@@ -190,10 +237,3 @@ void Curve::log_curve()
     centre.log_point();
     std::cout << "radius: " << radius << std::endl << std::endl;;
 }
-
-Point Curve::pointOnCurve(int& dAngle)
-{
-
-}
-
-

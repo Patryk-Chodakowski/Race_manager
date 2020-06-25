@@ -25,20 +25,75 @@ Straight::Straight(Point _start, int start_radius,Point _end,int end_radius)
 int Straight::calculateTrajectory(Vehicle *v, int step)
 {
     Point position = v->get_position();
+    Point begin = start;
+    Point finish = end;
 
-    position.set_x(position.get_x() + direction.get_x()*step);
-    position.set_y(position.get_y() + direction.get_y()*step);
+    //wyznaczenie pasa
+    if(!is_pitlane){
+        switch (v->get_track()) {
+        case -1:
+            begin.set_x(start.get_x() - direction.get_y()*interspace);
+            begin.set_y(start.get_y() + direction.get_x()*interspace);
+
+            finish.set_x(end.get_x() - direction.get_y()*interspace);
+            finish.set_y(end.get_y() + direction.get_x()*interspace);
+            break;
+        case 1:
+            begin.set_x(start.get_x() + direction.get_y()*interspace);
+            begin.set_y(start.get_y() - direction.get_x()*interspace);
+
+            finish.set_x(end.get_x() + direction.get_y()*interspace);
+            finish.set_y(end.get_y() - direction.get_x()*interspace);
+            break;
+        }
+    }
+
+    int diff = 0.5 * step;
+    if (diff == 0) diff = 1;
+
+    //zmiana pasa
+    if(direction.get_x() == 0){
+        if(position.get_x() != begin.get_x()){
+            if (position.get_x() - begin.get_x() < 0){
+                diff = position.get_x() + diff;
+                if (diff > begin.get_x()) diff = begin.get_x();
+            }else{
+                diff = position.get_x() - diff;
+                if (diff < begin.get_x()) diff = begin.get_x();
+            }
+            position.set_x(diff);
+
+        }else{
+            position.set_x(begin.get_x());
+        }
+        position.set_y(position.get_y() + direction.get_y()*step);
+    }else{
+        if(position.get_y() != begin.get_y()){
+            if (position.get_y() - begin.get_y() < 0){
+                diff = position.get_y() + diff;
+                if (diff > begin.get_y()) diff = begin.get_y();
+            }else{
+                diff = position.get_y() - diff;
+                if (diff < begin.get_y()) diff = begin.get_y();
+            }
+            position.set_y(diff);
+
+        }else{
+            position.set_y(begin.get_y());
+        }
+        position.set_x(position.get_x() + direction.get_x()*step);
+    }
 
     //jesli przekroczono element
     if (
-            (1 == direction.get_x() && position.get_x() > end.get_x()) ||
-            (-1 == direction.get_x() && position.get_x() < end.get_x()) ||
-            (1 == direction.get_y() && position.get_y() > end.get_y()) ||
-            (-1 == direction.get_y() && position.get_y() < end.get_y())
+            (1 == direction.get_x() && position.get_x() > finish.get_x()) ||
+            (-1 == direction.get_x() && position.get_x() < finish.get_x()) ||
+            (1 == direction.get_y() && position.get_y() > finish.get_y()) ||
+            (-1 == direction.get_y() && position.get_y() < finish.get_y())
        )
     {
-        step = abs((end.get_x() - position.get_x()) + (end.get_y() - position.get_y()) );
-        position = end;
+        step = abs((finish.get_x() - position.get_x()) + (finish.get_y() - position.get_y()) );
+        position = finish;
         return step;
     }
     else{
@@ -46,12 +101,6 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
         return 0;
     }
 }
-
-//Route_Element *Straight::calculateTrajectory(Point &position, int &angle, int step)
-//{
-//    std::cout << "Prosta" << std::endl;
-//    return this;
-//}
 
 void Straight::log_straight()
 {

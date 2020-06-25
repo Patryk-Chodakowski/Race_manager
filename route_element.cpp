@@ -67,6 +67,16 @@ void Route_Element::set_finish_line()
     is_finish_line = true;
 }
 
+void Route_Element::set_interspace(int space)
+{
+    interspace = space;
+}
+
+int Route_Element::get_interspace()
+{
+    return interspace;
+}
+
 bool Route_Element::get_pitlane()
 {
     std::cout<< "zwracam pit "<< is_pitlane <<std::endl;
@@ -93,6 +103,11 @@ bool Route_Element::get_finish_line()
     return is_finish_line;
 }
 
+bool Route_Element::get_inner()
+{
+    return is_inner;
+}
+
 int Route_Element::get_length()
 {
     return length;
@@ -101,6 +116,11 @@ int Route_Element::get_length()
 void Route_Element::set_pitlane_element(Route_Element *element)
 {
     pitlane_element = element;
+}
+
+void Route_Element::set_inner()
+{
+    is_inner = true;
 }
 
 Route_Element *Route_Element::get_next_element()

@@ -15,9 +15,12 @@ using namespace std;
 class Trail
 {
     int width;
-    string name;
+    string name;\
+    int interspace = 20;
     int length;
-    Route_Element *trail_elements;
+
+    Route_Element *inner_trail, *outer_trail;
+    Route_Element *central_trail;
 
 public:
     Trail();

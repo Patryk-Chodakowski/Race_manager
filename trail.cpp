@@ -2,7 +2,7 @@
 
 Trail::Trail()
 {
-    trail_elements = new Route_Element();
+//    central_trail = new Route_Element();
 }
 
 void Trail::create_elements(){
@@ -43,7 +43,7 @@ void Trail::create_elements(){
                 point.r = 0;
             }
             else{
-                if (tab[0] == "P"){
+                if (tab[0] == "P" || tab[0] == "I"){
                     point.type = tab[0].at(0);
                     point.p.set_x(stoi(tab[1]));
                     point.p.set_y(stoi(tab[2]));
@@ -63,6 +63,7 @@ void Trail::create_elements(){
     file.close();
 
     //tworzenie elementow trasy
+    //trasa sklada sie z 3 torow
     //prosta tworzona z aktualnego i nastepnego
     //luk na aktualnym, z poprzedniego i nastepnego
     int size = source.size();
@@ -79,6 +80,7 @@ void Trail::create_elements(){
     Straight *begin = new Straight(source[current].p,source[current].r,source[next].p,source[next].r);
     length += begin->get_length();
     begin->set_finish_line();
+    begin->set_interspace(interspace);
 
     begin->log_straight();
 
@@ -89,7 +91,7 @@ void Trail::create_elements(){
     if (next > size - 1) next = 0;
     if (prev < 0) prev = size - 1;
 
-    trail_elements = begin;
+    central_trail = begin;
     Route_Element *list_end = begin;
     Route_Element *pit_entry, *pit_exit;
 
@@ -97,12 +99,13 @@ void Trail::create_elements(){
         cout << i << endl;
 
         Curve *arc = new Curve(source[prev].p,source[current].p,source[next].p,source[current].r);
-
-        arc->log_curve();
+        arc->set_interspace(interspace);
 
         Straight *line = new Straight(source[current].p,source[current].r,source[next].p,source[next].r);
+        line->set_interspace(interspace);
 
-        line->log_straight();
+        if(source[current].type == 'I') arc->set_inner();
+        if(source[current].type == 'I' && source[next].type == 'I') line->set_inner();
 
         if (source[prev].type != 'P' && source[current].type == 'P' && source[next].type == 'P'){
             list_end->set_turn_to_pitlane();
@@ -116,7 +119,7 @@ void Trail::create_elements(){
             arc->set_pit_end();
             pitEnd = current;
             line->set_pitlane_element(arc);
-            pit_exit = arc;
+            pit_exit = line;
         };
 
         if (source[current].type == 'P' && source[next].type == 'P'){
@@ -133,6 +136,9 @@ void Trail::create_elements(){
         line->set_prev(arc);
         list_end = line;
 
+        arc->log_curve();
+        line->log_straight();
+
         current++;
         if (current > size - 1) current = 0;
         next = current + 1;
@@ -142,6 +148,7 @@ void Trail::create_elements(){
     }
     cout << "ostatnia prosta"<< endl;
     Straight *line = new Straight(source[pitStart].p, - source[pitStart].r,source[pitEnd].p, - source[pitEnd].r);
+    line->set_interspace(interspace);
     length += line->get_length();
 
     line->log_straight();
@@ -158,7 +165,7 @@ void Trail::create_elements(){
 
 Route_Element *Trail::get_elements()
 {
-    return trail_elements;
+    return central_trail;
 }
 
 vector<string> Trail::explode(string const & s, char delim){

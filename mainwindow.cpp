@@ -36,3 +36,21 @@ void MainWindow::togglePitLabel(){
    else ui->label->setText("OFF");
    ui->label->update();
 }
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    Vehicle *v = race->get_vehicles();
+    int t = v->get_track();
+    t++;
+    if (t>1) t = 1;
+    v->set_track(t);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    Vehicle *v = race->get_vehicles();
+    int t = v->get_track();
+    t--;
+    if (t<-1) t = -1;
+    v->set_track(t);
+}

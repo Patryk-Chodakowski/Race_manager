@@ -32,10 +32,8 @@ void V_Map::draw_map(QGraphicsScene *scene)
                 pitlane = pitlane->get_next_element();
             }
         }
-
         elements = elements->get_next_element();
     }
-    scene->addItem(elements->get_graphic_item());
 }
 
 void V_Map::draw_vehicle(QGraphicsScene *scene)

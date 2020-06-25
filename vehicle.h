@@ -10,12 +10,17 @@ class Vehicle
 {
 protected:
     bool goToPitstop = false;
+    int currentTrack = 0;
 
     Point position;
     double angle;
     int width,height;
     int velocity;
+
+    int maxVelocity;
+    int acceleration;
     int distance;
+
     Route_Element *current_element;
 
     QGraphicsItem *model;
@@ -28,6 +33,9 @@ public:
     void set_position(Point _position);
     void set_angle(double value);
     void set_route_element(Route_Element *element);
+    void set_track(int track);
+
+    int get_track();
 
     void drive(int step_time);
 

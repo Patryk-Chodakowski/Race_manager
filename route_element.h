@@ -14,9 +14,11 @@ protected:
     Point direction;
     Point start, end;
     int length;
+    int interspace;
     Route_Element *next = nullptr, *prev = nullptr;
     Route_Element *pitlane_element = nullptr;
 
+    bool is_inner = false;
     bool is_pitlane;
     bool is_turn_to_pitlane = false;
     bool pit_start = false;
@@ -34,17 +36,22 @@ public:
     void set_prev(Route_Element *element);
     void set_pitlane_element(Route_Element *element);
 
+    void set_inner();
     void set_pitlane();
     void set_turn_to_pitlane();
     void set_pit_start();
     void set_pit_end();
     void set_finish_line();
+    void set_interspace(int space);
 
+    int get_interspace();
     bool get_pitlane();
     bool get_turn_to_pitlane();
     bool get_pit_start();
     bool get_pit_end();
     bool get_finish_line();
+    bool get_inner();
+
 
     int get_length();
 

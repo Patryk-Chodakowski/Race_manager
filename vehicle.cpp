@@ -25,6 +25,16 @@ void Vehicle::set_route_element(Route_Element *element)
     current_element = element;
 }
 
+void Vehicle::set_track(int track)
+{
+    currentTrack = track;
+}
+
+int Vehicle::get_track()
+{
+    return currentTrack;
+}
+
 Route_Element *Vehicle::get_route_element()
 {
     return current_element;
@@ -62,6 +72,8 @@ void Vehicle::drive(int step_time)
     //wyznacz z parametrow pojazdu skok drogi na jednoske czasu
 
     //wyznacz predkosc
+    velocity += acceleration;
+    if (velocity > maxVelocity) velocity = maxVelocity;
 
     //wyznacz skok
     int step = velocity;
@@ -82,11 +94,4 @@ void Vehicle::drive(int step_time)
         step = current_element->calculateTrajectory(this,step);
     };
     updatePosition();
-
-
-//    wyznacz polozenie;
-//    current_element = current_element->calculateTrajectory();
-
-//    current_element->calculateTrajectory();
-//    updatePosition();
 }
