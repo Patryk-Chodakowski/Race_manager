@@ -1,11 +1,10 @@
 #include "v_map.h"
 
-V_Map::V_Map(Trail *trail, Vehicle *_vehicles)
+V_Map::V_Map(Trail *trail)
 {
     way = trail;
-//    way->create_elements();
 
-    vehicles = _vehicles;
+//    vehicles = _vehicles;
 
     std::cout<< "utworzono sciezke" << std::endl;
 }
@@ -36,7 +35,7 @@ void V_Map::draw_map(QGraphicsScene *scene)
     }
 }
 
-void V_Map::draw_vehicle(QGraphicsScene *scene)
+void V_Map::draw_vehicle(QGraphicsScene *scene,Vehicle *vehicle)
 {
-    scene->addItem(vehicles->get_graphic_item());
+    scene->addItem(vehicle->get_graphic_item());
 }

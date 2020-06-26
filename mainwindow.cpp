@@ -10,11 +10,16 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    race = new Simulation();
-//    V_Map *map = new V_Map();
+    race = game.getSimulation();
+
+//    map = new V_Map(race->get_trail());
+
+//    map->draw_map(scene);
+
+//    race = new Simulation();
 
     race->get_map()->draw_map(scene);
-    race->get_map()->draw_vehicle(scene);
+    race->get_map()->draw_vehicle(scene,race->get_vehicles());
     race->setVehiclesOnStart();
 }
 
@@ -26,31 +31,31 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Vehicle *v = race->get_vehicles();
-    v->togglePitStop();
-    togglePitLabel();
+//    Vehicle *v = race->get_vehicles();
+//    v->togglePitStop();
+//    togglePitLabel();
 }
 
 void MainWindow::togglePitLabel(){
-   if(ui->label->text() == "OFF") ui->label->setText("ON");
-   else ui->label->setText("OFF");
-   ui->label->update();
+//   if(ui->label->text() == "OFF") ui->label->setText("ON");
+//   else ui->label->setText("OFF");
+//   ui->label->update();
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    Vehicle *v = race->get_vehicles();
-    int t = v->get_track();
-    t++;
-    if (t>1) t = 1;
-    v->set_track(t);
+//    Vehicle *v = race->get_vehicles();
+//    int t = v->get_track();
+//    t++;
+//    if (t>1) t = 1;
+//    v->set_track(t);
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    Vehicle *v = race->get_vehicles();
-    int t = v->get_track();
-    t--;
-    if (t<-1) t = -1;
-    v->set_track(t);
+//    Vehicle *v = race->get_vehicles();
+//    int t = v->get_track();
+//    t--;
+//    if (t<-1) t = -1;
+//    v->set_track(t);
 }

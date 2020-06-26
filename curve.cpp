@@ -33,7 +33,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
 
     int start_angle{0}, end_angle{0}, rest(0);
     bool x_from_sin{0}, turn_right{0};
-    double z;
+    double z{0};
     int tmp = 1;
     if (is_inner) tmp = -1;
 
@@ -42,27 +42,9 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
         switch (v->get_track()) {
         case 1:
             arcRadius = radius + tmp*interspace;
-
-            dir = start.direction_vector(centre);
-            begin.set_x(start.get_x() - tmp*dir.get_x()*interspace);
-            begin.set_y(start.get_y() - tmp*dir.get_y()*interspace);
-
-            dir = end.direction_vector(centre);
-            finish.set_x(end.get_x() - tmp*dir.get_x()*interspace);
-            finish.set_y(end.get_y() - tmp*dir.get_y()*interspace);
-
             break;
         case -1:
             arcRadius = radius - tmp*interspace;
-
-            dir = start.direction_vector(centre);
-            begin.set_x(start.get_x() + tmp*dir.get_x()*interspace);
-            begin.set_y(start.get_y() + tmp*dir.get_y()*interspace);
-
-            dir = end.direction_vector(centre);
-            finish.set_x(end.get_x() + tmp*dir.get_x()*interspace);
-            finish.set_y(end.get_y() + tmp*dir.get_y()*interspace);
-
             break;
         }
     }
@@ -81,9 +63,18 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     }
 
     arcLength = curRadius * 1.5;
+    int dangle =  90 * step / arcLength;
 
-     std::cout << "curR " << curRadius << " R " << radius << " dR " << dradius << " arcR " << arcRadius << std::endl;
+    dir = start.direction_vector(centre);
+    begin.set_x(centre.get_x() - dir.get_x() * curRadius);
+    begin.set_y(centre.get_y() - dir.get_y() * curRadius);
 
+    dir = end.direction_vector(centre);
+    finish.set_x(centre.get_x() - dir.get_x() * curRadius);
+    finish.set_y(centre.get_y() - dir.get_y() * curRadius);
+
+//    std::cout << " curR " << curRadius << " arcR " << arcRadius << " arcL " << arcLength
+//              << " dang " << dangle << " abs " << abs(curRadius - arcRadius) << " step " << step << std::endl;
 
     //wyznaczenie luku
     switch (quater) {
@@ -141,13 +132,11 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
         break;
     }
 
-    int dangle =  90 * step / arcLength;
-
     //wyznaczenie pozycji
     if (turn_right){
         angle+=dangle;
 
-        if(angle >=end_angle){
+        if(angle >= end_angle){
             rest = (angle - end_angle) * arcLength / 90;
             if (end_angle == 360) end_angle = 0;
             angle = end_angle;
@@ -158,7 +147,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
 
             if(x_from_sin){
                 position.set_x(begin.get_x() + direction.get_x()*z);
-                position.set_y(begin.get_y() + direction.get_y()*(curRadius -sqrt(curRadius*curRadius - z*z)));
+                position.set_y(begin.get_y() + direction.get_y()*(curRadius - sqrt(curRadius*curRadius - z*z)));
             }else {
                 position.set_x(begin.get_x() + direction.get_x()*(curRadius - sqrt(curRadius*curRadius - z*z)));
                 position.set_y(begin.get_y() + direction.get_y()*z);
@@ -181,7 +170,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
 
             if(x_from_sin){
                 position.set_x(begin.get_x() + direction.get_x()*z);
-                position.set_y(begin.get_y() + direction.get_y()*(curRadius -sqrt(curRadius*curRadius - z*z)));
+                position.set_y(begin.get_y() + direction.get_y()*(curRadius - sqrt(curRadius*curRadius - z*z)));
             }else {
                 position.set_x(begin.get_x() + direction.get_x()*(curRadius - sqrt(curRadius*curRadius - z*z)));
                 position.set_y(begin.get_y() + direction.get_y()*z);
@@ -193,9 +182,11 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     v->set_position(position);
     v->set_angle(angle);
 
+//    std::cout << " z " << z;
+//    position.log_point();
+//    centre.log_point();
 
-//      std::cout << "luk " << angle << " " << dangle << std::endl;
-      return rest;
+    return rest;
 }
 
 void Curve::set_radius(int r)

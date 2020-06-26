@@ -1,14 +1,17 @@
 #include "simulation.h"
 
-Simulation::Simulation()
+Simulation::Simulation(vector<Player*>& players)
 {
+    pv = &players;
+
     road = new Trail();
     road->create_elements();
-    contestants = new Car();
+    contestants = new Vehicle(Color::GREEN);
 
-    map = new V_Map(road,contestants);
+    map = new V_Map(road);
+//    map->draw_vehicle();
 
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(makeMoves()));
     timer->start(sample_time);
 }

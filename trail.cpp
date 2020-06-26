@@ -82,7 +82,7 @@ void Trail::create_elements(){
     begin->set_finish_line();
     begin->set_interspace(interspace);
 
-    begin->log_straight();
+//    begin->log_straight();
 
     current++;
     if (current > size - 1) current = 0;
@@ -96,7 +96,7 @@ void Trail::create_elements(){
     Route_Element *pit_entry, *pit_exit;
 
     for (int i = 0 ; i < size - 1 ; i++){
-        cout << i << endl;
+//        cout << i << endl;
 
         Curve *arc = new Curve(source[prev].p,source[current].p,source[next].p,source[current].r);
         arc->set_interspace(interspace);
@@ -136,8 +136,8 @@ void Trail::create_elements(){
         line->set_prev(arc);
         list_end = line;
 
-        arc->log_curve();
-        line->log_straight();
+//        arc->log_curve();
+//        line->log_straight();
 
         current++;
         if (current > size - 1) current = 0;
@@ -151,7 +151,7 @@ void Trail::create_elements(){
     line->set_interspace(interspace);
     length += line->get_length();
 
-    line->log_straight();
+//    line->log_straight();
     cout << "trasa: " << length << endl;
 
     pit_entry->set_next(line);

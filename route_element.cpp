@@ -79,7 +79,6 @@ int Route_Element::get_interspace()
 
 bool Route_Element::get_pitlane()
 {
-    std::cout<< "zwracam pit "<< is_pitlane <<std::endl;
     return is_pitlane;
 }
 

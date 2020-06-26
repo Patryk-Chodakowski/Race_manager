@@ -1,7 +1,9 @@
 #ifndef QGRAPHICSARCITEM_H
 #define QGRAPHICSARCITEM_H
+
 #include <QGraphicsItem>
 #include <QPainter>
+
 #include "point.h"
 
 class QGraphicsArcItem : public QGraphicsItem

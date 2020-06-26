@@ -8,7 +8,8 @@
 #include <QTimer>
 
 #include "qgraphicsarcitem.h"
-#include "simulation.h"
+//#include "simulation.h"
+#include "game.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,6 +34,8 @@ private:
     Ui::MainWindow *ui;
 
     Simulation *race;
+    Game game;
+    V_Map *map;
 
     QGraphicsScene *scene;
     QGraphicsEllipseItem *ellipse;

@@ -1,7 +1,10 @@
 #ifndef CURVE_H
 #define CURVE_H
-#include "route_element.h"
+
 #include <cmath>
+
+#include "route_element.h"
+
 
 class Curve : public Route_Element
 {

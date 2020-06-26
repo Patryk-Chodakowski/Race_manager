@@ -2,18 +2,23 @@
 #define VEHICLE_H
 
 #include <QGraphicsItem>
+
 #include "route_element.h"
 
 class Route_Element;
+
+enum class Color {YELLOW,BLACK,GREEN,RED};
 
 class Vehicle
 {
 protected:
     bool goToPitstop = false;
-    int currentTrack = 0;
+    bool overtaking = false;
 
+    int currentTrack = 0;
     Point position;
     double angle;
+
     int width,height;
     int velocity;
 
@@ -26,7 +31,7 @@ protected:
     QGraphicsItem *model;
 
 public:
-    Vehicle();
+    Vehicle(Color color);
 
     void togglePitStop();
 

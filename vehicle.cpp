@@ -1,8 +1,38 @@
 #include "vehicle.h"
 
-Vehicle::Vehicle()
+Vehicle::Vehicle(Color color)
 {
     angle = 0;
+    width =  40;
+    height = 60;
+    velocity = 0;
+    maxVelocity = 5;
+    acceleration = 1;
+
+    QString txt = "";
+    switch (int(color)) {
+    case 0:
+        txt = "yellow";
+        break;
+    case 1:
+        txt = "black";
+        break;
+    case 2:
+        txt = "green";
+        break;
+    case 3:
+        txt = "red";
+        break;
+    default:
+        txt = "black";
+        break;
+    }
+
+    QString path(txt + "_car");
+    QPixmap item(path);
+    item = item.scaled(width,height,Qt::KeepAspectRatio);
+    model = new QGraphicsPixmapItem(item);
+    model->setTransformOriginPoint(model->boundingRect().center());
 }
 
 void Vehicle::togglePitStop()
@@ -83,7 +113,7 @@ void Vehicle::drive(int step_time)
 
     step = current_element->calculateTrajectory(this,step);
     while (step != 0){
-        std::cout << "pentla" << std::endl;
+//        std::cout << "pentla" << std::endl;
 
         if(goToPitstop && current_element->get_turn_to_pitlane()){
             current_element = current_element->get_pitlane_element();

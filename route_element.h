@@ -1,10 +1,11 @@
 #ifndef ROUTE_ELEMENT_H
 #define ROUTE_ELEMENT_H
-#include "point.h"
 
 #include <QGraphicsItem>
+
 #include "qgraphicsarcitem.h"
 #include "vehicle.h"
+#include "point.h"
 
 class Vehicle;
 
@@ -51,7 +52,6 @@ public:
     bool get_pit_end();
     bool get_finish_line();
     bool get_inner();
-
 
     int get_length();
 
