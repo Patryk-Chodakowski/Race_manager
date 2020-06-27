@@ -137,6 +137,18 @@ Route_Element *Route_Element::get_pitlane_element()
     return pitlane_element;
 }
 
+Route_Element *Route_Element::getPitBypass()
+{
+    Route_Element *ptr = this;
+
+    while (!ptr->is_turn_to_pitlane) {
+        ptr = ptr->get_next_element();
+    }
+    ptr = ptr->get_next_element();
+
+    return ptr;
+}
+
 Point Route_Element::get_dir()
 {
     return direction;
@@ -150,6 +162,21 @@ Point Route_Element::get_start()
 Point Route_Element::get_end()
 {
     return end;
+}
+
+int Route_Element::positionToDistanceProjection(Vehicle *v)
+{
+
+}
+
+void Route_Element::placeOnLength(Vehicle *v, int _length)
+{
+
+}
+
+int Route_Element::get_angle()
+{
+    return 0;
 }
 
 //void Route_Element::test(Vehicle *v)

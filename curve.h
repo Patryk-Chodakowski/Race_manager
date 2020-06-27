@@ -24,8 +24,13 @@ public:
     Curve(Point prev, Point current, Point next, int _radius);
     Curve(int r);
 
+//    Point relocateByTrack(Point source);
+
+    int positionToDistanceProjection(Vehicle *v);
+
+    void placeOnLength(Vehicle *v, int length);
+    int get_angle();
     int calculateTrajectory(Vehicle* v,int step);
-//    Route_Element* calculateTrajectory(Point& position, int& angle ,int step);
 };
 
 #endif // CURVE_H

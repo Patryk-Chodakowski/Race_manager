@@ -20,6 +20,74 @@ Curve::Curve(int r)
     radius = r;
 }
 
+int Curve::positionToDistanceProjection(Vehicle *v)
+{
+    return 0;
+}
+
+void Curve::placeOnLength(Vehicle *v,int length)
+{
+    Point begin = start;
+    int arcRadius = radius;
+    int tmp = 1;
+    if (is_inner) tmp = -1;
+
+    switch (v->get_track()) {
+    case 1:
+        arcRadius = radius + tmp*interspace;
+        break;
+    case -1:
+        arcRadius = radius - tmp*interspace;
+        break;
+    }
+
+    Point dir = start.direction_vector(centre);
+    begin.set_x(centre.get_x() - dir.get_x() * arcRadius);
+    begin.set_y(centre.get_y() - dir.get_y() * arcRadius);
+
+    v->set_position(begin);
+    v->set_angle(get_angle());
+
+    calculateTrajectory(v,length);
+    v->updatePosition();
+}
+
+int Curve::get_angle()
+{
+    int angle = 0;
+    switch (quater) {
+    case 1:
+        if (direction.get_x() <0){
+            angle = 0;
+        }else{
+            angle = 90;
+        }
+        break;
+    case 2:
+        if (direction.get_x() <0){
+            angle = 270;
+        }else{
+            angle = 0;
+        }
+        break;
+    case 3:
+        if (direction.get_x() <0){
+            angle = 270;
+        }else{
+            angle = 180;
+        }
+        break;
+    case 4:
+        if (direction.get_x() <0){
+            angle = 180;
+        }else{
+            angle = 90;
+        }
+        break;
+    }
+    return angle;
+}
+
 int Curve::calculateTrajectory(Vehicle *v, int step)
 {
     Point position = v->get_position();
@@ -132,6 +200,8 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
         break;
     }
 
+    int distance = dangle;
+
     //wyznaczenie pozycji
     if (turn_right){
         angle+=dangle;
@@ -142,6 +212,8 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
             angle = end_angle;
             position = finish;
             if (rest == 0) rest++;
+
+             distance = dangle - rest;
         }else{
             z = (sin(double((angle - start_angle)*3.14/180))*curRadius);
 
@@ -164,6 +236,8 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
             angle = end_angle;
             position = finish;
             if (rest == 0) rest++;
+
+            distance = dangle - rest;
         }else{
             if(start_angle == 0) start_angle = 360;
             z = (sin(double((start_angle - angle)*3.14/180))*curRadius);
@@ -177,6 +251,11 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
             }
             rest = 0;
         }
+    }
+
+    //wyznaczenie przebytej drogi:
+    if(!is_pitlane){
+        v->setDistance(v->getDistance() + (distance*radius/60));
     }
 
     v->set_position(position);

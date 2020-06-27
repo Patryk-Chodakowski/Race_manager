@@ -58,14 +58,18 @@ public:
     Route_Element* get_next_element();
     Route_Element* get_prev_element();
     Route_Element* get_pitlane_element();
+    Route_Element* getPitBypass();
 
     Point get_dir();
     Point get_start();
     Point get_end();
 
-    //rozbic na pozycje, kat, krok
+    virtual int positionToDistanceProjection(Vehicle *v);
+
+//    virtual Point relocateByTrack(Point source);
+    virtual void placeOnLength(Vehicle *v, int _length);
+    virtual int get_angle();
     virtual int calculateTrajectory(Vehicle* v,int step);
-//    virtual Route_Element* calculateTrajectory(Point& position, int& angle ,int step);
 
     Route_Element();
 //    ~Route_Element();

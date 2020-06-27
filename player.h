@@ -12,6 +12,8 @@ class Player
     string name;
     int id;
 
+    bool human;
+
     static int instance_number;
 
 public:
@@ -23,6 +25,9 @@ public:
 
     int get_id();
     string getName();
+    Vehicle* getCar();
+
+    bool isHuman();
 
     static int getInstancesNumber();
 //    string getColor();

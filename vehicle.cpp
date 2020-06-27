@@ -60,9 +60,29 @@ void Vehicle::set_track(int track)
     currentTrack = track;
 }
 
+void Vehicle::setOvertake(bool a)
+{
+    overtaking = a;
+}
+
+void Vehicle::setDistance(int d)
+{
+    distance = d;
+}
+
 int Vehicle::get_track()
 {
     return currentTrack;
+}
+
+bool Vehicle::getOvertake()
+{
+    return overtaking;
+}
+
+int Vehicle::getDistance()
+{
+    return distance;
 }
 
 Route_Element *Vehicle::get_route_element()
@@ -101,6 +121,8 @@ void Vehicle::drive(int step_time)
 {
     //wyznacz z parametrow pojazdu skok drogi na jednoske czasu
 
+    std::cout << "jade" << std::endl;
+
     //wyznacz predkosc
     velocity += acceleration;
     if (velocity > maxVelocity) velocity = maxVelocity;
@@ -109,11 +131,11 @@ void Vehicle::drive(int step_time)
     int step = velocity;
 
     //przejechana droga
-    distance += step;
+//    distance += step;
 
     step = current_element->calculateTrajectory(this,step);
     while (step != 0){
-//        std::cout << "pentla" << std::endl;
+        std::cout << "pentla " << step << std::endl;
 
         if(goToPitstop && current_element->get_turn_to_pitlane()){
             current_element = current_element->get_pitlane_element();
@@ -123,5 +145,8 @@ void Vehicle::drive(int step_time)
 
         step = current_element->calculateTrajectory(this,step);
     };
+
+    std::cout << "mam pozycje " << distance << std::endl;
+
     updatePosition();
 }

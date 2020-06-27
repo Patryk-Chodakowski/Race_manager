@@ -7,20 +7,47 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->label->setText("OFF");
+
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
     race = game.getSimulation();
 
-//    map = new V_Map(race->get_trail());
+    cout << "mam symulacje" << endl;
 
-//    map->draw_map(scene);
+    map = new V_Map(race->get_trail());
+
+    map->draw_map(scene);
+
+    race->getPlayers();
+
+    for(auto player: (*race->getPlayers())){
+        map->draw_vehicle(scene,player->getCar());
+    };
+
+    int nr_players = race->getPlayers()->size();
+    description = new QLabel*[nr_players];
+
+    for (int i=0 ; i< nr_players;i++){
+        description[i] = new QLabel(this);
+        QString text = race->getPlayers()->at(i)->getName().c_str();
+        text += " ";
+        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
+        description[i]->setText(text);
+        ui->horizontalLayout->addWidget(description[i]);
+    }
+
+
+    race->setVehiclesOnStart();
+
+
+//    scene->invalidate();
 
 //    race = new Simulation();
 
-    race->get_map()->draw_map(scene);
-    race->get_map()->draw_vehicle(scene,race->get_vehicles());
-    race->setVehiclesOnStart();
+//    race->get_map()->draw_map(scene);
+//    race->get_map()->draw_vehicle(scene,race->get_vehicles());
+//    race->setVehiclesOnStart();
 }
 
 MainWindow::~MainWindow()
@@ -58,4 +85,24 @@ void MainWindow::on_pushButton_2_clicked()
 //    t--;
 //    if (t<-1) t = -1;
 //    v->set_track(t);
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    race->makeMoves();
+    updateLabels();
+}
+
+void MainWindow::updateLabels()
+{
+    int nr_players = race->getPlayers()->size();
+
+    for (int i=0 ; i< nr_players;i++){
+        QString text = race->getPlayers()->at(i)->getName().c_str();
+        text += " ";
+        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
+        description[i]->setText(text);
+        description[i]->update();
+//        ui->horizontalLayout->addWidget(description[i]);
+    }
 }

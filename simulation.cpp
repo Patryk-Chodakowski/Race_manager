@@ -6,9 +6,9 @@ Simulation::Simulation(vector<Player*>& players)
 
     road = new Trail();
     road->create_elements();
-    contestants = new Vehicle(Color::GREEN);
+    human = players.at(0);
 
-    map = new V_Map(road);
+//    map = new V_Map(road);
 //    map->draw_vehicle();
 
     timer = new QTimer(this);
@@ -21,30 +21,51 @@ Trail* Simulation::get_trail()
     return road;
 }
 
-Vehicle* Simulation::get_vehicles()
+Player* Simulation::get_human()
 {
-    return contestants;
+    return human;
 }
 
-V_Map *Simulation::get_map()
+vector<Player *> *Simulation::getPlayers()
 {
-    return map;
+    return pv;
 }
+
+//V_Map *Simulation::get_map()
+//{
+////    return map;
+//}
 
 void Simulation::setVehiclesOnStart()
 {
-    // na razie na punkcie startowym
-    Route_Element *elements = road->get_elements();
+      Route_Element *element = road->get_elements()->get_prev_element();
 
-    contestants->set_route_element(elements);
-    contestants->set_position(elements->get_start());
-    contestants->set_angle(180);
-    contestants->updatePosition();
+      int distance = 40;
+      int pos = element->get_length() - distance;
+      int track = -1;
+
+      for(auto& player: (*pv)){
+          player->getCar()->set_route_element(element);
+          player->getCar()->set_track(track);
+          player->getCar()->setOvertake(true);
+          element->placeOnLength(player->getCar(),pos);
+
+          pos -= distance;
+          track *= (-1);
+      }
 }
 
 void Simulation::makeMoves()
 {
-    contestants->drive(sample_time);
+//    contestants->drive(sample_time);
+
+    std::cout << "krok" << std::endl;
+
+      for(auto& player: (*pv)){
+          std::cout << "ruch " <<  player->getName() << std::endl;
+          player->getCar()->drive(sample_time);
+      }
+
 
 //    contestants->set_position(Point(contestants->get_position().get_x(),contestants->get_position().get_y() + contestants->get_velocity()));
 //    contestants->updatePosition();

@@ -24,7 +24,9 @@ protected:
 
     int maxVelocity;
     int acceleration;
-    int distance;
+
+    int distance = 0;
+    int currlap;
 
     Route_Element *current_element;
 
@@ -40,7 +42,12 @@ public:
     void set_route_element(Route_Element *element);
     void set_track(int track);
 
+    void setOvertake(bool a);
+    void setDistance(int d);
+
     int get_track();
+    bool getOvertake();
+    int getDistance();
 
     void drive(int step_time);
 

@@ -7,6 +7,10 @@ Player::Player(string _name)
 
     instance_number++;
 
+    human = true;
+
+    if (name == "") human = false;
+
     cout << "gracz " <<  instance_number << " " << _name << endl;
 
     name = _name;
@@ -26,6 +30,7 @@ Player::Player(string _name)
         color = Color::GREEN;
         break;
     default:
+        color = Color::GREEN;
         break;
     }
     car = new Vehicle(color);
@@ -58,6 +63,16 @@ int Player::get_id()
 string Player::getName()
 {
     return name;
+}
+
+Vehicle *Player::getCar()
+{
+    return car;
+}
+
+bool Player::isHuman()
+{
+    return human;
 }
 
 int Player::getInstancesNumber()

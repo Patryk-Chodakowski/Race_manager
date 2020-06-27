@@ -6,6 +6,7 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 #include <QTimer>
+#include <QLabel>
 
 #include "qgraphicsarcitem.h"
 //#include "simulation.h"
@@ -30,6 +31,8 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -43,6 +46,9 @@ private:
     QGraphicsLineItem *line;
     QGraphicsArcItem *arc;
 
+    QLabel **description;
+
+    void updateLabels();
     void togglePitLabel();
 };
 #endif // MAINWINDOW_H

@@ -14,17 +14,20 @@ class Simulation : public QObject
 
     vector<Player*> *pv;
 
-    Vehicle *contestants;
+    Player *human;
     Trail *road;
-    V_Map *map;
+
+//    V_Map *map;
     int sample_time = 20;
 
 public:
     Simulation(vector<Player*>& players);
 
     Trail *get_trail();
-    Vehicle *get_vehicles();
-    V_Map *get_map();
+    Player *get_human();
+//    V_Map *get_map();
+    vector<Player*> *getPlayers();
+
     QTimer *timer;
 
     void setVehiclesOnStart();
