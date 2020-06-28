@@ -139,6 +139,12 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
             int bypass_end = positionToDistanceProjection(v);
             v->setDistance(v->getDistance() + (bypass_end - bypass_start));
         }
+
+        //wykonanie okrążenias
+        if (next->get_finish_line()){
+            v->setDistance(0);
+        }
+
     }
     else{        
         v->set_position(position);

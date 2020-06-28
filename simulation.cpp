@@ -55,18 +55,43 @@ void Simulation::setVehiclesOnStart()
       }
 }
 
+void Simulation::checkPositionBetweenVehicles()
+{
+    int minDistance = 75;
+
+    int size = pv->size();
+
+    int distance[size][size];
+
+    //różnica odleglosci kazdego auta od kazdego w wyscigu
+    for (int i=0;i<size;i++){
+        for (int j=0;j<size;j++){
+            distance[i][j] = pv->at(i)->getCar()->getDistance() - pv->at(j)->getCar()->getDistance();
+        }
+    }
+
+    for (int i;i<size;i++){
+        //sprawdzenie warunkow
+    }
+
+
+
+
+}
+
 void Simulation::makeMoves()
 {
-//    contestants->drive(sample_time);
+    for(auto& player: (*pv)){
+        player->getCar()->calculateStep();
+    }
 
-    std::cout << "krok" << std::endl;
+    checkPositionBetweenVehicles();
 
-      for(auto& player: (*pv)){
-          std::cout << "ruch " <<  player->getName() << std::endl;
-          player->getCar()->drive(sample_time);
-      }
+    for(auto& player: (*pv)){
+        player->getCar()->drive(sample_time);
+    }
 
-
+    updateView();
 //    contestants->set_position(Point(contestants->get_position().get_x(),contestants->get_position().get_y() + contestants->get_velocity()));
 //    contestants->updatePosition();
 }

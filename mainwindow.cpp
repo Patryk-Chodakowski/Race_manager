@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -41,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     race->setVehiclesOnStart();
 
 
+    connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
 //    scene->invalidate();
 
 //    race = new Simulation();
@@ -58,15 +61,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-//    Vehicle *v = race->get_vehicles();
-//    v->togglePitStop();
-//    togglePitLabel();
+    Vehicle *v = race->get_human()->getCar();
+    v->togglePitStop();
+    togglePitLabel();
 }
 
 void MainWindow::togglePitLabel(){
-//   if(ui->label->text() == "OFF") ui->label->setText("ON");
-//   else ui->label->setText("OFF");
-//   ui->label->update();
+   if(ui->label->text() == "OFF") ui->label->setText("ON");
+   else ui->label->setText("OFF");
+   ui->label->update();
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -93,14 +96,23 @@ void MainWindow::on_pushButton_4_clicked()
     updateLabels();
 }
 
+void MainWindow::refreshPanel()
+{
+    updateLabels();
+}
+
 void MainWindow::updateLabels()
 {
     int nr_players = race->getPlayers()->size();
+
+    qDebug() << "updatelabel" ;
 
     for (int i=0 ; i< nr_players;i++){
         QString text = race->getPlayers()->at(i)->getName().c_str();
         text += " ";
         text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
+
+        description[i]->setStyleSheet("border: 5px solid " + race->getPlayers()->at(i)->getPlayerColorName());
         description[i]->setText(text);
         description[i]->update();
 //        ui->horizontalLayout->addWidget(description[i]);

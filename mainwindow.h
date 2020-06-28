@@ -33,6 +33,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void refreshPanel();
+
 private:
     Ui::MainWindow *ui;
 

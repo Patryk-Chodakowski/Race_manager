@@ -26,6 +26,7 @@ public:
     int get_id();
     string getName();
     Vehicle* getCar();
+    QString getPlayerColorName();
 
     bool isHuman();
 

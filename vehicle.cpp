@@ -9,24 +9,7 @@ Vehicle::Vehicle(Color color)
     maxVelocity = 5;
     acceleration = 1;
 
-    QString txt = "";
-    switch (int(color)) {
-    case 0:
-        txt = "yellow";
-        break;
-    case 1:
-        txt = "black";
-        break;
-    case 2:
-        txt = "green";
-        break;
-    case 3:
-        txt = "red";
-        break;
-    default:
-        txt = "black";
-        break;
-    }
+    QString txt = getColorName(color);
 
     QString path(txt + "_car");
     QPixmap item(path);
@@ -38,6 +21,16 @@ Vehicle::Vehicle(Color color)
 void Vehicle::togglePitStop()
 {
     goToPitstop = !goToPitstop;
+}
+
+void Vehicle::calculateStep()
+{
+    //wyznacz predkosc
+    velocity += acceleration;
+    if (velocity > maxVelocity) velocity = maxVelocity;
+
+    //wyznacz skok
+    step = velocity;
 }
 
 void Vehicle::set_position(Point _position)
@@ -120,18 +113,9 @@ QGraphicsItem *Vehicle::get_graphic_item()
 void Vehicle::drive(int step_time)
 {
     //wyznacz z parametrow pojazdu skok drogi na jednoske czasu
+    calculateStep();
 
-    std::cout << "jade" << std::endl;
-
-    //wyznacz predkosc
-    velocity += acceleration;
-    if (velocity > maxVelocity) velocity = maxVelocity;
-
-    //wyznacz skok
-    int step = velocity;
-
-    //przejechana droga
-//    distance += step;
+    checkDistance();
 
     step = current_element->calculateTrajectory(this,step);
     while (step != 0){
@@ -146,7 +130,30 @@ void Vehicle::drive(int step_time)
         step = current_element->calculateTrajectory(this,step);
     };
 
-    std::cout << "mam pozycje " << distance << std::endl;
+//    std::cout << "mam pozycje " << distance << std::endl;
 
     updatePosition();
+}
+
+QString getColorName(Color color)
+{
+    QString txt;
+    switch (int(color)) {
+    case 0:
+        txt = "yellow";
+        break;
+    case 1:
+        txt = "black";
+        break;
+    case 2:
+        txt = "green";
+        break;
+    case 3:
+        txt = "red";
+        break;
+    default:
+        txt = "black";
+        break;
+    }
+    return txt;
 }

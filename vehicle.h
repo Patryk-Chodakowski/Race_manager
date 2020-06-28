@@ -9,6 +9,8 @@ class Route_Element;
 
 enum class Color {YELLOW,BLACK,GREEN,RED};
 
+QString getColorName(Color color);
+
 class Vehicle
 {
 protected:
@@ -27,6 +29,7 @@ protected:
 
     int distance = 0;
     int currlap;
+    int step = 0;
 
     Route_Element *current_element;
 
@@ -36,6 +39,7 @@ public:
     Vehicle(Color color);
 
     void togglePitStop();
+    void calculateStep();
 
     void set_position(Point _position);
     void set_angle(double value);

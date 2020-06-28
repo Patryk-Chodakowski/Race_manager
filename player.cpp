@@ -70,6 +70,11 @@ Vehicle *Player::getCar()
     return car;
 }
 
+QString Player::getPlayerColorName()
+{
+    return getColorName(color);
+}
+
 bool Player::isHuman()
 {
     return human;

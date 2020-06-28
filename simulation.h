@@ -33,6 +33,9 @@ public:
     void setVehiclesOnStart();
 //    void moveVehicles();
 
+public: signals:
+    void updateView();
+
 public slots:
     void makeMoves();
 
