@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QObject>
+#include <iomanip>
 
 #include "trail.h"
 #include "v_map.h"
@@ -31,6 +32,10 @@ public:
     QTimer *timer;
 
     void setVehiclesOnStart();
+    void checkPositionBetweenVehicles();
+
+    void simStart();
+    void simPause();
 //    void moveVehicles();
 
 public: signals:

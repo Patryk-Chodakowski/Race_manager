@@ -6,7 +6,7 @@ Route_Element::Route_Element()
 //    next = NULL;
 //    pitlane_element = NULL;
 
-    is_pitlane = false;
+//    is_pitlane = false;
 //    is_turn_to_pitlane = false;
 //    pit_start = false;
 //    pit_end = false;
@@ -72,9 +72,19 @@ void Route_Element::set_interspace(int space)
     interspace = space;
 }
 
+void Route_Element::setLengthSoFar(int l)
+{
+    lengthSoFar = l;
+}
+
 int Route_Element::get_interspace()
 {
     return interspace;
+}
+
+int Route_Element::getSpeedLimit()
+{
+    return pit_speed_limit;
 }
 
 bool Route_Element::get_pitlane()
@@ -107,9 +117,19 @@ bool Route_Element::get_inner()
     return is_inner;
 }
 
+bool Route_Element::is_curve()
+{
+    return curve;
+}
+
 int Route_Element::get_length()
 {
     return length;
+}
+
+int Route_Element::getLengthSoFar()
+{
+    return lengthSoFar;
 }
 
 void Route_Element::set_pitlane_element(Route_Element *element)
@@ -190,6 +210,11 @@ int Route_Element::get_angle()
 //}
 
 int Route_Element::calculateTrajectory(Vehicle* v,int step){
+
+}
+
+void Route_Element::log()
+{
 
 }
 

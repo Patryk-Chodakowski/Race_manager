@@ -15,7 +15,10 @@ class Vehicle
 {
 protected:
     bool goToPitstop = false;
-    bool overtaking = false;
+    bool is_overtaking = false;
+    bool is_overtaken = false;
+    bool running = true;
+
 
     int currentTrack = 0;
     Point position;
@@ -28,7 +31,7 @@ protected:
     int acceleration;
 
     int distance = 0;
-    int currlap;
+    int currlap =-1;
     int step = 0;
 
     Route_Element *current_element;
@@ -39,6 +42,7 @@ public:
     Vehicle(Color color);
 
     void togglePitStop();
+    void toggleRun();
     void calculateStep();
 
     void set_position(Point _position);
@@ -46,14 +50,21 @@ public:
     void set_route_element(Route_Element *element);
     void set_track(int track);
 
-    void setOvertake(bool a);
+    void setOvertaking(bool a);
+    void setOvertaken(bool a);
     void setDistance(int d);
+    void setStep(int s);
+    void incraseLap();
 
     int get_track();
-    bool getOvertake();
+    bool getOvertaking();
+    bool getOvertaken();
     int getDistance();
+    int getStep();
+    int getLap();
 
     void drive(int step_time);
+    bool turning_to_pitstop();
 
     Route_Element* get_route_element();
     Point get_position();

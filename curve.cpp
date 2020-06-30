@@ -3,7 +3,7 @@
 Curve::Curve()
     : Route_Element()
 {
-
+    curve = true;
 }
 
 Curve::Curve(Point prev, Point current, Point next, int _radius)
@@ -105,6 +105,13 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     int tmp = 1;
     if (is_inner) tmp = -1;
 
+    Route_Element *bypass = this;
+    while (!bypass->get_turn_to_pitlane()) {
+        bypass = bypass->get_next_element();
+    }
+    bypass = bypass->get_next_element();
+    int bypass_start = bypass->positionToDistanceProjection(v);
+
     //wyznaczenie pasa
     if (!is_pitlane){
         switch (v->get_track()) {
@@ -201,6 +208,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     }
 
     int distance = dangle;
+    bool overgone = false;
 
     //wyznaczenie pozycji
     if (turn_right){
@@ -213,7 +221,8 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
             position = finish;
             if (rest == 0) rest++;
 
-             distance = dangle - rest;
+            overgone = true;
+            distance = dangle - (angle - end_angle);
         }else{
             z = (sin(double((angle - start_angle)*3.14/180))*curRadius);
 
@@ -237,7 +246,8 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
             position = finish;
             if (rest == 0) rest++;
 
-            distance = dangle - rest;
+            overgone = true;
+            distance = dangle - (end_angle - angle);
         }else{
             if(start_angle == 0) start_angle = 360;
             z = (sin(double((start_angle - angle)*3.14/180))*curRadius);
@@ -253,19 +263,31 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
         }
     }
 
-    //wyznaczenie przebytej drogi:
-    if(!is_pitlane){
-        v->setDistance(v->getDistance() + (distance*radius/60));
-    }
-
     v->set_position(position);
     v->set_angle(angle);
+
+    //wyznaczenie przebytej drogi:
+    if(!is_pitlane){    
+        v->setDistance(v->getDistance() + (distance*radius/60));
+        if (overgone) v->setDistance(lengthSoFar + length);
+    }
+    else{
+        int bypass_end = bypass->positionToDistanceProjection(v);
+        v->setDistance(v->getDistance() + (bypass_end - bypass_start));
+//        std::cout << "bypass curv " <<  v->getDistance() << " " << v->getDistance() << " " << (bypass_end - bypass_start) << std::endl;
+    }
+
 
 //    std::cout << " z " << z;
 //    position.log_point();
 //    centre.log_point();
 
     return rest;
+}
+
+void Curve::log()
+{
+    log_curve();
 }
 
 void Curve::set_radius(int r)

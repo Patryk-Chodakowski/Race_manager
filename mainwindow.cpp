@@ -105,8 +105,6 @@ void MainWindow::updateLabels()
 {
     int nr_players = race->getPlayers()->size();
 
-    qDebug() << "updatelabel" ;
-
     for (int i=0 ; i< nr_players;i++){
         QString text = race->getPlayers()->at(i)->getName().c_str();
         text += " ";
@@ -117,4 +115,21 @@ void MainWindow::updateLabels()
         description[i]->update();
 //        ui->horizontalLayout->addWidget(description[i]);
     }
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    race->simStart();
+}
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    race->simPause();
+}
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    Vehicle *v = race->get_human()->getCar();
+    v->toggleRun();
+
 }

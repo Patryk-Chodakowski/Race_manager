@@ -27,6 +27,7 @@ int Straight::positionToDistanceProjection(Vehicle *v)
     Point result(0,0);
     Point position = v->get_position();
 
+
     if(direction.get_x() == 0){
         result.set_x(start.get_x());
 
@@ -55,6 +56,9 @@ int Straight::positionToDistanceProjection(Vehicle *v)
     }
 
     int d = abs(result.get_x() - start.get_x()) + abs(result.get_y() - start.get_y());
+
+//    std::cout << "Licze bypas " << d << " " << std::endl;
+
     return d;
 }
 
@@ -63,8 +67,15 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
     Point position = v->get_position();
     Point begin = start;
     Point finish = end;
-    int bypass_start = positionToDistanceProjection(v);
     int rest = 0;
+
+    Route_Element *bypass = this;
+    while (!bypass->get_turn_to_pitlane()) {
+        bypass = bypass->get_next_element();
+    }
+    bypass = bypass->get_next_element();
+    int bypass_start = bypass->positionToDistanceProjection(v);
+
 
     //wyznaczenie pasa
     if(!is_pitlane){
@@ -130,31 +141,39 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
             (-1 == direction.get_y() && position.get_y() < finish.get_y())
        )
     {
+
         rest = abs((finish.get_x() - position.get_x()) + (finish.get_y() - position.get_y()) );
         position = finish;
         v->set_position(position);
 
-        if(!is_pitlane) v->setDistance( v->getDistance() + (step - rest));
+        if(!is_pitlane){
+//            v->setDistance( v->getDistance() + (step - rest));
+            v->setDistance(lengthSoFar + length);
+        }
         else{
-            int bypass_end = positionToDistanceProjection(v);
+            int bypass_end = bypass->positionToDistanceProjection(v);
             v->setDistance(v->getDistance() + (bypass_end - bypass_start));
+            std::cout << "bypass str " <<  v->getDistance() << std::endl;
+
         }
 
-        //wykonanie okrążenias
+        //wykonanie okrążenia
         if (next->get_finish_line()){
             v->setDistance(0);
+            v->incraseLap();
         }
-
     }
     else{        
         v->set_position(position);
 
-        if(!is_pitlane) v->setDistance( v->getDistance() + step);
-        else{
-            int bypass_end = positionToDistanceProjection(v);
-            v->setDistance(v->getDistance() + (bypass_end - bypass_start));
+        if(!is_pitlane){
+            v->setDistance( v->getDistance() + step);
         }
-
+        else{
+            int bypass_end = bypass->positionToDistanceProjection(v);
+            v->setDistance(v->getDistance() + (bypass_end - bypass_start));
+//            std::cout << "bypass str " <<  v->getDistance() << std::endl;
+        }
     }
 
     return rest;
@@ -164,13 +183,18 @@ void Straight::log_straight()
 {
     std::cout << "line " << length << std::endl;
     if (is_pitlane) std::cout << "pit" << std::endl;
-    else std::cout << " . " << is_pitlane << std::endl;
     get_dir().log_point();
     std::cout << "start: ";
     get_start().log_point();
     std::cout << "end: ";
     get_end().log_point();
+    std::cout << "lSoFar: " << lengthSoFar  << " length: "<< length ;
     std::cout << std::endl;
+}
+
+void Straight::log()
+{
+    log_straight();
 }
 
 int Straight::get_angle(){

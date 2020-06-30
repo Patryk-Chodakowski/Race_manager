@@ -7,6 +7,7 @@ Game::Game()
     createPlayer("Andrzej");
     createPlayer("Rafal");
     createPlayer("Szymon");
+    createPlayer("Krzysztof");
 
     simulation = new Simulation(players);
 }

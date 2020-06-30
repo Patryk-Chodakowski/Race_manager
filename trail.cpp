@@ -151,7 +151,7 @@ void Trail::create_elements(){
     line->set_interspace(interspace);
     length += line->get_length();
 
-//    line->log_straight();
+    line->log_straight();
     cout << "trasa: " << length << endl;
 
     pit_entry->set_next(line);
@@ -161,6 +161,21 @@ void Trail::create_elements(){
 
     list_end->set_next(begin);
     begin->set_prev(list_end);
+
+    Route_Element *elem = begin;
+    int curr_length = 0;
+
+    do{
+//        cout << "curL: " <<  curr_length << " len: " << elem->get_length() << endl;
+        elem->setLengthSoFar(curr_length);
+        curr_length += elem->get_length();
+        elem = elem->get_next_element();
+    }while(!elem->get_finish_line());
+}
+
+int Trail::getLength()
+{
+    return length;
 }
 
 Route_Element *Trail::get_elements()

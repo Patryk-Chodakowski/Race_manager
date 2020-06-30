@@ -11,13 +11,13 @@ public:
 
 //    Point relocateByTrack(Point source);
 
-    int positionToDistanceProjection(Vehicle *v);
-
-    void placeOnLength(Vehicle *v, int length);
-    int get_angle();
-    int calculateTrajectory(Vehicle* v,int step);
+    int positionToDistanceProjection(Vehicle *v) override;
+    void placeOnLength(Vehicle *v, int length) override;
+    int get_angle() override;
+    int calculateTrajectory(Vehicle* v,int step) override;
 //    Route_Element* calculateTrajectory(Point& position, int& angle ,int step);
     void log_straight();
+    void log() override;
 
 };
 

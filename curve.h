@@ -26,11 +26,12 @@ public:
 
 //    Point relocateByTrack(Point source);
 
-    int positionToDistanceProjection(Vehicle *v);
+    int positionToDistanceProjection(Vehicle *v) override;
 
-    void placeOnLength(Vehicle *v, int length);
-    int get_angle();
-    int calculateTrajectory(Vehicle* v,int step);
+    void placeOnLength(Vehicle *v, int length) override;
+    int get_angle() override;
+    int calculateTrajectory(Vehicle* v,int step) override;
+    void log() override;
 };
 
 #endif // CURVE_H

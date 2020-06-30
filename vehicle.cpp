@@ -23,10 +23,32 @@ void Vehicle::togglePitStop()
     goToPitstop = !goToPitstop;
 }
 
+void Vehicle::toggleRun()
+{
+    if(running) running = false;
+    else running = true;
+}
+
 void Vehicle::calculateStep()
 {
+
+    if (!running){
+       step = 0;
+       return;
+    }
+
     //wyznacz predkosc
-    velocity += acceleration;
+    if(current_element->get_pitlane() && (!current_element->get_pit_start() || !current_element->get_pit_end())){
+        if (velocity > current_element->getSpeedLimit()) velocity--;
+        else velocity++;
+
+        //uzupelnienie paliwa
+
+    }
+    else{
+        velocity += acceleration;
+    }
+
     if (velocity > maxVelocity) velocity = maxVelocity;
 
     //wyznacz skok
@@ -53,9 +75,14 @@ void Vehicle::set_track(int track)
     currentTrack = track;
 }
 
-void Vehicle::setOvertake(bool a)
+void Vehicle::setOvertaken(bool a)
 {
-    overtaking = a;
+    is_overtaken = a;
+}
+
+void Vehicle::setOvertaking(bool a)
+{
+    is_overtaking = a;
 }
 
 void Vehicle::setDistance(int d)
@@ -63,19 +90,44 @@ void Vehicle::setDistance(int d)
     distance = d;
 }
 
+void Vehicle::setStep(int s)
+{
+    step = s;
+}
+
+void Vehicle::incraseLap()
+{
+    currlap++;
+}
+
 int Vehicle::get_track()
 {
     return currentTrack;
 }
 
-bool Vehicle::getOvertake()
+bool Vehicle::getOvertaken()
 {
-    return overtaking;
+    return is_overtaken;
+}
+
+bool Vehicle::getOvertaking()
+{
+    return is_overtaking;
 }
 
 int Vehicle::getDistance()
 {
     return distance;
+}
+
+int Vehicle::getStep()
+{
+    return step;
+}
+
+int Vehicle::getLap()
+{
+    return currlap;
 }
 
 Route_Element *Vehicle::get_route_element()
@@ -113,9 +165,9 @@ QGraphicsItem *Vehicle::get_graphic_item()
 void Vehicle::drive(int step_time)
 {
     //wyznacz z parametrow pojazdu skok drogi na jednoske czasu
-    calculateStep();
+//    calculateStep();
 
-    checkDistance();
+//    checkDistance();
 
     step = current_element->calculateTrajectory(this,step);
     while (step != 0){
@@ -133,6 +185,11 @@ void Vehicle::drive(int step_time)
 //    std::cout << "mam pozycje " << distance << std::endl;
 
     updatePosition();
+}
+
+bool Vehicle::turning_to_pitstop()
+{
+    return goToPitstop;
 }
 
 QString getColorName(Color color)
