@@ -6,6 +6,7 @@ Simulation::Simulation(vector<Player*>& players)
 
     road = new Trail();
     road->create_elements();
+
     human = players.at(0);
 
 //    map = new V_Map(road);
@@ -44,6 +45,7 @@ void Simulation::setVehiclesOnStart()
       int to_start = distance;
       int pos = element->get_length() - distance;
       int track = -1;
+      int place = 1;
 
       for(auto& player: (*pv)){
           player->getCar()->set_route_element(element);
@@ -52,10 +54,12 @@ void Simulation::setVehiclesOnStart()
           if(track == 1) player->getCar()->setOvertaking(true);
           element->placeOnLength(player->getCar(),pos);
 
+          player->setPlace(place);
           player->getCar()->setDistance(road->getLength()-to_start);
           to_start += distance;
           pos -= distance;
           track *= (-1);
+          place++;
       }
 }
 
@@ -75,6 +79,8 @@ void Simulation::checkPositionBetweenVehicles()
     int closestAheadID[size];
     int closestBehindID[size];
 
+    bool canIchangeTrack[size];
+
     cout << "checking" << endl;
 
     int opponent = 0;
@@ -86,6 +92,8 @@ void Simulation::checkPositionBetweenVehicles()
         //wyzerowanie wspolzaleznosci
         pv->at(i)->getCar()->setOvertaken(false);
         pv->at(i)->getCar()->setOvertaking(false);
+
+        canIchangeTrack[i] = false;
         closestAhead[i] = 0;
         closestBehind[i] = 0;
 
@@ -116,7 +124,7 @@ void Simulation::checkPositionBetweenVehicles()
                 closestID[i] = j;
             }
 
-            if( closestAhead[i] == 0 && distance[i][j] > 0){
+            if( closestAhead[i] == 0 && distance[i][j] >= 0){
                 closestAhead[i] = distance[i][j];
                 closestAheadID[i] = j;
             }
@@ -125,7 +133,7 @@ void Simulation::checkPositionBetweenVehicles()
                 closestBehindID[i] = j;
             }
 
-            if(distance[i][j] < closestAhead[i]  && distance[i][j] > 0){
+            if(distance[i][j] < closestAhead[i]  && distance[i][j] >= 0){
                 closestAhead[i] = distance[i][j];
                 closestAheadID[i] = j;
             }
@@ -148,7 +156,7 @@ void Simulation::checkPositionBetweenVehicles()
     //sprawdzenie warunkow
     for (int i=0;i<size;i++){
 
-        //czy ktos mnie wyprzedza
+        //czy kogos wyprzedzam
         for (int j=0;j<size;j++){
             if (i == j) continue;
             if (distance[i][j] > 0 && distance[i][j] < minDistance && pitstop[i] == pitstop[j]){
@@ -159,6 +167,7 @@ void Simulation::checkPositionBetweenVehicles()
     }
 
 
+
     for (int i=0;i<size;i++){
 
         if (pv->at(i)->getCar()->get_track() == 0){
@@ -167,16 +176,54 @@ void Simulation::checkPositionBetweenVehicles()
             }
             else{
                 if(pv->at(i)->getCar()->getOvertaking()){
-                    pv->at(i)->getCar()->set_track(1);
+                    if(pv->at(closestAheadID[i])->getCar()->get_track() != 0) pv->at(i)->getCar()->set_track(pv->at(closestAheadID[i])->getCar()->get_track()*(-1));
+                    else pv->at(i)->getCar()->set_track(1);
                 }
             }
         }
         else{
 
-            int changeTrack = 0;
             //pozycja rozna od 0
             if(pv->at(i)->getCar()->getOvertaking() || pv->at(i)->getCar()->getOvertaken()){
 
+                //zmiana pasa
+
+                if (pv->at(i)->getCar()->getOvertaking() && pv->at(i)->getCar()->getOvertaken()){
+                    if ( pv->at(i)->getCar()->get_track() == pv->at(closestAheadID[i])->getCar()->get_track() &&
+                         pv->at(i)->getCar()->get_track() == pv->at(closestBehindID[i])->getCar()->get_track() ){
+                         pv->at(i)->getCar()->set_track(pv->at(closestAheadID[i])->getCar()->get_track()*(-1));
+                    }
+                } else if(pv->at(i)->getCar()->getOvertaking()) {
+                    pv->at(i)->getCar()->set_track(pv->at(closestAheadID[i])->getCar()->get_track()*(-1));
+                }
+
+
+                //zachowanie dystansu
+
+                for (int j=0;j<size;j++){
+                    if (i == j) continue;
+
+                    if(
+                      pv->at(i)->getCar()->get_track() == pv->at(j)->getCar()->get_track() &&
+                      pitstop[i] == pitstop[j] &&
+                      distance[i][j] < (minDistance) &&  distance[i][j] > 0
+                    ){
+                        //jesli samochody sa za blisko, i nie moga zmienic pasa, to ten z tylu musi zwolnic
+                        if (distance[i][j] < (minDistance - 10)){
+                            int step = pv->at(j)->getCar()->getStep() - 1;
+                            if (step < 0) step = 0;
+                            pv->at(i)->getCar()->setStep(step);
+                        }else{
+                            pv->at(i)->getCar()->setStep(pv->at(j)->getCar()->getStep());
+                        }
+                    }
+                }
+
+//                if (closestBehind[i] > (-minDistance) && closestBehind[i] < 0){
+//                    //wyprzedajacy mnie jest blisko, nie moge zmienic pasa
+
+
+//                }
 
 
 //                //zwolnienie jesli jest rywal przed
@@ -218,17 +265,54 @@ void Simulation::checkPositionBetweenVehicles()
             }
         }
 
-        //zjazd/wyjazd z pitu
-        if ((pv->at(i)->getCar()->get_route_element()->get_pit_start() || pv->at(i)->getCar()->get_route_element()->get_pit_end()) && pv->at(i)->getCar()->turning_to_pitstop()){
+        cout << " Pit " << pv->at(i)->getName() << " ";
+
+//        if(pitstop[i]){
+//            for (int j=0;j<size;j++){
+//                if (i == j) continue;
+//                if (pitstop[j] && distance[i][j] < (minDistance) &&  distance[i][j] > 0){
+
+//                    cout << "zwalniam ";
+
+//                    if (distance[i][j] < (minDistance - 10)){
+//                        int step = pv->at(j)->getCar()->getStep() - 1;
+//                        if (step < 0) step = 0;
+//                        pv->at(i)->getCar()->setStep(step);
+//                    }else{
+//                        pv->at(i)->getCar()->setStep(pv->at(j)->getCar()->getStep());
+//                    }
+//                }
+//            }
+//        }
+
+        //wyjazd z pitu
+        if ((pv->at(i)->getCar()->get_route_element()->get_pit_end() && pv->at(i)->getCar()->get_route_element()->get_pitlane()) ){
+
+            cout << "wyjezdzam ";
+
             for (int j=0;j<size;j++){
                 if (i == j) continue;
-                if ( abs(distance[i][j]) < minDistance && pv->at(j)->getCar()->get_track() < pv->at(i)->getCar()->get_track()){
-                    pv->at(i)->getCar()->setStep(0);
+                if ( abs(distance[i][j]) < minDistance){
+                    if (!pitstop[j]) pv->at(i)->getCar()->stopVehicle();
                 }
             }
         }
+        //wjazd na pit
 
+//        cout << pv->at(i)->getCar()->get_route_element()->get_pit_start()
 
+        if (pv->at(i)->getCar()->get_route_element()->get_pit_start() && pv->at(i)->getCar()->turning_to_pitstop() && pv->at(i)->getCar()->get_track() == 1){
+            cout << "wjezdzam ";
+
+            for (int j=0;j<size;j++){
+                if (i == j) continue;
+                if ( abs(distance[i][j]) < minDistance){
+                    cout << "STOPP " << i << endl;
+                    pv->at(i)->getCar()->stopVehicle();
+                }
+            }
+        }
+        cout << endl;
     }
 
     for (int i=0;i<size;i++){
@@ -241,6 +325,27 @@ void Simulation::checkPositionBetweenVehicles()
         cout << " taken: " << pv->at(i)->getCar()->getOvertaken() << " taking: " << pv->at(i)->getCar()->getOvertaking();
         cout << " lap "<< setw(2) << pv->at(i)->getCar()->getLap() << " distance: " << setw(4) << pv->at(i)->getCar()->getDistance();
         cout << " CAI: " << setw(2) << closestAheadID[i] << " CBI: " << setw(2) << closestBehindID[i] << " CID " << closestID[i] <<  endl;
+    }
+}
+
+void Simulation::checkPlayersPlace()
+{
+    int size = pv->size();
+    int distance[size];
+
+    int ref = pv->at(0)->getCar()->getLap()*road->getLength() + pv->at(0)->getCar()->getDistance();
+
+    for(int i=0;i<size;i++){
+        int opponent = pv->at(i)->getCar()->getLap()*road->getLength() + pv->at(i)->getCar()->getDistance();
+        distance[i] = opponent - ref;
+    }
+
+    for(int i=0;i<size;i++){
+        int tmp = 1;
+        for(int j=0;j<size;j++){
+            if (distance[i] < distance[j]) tmp++;
+        }
+        pv->at(i)->setPlace(tmp);
     }
 }
 
@@ -258,13 +363,19 @@ void Simulation::makeMoves()
 {
     for(auto& player: (*pv)){
         player->getCar()->calculateStep();
+
+        if (!player->isHuman() && player->getCar()->getFuelTankLevel() < player->getCar()->getFuelTankCapacity()*0.2){
+            player->getCar()->setGoToPitStop(true);
+        }
     }
 
-//    checkPositionBetweenVehicles();
+    checkPositionBetweenVehicles();
 
     for(auto& player: (*pv)){
         player->getCar()->drive(sample_time);
     }
+
+    checkPlayersPlace();
 
     updateView();
 //    contestants->set_position(Point(contestants->get_position().get_x(),contestants->get_position().get_y() + contestants->get_velocity()));

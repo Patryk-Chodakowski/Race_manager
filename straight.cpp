@@ -19,7 +19,10 @@ Straight::Straight(Point _start, int start_radius,Point _end,int end_radius)
 
     length = abs(s.get_x() - e.get_x()) + abs(s.get_y() - e.get_y());
 
-    item = new QGraphicsLineItem((qreal) s.get_x(),(qreal) s.get_y(),(qreal) e.get_x(),(qreal) e.get_y());
+    QGraphicsLineItem *line = new QGraphicsLineItem((qreal) s.get_x(),(qreal) s.get_y(),(qreal) e.get_x(),(qreal) e.get_y());
+    line->setPen(QPen(Qt::gray,width,Qt::SolidLine,Qt::FlatCap,Qt::MiterJoin));
+
+    item = line;
 }
 
 int Straight::positionToDistanceProjection(Vehicle *v)
@@ -142,8 +145,12 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
        )
     {
 
-        rest = abs((finish.get_x() - position.get_x()) + (finish.get_y() - position.get_y()) );
-        position = finish;
+        rest = abs( direction.get_x()*(finish.get_x() - position.get_x()) + direction.get_y()*(finish.get_y() - position.get_y()) );
+//        position = finish;
+
+        position.set_x(position.get_x() - direction.get_x()*rest);
+        position.set_y(position.get_y() - direction.get_y()*rest);
+
         v->set_position(position);
 
         if(!is_pitlane){
@@ -162,8 +169,7 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
             v->setDistance(0);
             v->incraseLap();
         }
-    }
-    else{        
+    }else{
         v->set_position(position);
 
         if(!is_pitlane){

@@ -18,9 +18,9 @@ Vehicle::Vehicle(Color color)
     model->setTransformOriginPoint(model->boundingRect().center());
 }
 
-void Vehicle::togglePitStop()
+void Vehicle::setGoToPitStop(bool go)
 {
-    goToPitstop = !goToPitstop;
+    goToPitstop = go;
 }
 
 void Vehicle::toggleRun()
@@ -31,6 +31,7 @@ void Vehicle::toggleRun()
 
 void Vehicle::calculateStep()
 {
+    int currentSpeedLimit = maxVelocity;
 
     if (!running){
        step = 0;
@@ -38,21 +39,36 @@ void Vehicle::calculateStep()
     }
 
     //wyznacz predkosc
-    if(current_element->get_pitlane() && (!current_element->get_pit_start() || !current_element->get_pit_end())){
+    if(current_element->get_pitlane() && !current_element->get_pit_start() && !current_element->get_pit_end()){
         if (velocity > current_element->getSpeedLimit()) velocity--;
         else velocity++;
 
         //uzupelnienie paliwa
-
+        fuelTankLevel = fuelTankCapacity;
+        goToPitstop = false;
     }
     else{
         velocity += acceleration;
+
+        //zuzycie paliwa
+        fuelTankLevel -= mileage;
+        if (fuelTankLevel <= 0){
+            fuelTankLevel = 0;
+            currentSpeedLimit = 3;
+        }
+
     }
 
-    if (velocity > maxVelocity) velocity = maxVelocity;
+    if (velocity > currentSpeedLimit) velocity = currentSpeedLimit;
 
     //wyznacz skok
     step = velocity;
+}
+
+void Vehicle::stopVehicle()
+{
+    step = 0;
+    velocity = 0;
 }
 
 void Vehicle::set_position(Point _position)
@@ -100,6 +116,11 @@ void Vehicle::incraseLap()
     currlap++;
 }
 
+void Vehicle::setFuelTankCapacity(int c)
+{
+    fuelTankCapacity = c;
+}
+
 int Vehicle::get_track()
 {
     return currentTrack;
@@ -128,6 +149,16 @@ int Vehicle::getStep()
 int Vehicle::getLap()
 {
     return currlap;
+}
+
+int Vehicle::getFuelTankCapacity()
+{
+    return fuelTankCapacity;
+}
+
+int Vehicle::getFuelTankLevel()
+{
+    return fuelTankLevel;
 }
 
 Route_Element *Vehicle::get_route_element()
@@ -167,7 +198,6 @@ void Vehicle::drive(int step_time)
     //wyznacz z parametrow pojazdu skok drogi na jednoske czasu
 //    calculateStep();
 
-//    checkDistance();
 
     step = current_element->calculateTrajectory(this,step);
     while (step != 0){

@@ -12,31 +12,51 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+    scene->setSceneRect(0,0,1400,700);
 
     race = game.getSimulation();
-
-    cout << "mam symulacje" << endl;
-
     map = new V_Map(race->get_trail());
-
     map->draw_map(scene);
-
     race->getPlayers();
+
 
     for(auto player: (*race->getPlayers())){
         map->draw_vehicle(scene,player->getCar());
     };
 
     int nr_players = race->getPlayers()->size();
-    description = new QLabel*[nr_players];
+//    playerGrid = new QGridLayout*[nr_players];
+
+//    description = new QLabel*[nr_players];
+
+    playerWidget = new PlayersWidget*[nr_players];
 
     for (int i=0 ; i< nr_players;i++){
-        description[i] = new QLabel(this);
-        QString text = race->getPlayers()->at(i)->getName().c_str();
-        text += " ";
-        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
-        description[i]->setText(text);
-        ui->horizontalLayout->addWidget(description[i]);
+
+        playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),this);
+
+        ui->horizontalLayout->addWidget(playerWidget[i]);
+
+//        playerGrid[i] = new QGridLayout(this);
+
+//        QLabel *label = new QLabel();
+//        QString text = race->getPlayers()->at(i)->getName().c_str();
+//        text += " ";
+//        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
+//        label->setText(text);
+//        label->setStyleSheet("border: 5px solid " + race->getPlayers()->at(i)->getPlayerColorName());
+
+//        playerGrid[i]->addWidget(label);
+
+//        ui->horizontalLayout->addLayout(playerGrid[i]);
+
+//        description[i] = new QLabel(this);
+//        QString text = race->getPlayers()->at(i)->getName().c_str();
+//        text += " ";
+//        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
+//        description[i]->setText(text);
+//        description[i]->setStyleSheet("border: 5px solid " + race->getPlayers()->at(i)->getPlayerColorName());
+//        ui->horizontalLayout->addWidget(description[i]);
     }
 
 
@@ -44,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
+
 //    scene->invalidate();
 
 //    race = new Simulation();
@@ -62,7 +83,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     Vehicle *v = race->get_human()->getCar();
-    v->togglePitStop();
+    v->setGoToPitStop(true);
     togglePitLabel();
 }
 
@@ -79,6 +100,8 @@ void MainWindow::on_pushButton_3_clicked()
 //    t++;
 //    if (t>1) t = 1;
 //    v->set_track(t);
+
+    race->get_human()->getCar()->set_track(1);
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -88,12 +111,15 @@ void MainWindow::on_pushButton_2_clicked()
 //    t--;
 //    if (t<-1) t = -1;
 //    v->set_track(t);
+
+    race->get_human()->getCar()->set_track(-1);
 }
 
 void MainWindow::on_pushButton_4_clicked()
 {
     race->makeMoves();
     updateLabels();
+//    ui->graphicsView->update();
 }
 
 void MainWindow::refreshPanel()
@@ -106,13 +132,14 @@ void MainWindow::updateLabels()
     int nr_players = race->getPlayers()->size();
 
     for (int i=0 ; i< nr_players;i++){
-        QString text = race->getPlayers()->at(i)->getName().c_str();
-        text += " ";
-        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
+//        QString text = race->getPlayers()->at(i)->getName().c_str();
+//        text += " ";
+//        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
 
-        description[i]->setStyleSheet("border: 5px solid " + race->getPlayers()->at(i)->getPlayerColorName());
-        description[i]->setText(text);
-        description[i]->update();
+//        description[i]->setText(text);
+//        description[i]->update();
+          playerWidget[i]->updateWidget();
+
 //        ui->horizontalLayout->addWidget(description[i]);
     }
 }
@@ -132,4 +159,9 @@ void MainWindow::on_pushButton_7_clicked()
     Vehicle *v = race->get_human()->getCar();
     v->toggleRun();
 
+}
+
+void MainWindow::on_pushButton_8_clicked()
+{
+    race->get_human()->getCar()->set_track(0);
 }

@@ -18,7 +18,19 @@ void V_Map::draw_map(QGraphicsScene *scene)
 {
     Route_Element *elements = way->get_elements();
 
+    scene->setBackgroundBrush(QBrush(Qt::darkGreen, Qt::SolidPattern));
+
     scene->addItem(elements->get_graphic_item());
+    //rysowanie linii mety
+    QGraphicsLineItem *line = new QGraphicsLineItem(elements->get_start().get_x(),
+                                                    elements->get_start().get_y(),
+                                                    elements->get_start().get_x() + 5*elements->get_dir().get_x(),
+                                                    elements->get_start().get_y() + 5*elements->get_dir().get_y()
+                                                    );
+
+    line->setPen(QPen(Qt::black,elements->getWidth(),Qt::SolidLine,Qt::FlatCap));
+    scene->addItem(line);
+
     elements = elements->get_next_element();
 
     while(!elements->get_finish_line()){

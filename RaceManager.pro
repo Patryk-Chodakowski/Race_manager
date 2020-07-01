@@ -22,11 +22,13 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
+    playerswidget.cpp \
     point.cpp \
     qgraphicsarcitem.cpp \
     route_element.cpp \
     simulation.cpp \
     straight.cpp \
+    team.cpp \
     trail.cpp \
     v_map.cpp \
     vehicle.cpp
@@ -37,18 +39,21 @@ HEADERS += \
     game.h \
     mainwindow.h \
     player.h \
+    playerswidget.h \
     point.h \
     qgraphicsarcitem.h \
     route_element.h \
     simulation.h \
     straight.h \
+    team.h \
     trail.h \
     v_map.h \
     vehicle.h
 
 FORMS += \
     dialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    playerswidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

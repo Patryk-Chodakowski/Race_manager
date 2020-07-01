@@ -7,8 +7,10 @@
 #include <QGraphicsItem>
 #include <QTimer>
 #include <QLabel>
+#include <QGridLayout>
 
 #include "qgraphicsarcitem.h"
+#include "playerswidget.h"
 //#include "simulation.h"
 #include "game.h"
 
@@ -26,20 +28,14 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_3_clicked();
-
     void on_pushButton_2_clicked();
-
     void on_pushButton_4_clicked();
-
     void refreshPanel();
-
     void on_pushButton_5_clicked();
-
     void on_pushButton_6_clicked();
-
     void on_pushButton_7_clicked();
+    void on_pushButton_8_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -48,6 +44,8 @@ private:
     Game game;
     V_Map *map;
 
+    PlayersWidget ** playerWidget;
+
     QGraphicsScene *scene;
     QGraphicsEllipseItem *ellipse;
     QGraphicsRectItem *rectangle;
@@ -55,6 +53,7 @@ private:
     QGraphicsArcItem *arc;
 
     QLabel **description;
+    QGridLayout **playerGrid;
 
     void updateLabels();
     void togglePitLabel();

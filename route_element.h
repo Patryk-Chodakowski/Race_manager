@@ -12,6 +12,7 @@ class Vehicle;
 class Route_Element
 {
 protected:
+    int width = 80;
     Point direction;
     Point start, end;
     int length;
@@ -58,6 +59,7 @@ public:
     bool get_finish_line();
     bool get_inner();
     bool is_curve();
+    int getWidth();
 
     int get_length();
     int getLengthSoFar();

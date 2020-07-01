@@ -112,6 +112,7 @@ void Trail::create_elements(){
             list_end->set_pitlane_element(arc);
             pit_entry = list_end;
             pitStart = current;
+            arc->set_pit_start();
         };
 
         if (source[prev].type == 'P' && source[current].type == 'P' && source[next].type != 'P'){

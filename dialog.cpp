@@ -10,12 +10,7 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
 
     scene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
 
-    QBrush greenBrush(Qt::red);
-    QBrush blueBrush(Qt::blue);
-    QPen outlinePen(Qt::black);
-    outlinePen.setWidth(2);
 
 //    V_Map *map = new V_Map();
 //    map->draw_map(scene);

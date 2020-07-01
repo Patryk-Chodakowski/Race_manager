@@ -19,6 +19,11 @@ protected:
     bool is_overtaken = false;
     bool running = true;
 
+//    double fuelTankCapacity = 400;
+    double fuelTankCapacity = 50;
+
+    double fuelTankLevel = fuelTankCapacity;
+    double mileage = 0.1;
 
     int currentTrack = 0;
     Point position;
@@ -41,9 +46,10 @@ protected:
 public:
     Vehicle(Color color);
 
-    void togglePitStop();
+    void setGoToPitStop(bool go);
     void toggleRun();
     void calculateStep();
+    void stopVehicle();
 
     void set_position(Point _position);
     void set_angle(double value);
@@ -55,6 +61,8 @@ public:
     void setDistance(int d);
     void setStep(int s);
     void incraseLap();
+    void setFuelTankCapacity(int c);
+//    void setFuelTankLevel(int l);
 
     int get_track();
     bool getOvertaking();
@@ -62,6 +70,8 @@ public:
     int getDistance();
     int getStep();
     int getLap();
+    int getFuelTankCapacity();
+    int getFuelTankLevel();
 
     void drive(int step_time);
     bool turning_to_pitstop();

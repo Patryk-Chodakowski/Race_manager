@@ -2,27 +2,33 @@
 #define PLAYER_H
 
 #include "vehicle.h"
+#include "team.h"
 
 using namespace std;
 
 class Player
 {
     Vehicle *car;
+    Team *team;
+
     Color color;
     string name;
     int id;
+    int money = 1000;
+    int place = 0;
 
-    bool human;
-
+    bool human = false;
     static int instance_number;
 
 public:
-    Player(string _name);
+    Player(string _names);
     Player(const Player& p);
 
     void setName(string _name);
 //    void setColor(string _color);
 
+    void setPlace(int p);
+    int getPlace();
     int get_id();
     string getName();
     Vehicle* getCar();

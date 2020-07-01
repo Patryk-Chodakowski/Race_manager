@@ -122,6 +122,11 @@ bool Route_Element::is_curve()
     return curve;
 }
 
+int Route_Element::getWidth()
+{
+    return width;
+}
+
 int Route_Element::get_length()
 {
     return length;

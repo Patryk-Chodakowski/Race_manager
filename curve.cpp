@@ -11,7 +11,9 @@ Curve::Curve(Point prev, Point current, Point next, int _radius)
 {
     this->set_ends_from_points(prev,current,next,_radius);
 
-    item = new QGraphicsArcItem(centre,get_start(),get_end(),_radius);
+    QGraphicsArcItem *arc = new QGraphicsArcItem(centre,get_start(),get_end(),_radius,width);
+//    arc->changeApperanccene(QPen(Qt::gray,width,Qt::SolidLine,Qt::FlatCap,Qt::RoundJoin));
+    item = arc;
 }
 
 Curve::Curve(int r)
@@ -113,7 +115,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     int bypass_start = bypass->positionToDistanceProjection(v);
 
     //wyznaczenie pasa
-    if (!is_pitlane){
+    if (!is_pitlane || pit_end){
         switch (v->get_track()) {
         case 1:
             arcRadius = radius + tmp*interspace;

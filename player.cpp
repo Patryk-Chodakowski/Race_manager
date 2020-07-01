@@ -6,15 +6,16 @@ Player::Player(string _name)
     if(instance_number >= 4) throw std::length_error("Dodano juz maksymalna liczbe graczy");
 
     instance_number++;
+    human = false;
 
-    human = true;
-
-    if (name == "") human = false;
+    if (instance_number == 1) human = true;
 
     cout << "gracz " <<  instance_number << " " << _name << endl;
 
     name = _name;
     id = instance_number;
+
+    team = new Team();
 
     switch (instance_number) {
     case 1:
@@ -48,6 +49,16 @@ Player::Player(const Player &p)
 void Player::setName(string _name)
 {
     name = _name;
+}
+
+void Player::setPlace(int p)
+{
+    place = p;
+}
+
+int Player::getPlace()
+{
+    return  place;
 }
 
 int Player::get_id()

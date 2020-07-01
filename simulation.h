@@ -33,6 +33,7 @@ public:
 
     void setVehiclesOnStart();
     void checkPositionBetweenVehicles();
+    void checkPlayersPlace();
 
     void simStart();
     void simPause();
