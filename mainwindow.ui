@@ -52,9 +52,9 @@
     <property name="geometry">
      <rect>
       <x>1460</x>
-      <y>490</y>
-      <width>141</width>
-      <height>91</height>
+      <y>500</y>
+      <width>121</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -64,10 +64,10 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>380</y>
-      <width>141</width>
-      <height>91</height>
+      <x>1160</x>
+      <y>20</y>
+      <width>121</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -77,10 +77,10 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>270</y>
-      <width>141</width>
-      <height>91</height>
+      <x>890</x>
+      <y>20</y>
+      <width>121</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -103,10 +103,10 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>600</y>
-      <width>141</width>
-      <height>91</height>
+      <x>1560</x>
+      <y>630</y>
+      <width>91</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -127,10 +127,10 @@
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>1540</x>
-      <y>710</y>
-      <width>81</width>
-      <height>71</height>
+      <x>1560</x>
+      <y>720</y>
+      <width>91</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -140,10 +140,10 @@
    <widget class="QPushButton" name="pushButton_6">
     <property name="geometry">
      <rect>
-      <x>1450</x>
-      <y>710</y>
-      <width>81</width>
-      <height>71</height>
+      <x>1460</x>
+      <y>720</y>
+      <width>91</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -154,9 +154,9 @@
     <property name="geometry">
      <rect>
       <x>1460</x>
-      <y>150</y>
-      <width>141</width>
-      <height>91</height>
+      <y>630</y>
+      <width>91</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -166,14 +166,71 @@
    <widget class="QPushButton" name="pushButton_8">
     <property name="geometry">
      <rect>
-      <x>1610</x>
-      <y>340</y>
-      <width>141</width>
-      <height>91</height>
+      <x>1050</x>
+      <y>20</y>
+      <width>71</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
      <string>track_0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_lap">
+    <property name="geometry">
+     <rect>
+      <x>1430</x>
+      <y>20</y>
+      <width>221</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_normal">
+    <property name="geometry">
+     <rect>
+      <x>1460</x>
+      <y>270</y>
+      <width>121</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Normalnie</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_speedUp">
+    <property name="geometry">
+     <rect>
+      <x>1460</x>
+      <y>170</y>
+      <width>121</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Przyspiesz</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_slowDown">
+    <property name="geometry">
+     <rect>
+      <x>1460</x>
+      <y>370</y>
+      <width>121</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Oszczędzaj</string>
     </property>
    </widget>
   </widget>

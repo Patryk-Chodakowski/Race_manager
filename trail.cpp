@@ -1,11 +1,12 @@
 #include "trail.h"
 
-Trail::Trail()
+Trail::Trail(string sourceFile)
 {
 //    central_trail = new Route_Element();
+    create_elements(sourceFile);
 }
 
-void Trail::create_elements(){
+void Trail::create_elements(string sourceFile){
     fstream file;
     string tmp;
     vector<string> tab;
@@ -20,7 +21,9 @@ void Trail::create_elements(){
     vector<map_source_point> source;
 
     //wczytanie pliku z mapa
-    file.open("punkty_mapy.txt",ios::in);
+//    string sourceFile ="punkty_mapy.txt" ;
+
+    file.open(sourceFile.c_str(),ios::in);
     if(!file.good()){
         cout << "Nie udalo sie wczytac pliku z mapa" << endl;
         file.close();
@@ -168,15 +171,23 @@ void Trail::create_elements(){
 
     do{
 //        cout << "curL: " <<  curr_length << " len: " << elem->get_length() << endl;
+        if(elem->get_pitlane_element()){
+            elem->get_pitlane_element()->setLengthSoFar(curr_length + elem->get_length());
+        }
         elem->setLengthSoFar(curr_length);
         curr_length += elem->get_length();
-        elem = elem->get_next_element();
+        elem = elem->get_next_element();        
     }while(!elem->get_finish_line());
 }
 
 int Trail::getLength()
 {
     return length;
+}
+
+int Trail::getLaps()
+{
+    return laps;
 }
 
 Route_Element *Trail::get_elements()

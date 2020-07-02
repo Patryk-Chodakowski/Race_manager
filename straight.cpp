@@ -102,6 +102,7 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
 
     int diff = 0.5 * step;
     if (diff == 0) diff = 1;
+    if (step == 0) diff = 0;
 
     //zmiana pasa
     if(direction.get_x() == 0){

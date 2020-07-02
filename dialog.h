@@ -4,12 +4,8 @@
 #define DIALOG_H
 
 #include <QDialog>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QGraphicsItem>
 
-#include "qgraphicsarcitem.h"
-#include "v_map.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class Dialog;
@@ -23,13 +19,25 @@ public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
 
+private slots:
+
+    void updateDialog();
+
+    void on_pushButton_race_clicked();
+
+    void on_pushButton_tank_clicked();
+
+    void on_pushButton_team_clicked();
+
 private:
     Ui::Dialog *ui;
 
-    QGraphicsScene *scene;
-    QGraphicsEllipseItem *ellipse;
-    QGraphicsRectItem *rectangle;
-    QGraphicsLineItem *line;
-    QGraphicsArcItem *arc;
+    Game game;
+
+//    QGraphicsScene *scene;
+//    QGraphicsEllipseItem *ellipse;
+//    QGraphicsRectItem *rectangle;
+//    QGraphicsLineItem *line;
+//    QGraphicsArcItem *arc;
 };
 #endif // DIALOG_H

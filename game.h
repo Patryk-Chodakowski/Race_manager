@@ -14,6 +14,7 @@ public:
     ~Game();
 
     void createPlayer(string name);
+    void prepareSimulation(int variant = 0);
     Simulation* getSimulation();
 };
 

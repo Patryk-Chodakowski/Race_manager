@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
 
 
 
-//    Dialog d;
-//    d.show();
+    Dialog d;
+    d.show();
 
     return a.exec();
 }

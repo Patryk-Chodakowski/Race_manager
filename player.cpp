@@ -16,6 +16,7 @@ Player::Player(string _name)
     id = instance_number;
 
     team = new Team();
+    int tank = 0;
 
     switch (instance_number) {
     case 1:
@@ -34,7 +35,9 @@ Player::Player(string _name)
         color = Color::GREEN;
         break;
     }
-    car = new Vehicle(color);
+
+    if (!human) car = new Vehicle(color,tank,team);
+    else car = new Vehicle(color);
 }
 
 Player::Player(const Player &p)
@@ -56,6 +59,11 @@ void Player::setPlace(int p)
     place = p;
 }
 
+void Player::setPoints(int p)
+{
+    points = p;
+}
+
 int Player::getPlace()
 {
     return  place;
@@ -64,6 +72,11 @@ int Player::getPlace()
 int Player::get_id()
 {
     return id;
+}
+
+int Player::getPoints()
+{
+    return points;
 }
 
 //void Player::setColor(string _color)

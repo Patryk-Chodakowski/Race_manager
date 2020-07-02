@@ -9,7 +9,6 @@ Game::Game()
     createPlayer("Szymon");
     createPlayer("Krzysztof");
 
-    simulation = new Simulation(players);
 }
 
 Game::~Game()
@@ -27,6 +26,20 @@ void Game::createPlayer(string name)
     } catch (exception& e) {
         cout << e.what() << endl;
     }
+}
+
+void Game::prepareSimulation(int variant)
+{
+    string source = "";
+    switch (variant) {
+        case 0:
+            source = "punkty_mapy.txt";
+        break;
+    default:
+        throw std::invalid_argument("Brak zdefiniowanej mapy");
+    }
+
+    simulation = new Simulation(players,source);
 }
 
 Simulation *Game::getSimulation()

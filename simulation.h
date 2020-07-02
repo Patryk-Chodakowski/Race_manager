@@ -17,12 +17,15 @@ class Simulation : public QObject
 
     Player *human;
     Trail *road;
+    int currentLap = 0;
+
+    int minDistance = 80;
 
 //    V_Map *map;
     int sample_time = 20;
 
 public:
-    Simulation(vector<Player*>& players);
+    Simulation(vector<Player*>& players,string sourceFile);
 
     Trail *get_trail();
     Player *get_human();
@@ -37,10 +40,17 @@ public:
 
     void simStart();
     void simPause();
+
+    void raceEnd();
+    int getCurrentLap();
 //    void moveVehicles();
 
 public: signals:
     void updateView();
+    void closeSimWindow();
+
+    void disablePitButton();
+    void enablePitButton();
 
 public slots:
     void makeMoves();

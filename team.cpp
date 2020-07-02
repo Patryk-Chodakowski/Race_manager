@@ -1,8 +1,8 @@
 #include "team.h"
 
-Team::Team()
+Team::Team(int engLevel)
 {
-
+    engineers = engLevel;
 }
 
 void Team::upgradeEngineers()

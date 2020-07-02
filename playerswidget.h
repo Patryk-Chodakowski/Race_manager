@@ -17,7 +17,7 @@ class PlayersWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit PlayersWidget(Player *p, QWidget *parent = nullptr);
+    explicit PlayersWidget(Player *p,int _lapLimit, QWidget *parent = nullptr);
     ~PlayersWidget();
 
     void updateWidget();
@@ -25,10 +25,13 @@ public:
 private:
     Ui::PlayersWidget *ui;
 
+    int lapLimit = 0;
+    QString formatLaps();
+
     QHBoxLayout *horizontal;
     QVBoxLayout *vertical;
     Player *player;
-    QLabel *name, *position;
+    QLabel *name, *position, *lap;
     QProgressBar *bar;
 //    QGridLayout *grid;
 };

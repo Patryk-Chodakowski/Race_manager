@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     scene->setSceneRect(0,0,1400,700);
 
+    game.prepareSimulation();
     race = game.getSimulation();
     map = new V_Map(race->get_trail());
     map->draw_map(scene);
@@ -33,45 +34,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     for (int i=0 ; i< nr_players;i++){
 
-        playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),this);
+        playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),race->get_trail()->getLaps(),this);
 
         ui->horizontalLayout->addWidget(playerWidget[i]);
-
-//        playerGrid[i] = new QGridLayout(this);
-
-//        QLabel *label = new QLabel();
-//        QString text = race->getPlayers()->at(i)->getName().c_str();
-//        text += " ";
-//        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
-//        label->setText(text);
-//        label->setStyleSheet("border: 5px solid " + race->getPlayers()->at(i)->getPlayerColorName());
-
-//        playerGrid[i]->addWidget(label);
-
-//        ui->horizontalLayout->addLayout(playerGrid[i]);
-
-//        description[i] = new QLabel(this);
-//        QString text = race->getPlayers()->at(i)->getName().c_str();
-//        text += " ";
-//        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
-//        description[i]->setText(text);
-//        description[i]->setStyleSheet("border: 5px solid " + race->getPlayers()->at(i)->getPlayerColorName());
-//        ui->horizontalLayout->addWidget(description[i]);
     }
 
 
     race->setVehiclesOnStart();
-
+    setLapLabel();
+    on_pushButton_normal_clicked();
 
     connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
-
-//    scene->invalidate();
-
-//    race = new Simulation();
-
-//    race->get_map()->draw_map(scene);
-//    race->get_map()->draw_vehicle(scene,race->get_vehicles());
-//    race->setVehiclesOnStart();
+    connect(race,SIGNAL(disablePitButton()),this,SLOT(diablePitStop()));
+    connect(race,SIGNAL(enablePitButton()),this,SLOT(enablePitstop()));
 }
 
 MainWindow::~MainWindow()
@@ -83,8 +58,13 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     Vehicle *v = race->get_human()->getCar();
-    v->setGoToPitStop(true);
-    togglePitLabel();
+    if (v->turning_to_pitstop()){
+        v->setGoToPitStop(false);
+        ui->pushButton->setStyleSheet("");
+    }else{
+        v->setGoToPitStop(true);
+        ui->pushButton->setStyleSheet("background-color: red");
+    }
 }
 
 void MainWindow::togglePitLabel(){
@@ -119,12 +99,26 @@ void MainWindow::on_pushButton_4_clicked()
 {
     race->makeMoves();
     updateLabels();
+    setLapLabel();
 //    ui->graphicsView->update();
 }
 
 void MainWindow::refreshPanel()
 {
     updateLabels();
+    setLapLabel();
+}
+
+void MainWindow::diablePitStop()
+{
+    ui->pushButton->setEnabled(false);
+    ui->pushButton->setStyleSheet("");
+}
+
+void MainWindow::enablePitstop()
+{
+    ui->pushButton->setEnabled(true);
+
 }
 
 void MainWindow::updateLabels()
@@ -142,6 +136,7 @@ void MainWindow::updateLabels()
 
 //        ui->horizontalLayout->addWidget(description[i]);
     }
+
 }
 
 void MainWindow::on_pushButton_5_clicked()
@@ -164,4 +159,41 @@ void MainWindow::on_pushButton_7_clicked()
 void MainWindow::on_pushButton_8_clicked()
 {
     race->get_human()->getCar()->set_track(0);
+}
+
+void MainWindow::setLapLabel()
+{
+    int lap = race->getCurrentLap();
+    int limit = race->get_trail()->getLaps();
+    if (lap < 0) lap = 0;
+    if (lap > limit) lap = limit;
+
+    ui->label_lap->setText("Okrążenie " + QString::number(lap) + "/" + QString::number(limit));
+    ui->label_lap->update();
+}
+
+void MainWindow::on_pushButton_normal_clicked()
+{
+    race->get_human()->getCar()->setRideStyle(0);
+    ui->pushButton_speedUp->setStyleSheet("");
+    ui->pushButton_slowDown->setStyleSheet("");
+    ui->pushButton_normal->setStyleSheet("background-color: red");
+}
+
+void MainWindow::on_pushButton_speedUp_clicked()
+{
+    race->get_human()->getCar()->setRideStyle(1);
+
+    ui->pushButton_slowDown->setStyleSheet("");
+    ui->pushButton_normal->setStyleSheet("");
+    ui->pushButton_speedUp->setStyleSheet("background-color: red");
+}
+
+void MainWindow::on_pushButton_slowDown_clicked()
+{
+    ui->pushButton_speedUp->setStyleSheet("");
+    ui->pushButton_normal->setStyleSheet("");
+    ui->pushButton_slowDown->setStyleSheet("background-color: red");
+
+    race->get_human()->getCar()->setRideStyle(-1);
 }

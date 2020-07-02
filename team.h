@@ -7,7 +7,7 @@ class Team
     int engineers = 0;
 
 public:
-    Team();
+    Team(int engLevel = 0);
 
     void upgradeEngineers();
     int getEngineers();

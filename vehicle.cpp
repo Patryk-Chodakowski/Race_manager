@@ -6,8 +6,10 @@ Vehicle::Vehicle(Color color)
     width =  40;
     height = 60;
     velocity = 0;
-    maxVelocity = 5;
+//    maxVelocity = 5;
     acceleration = 1;
+
+    fuelTankLevel = getFuelTankCapacity();
 
     QString txt = getColorName(color);
 
@@ -16,6 +18,15 @@ Vehicle::Vehicle(Color color)
     item = item.scaled(width,height,Qt::KeepAspectRatio);
     model = new QGraphicsPixmapItem(item);
     model->setTransformOriginPoint(model->boundingRect().center());
+}
+
+Vehicle::Vehicle(Color color, int fuelTankUpgrade, Team *team)
+    :Vehicle(color)
+{
+    upgradeVehicle(team);
+    upgradeTank(fuelTankUpgrade);
+
+    fuelTankLevel = getFuelTankCapacity();
 }
 
 void Vehicle::setGoToPitStop(bool go)
@@ -44,22 +55,32 @@ void Vehicle::calculateStep()
         else velocity++;
 
         //uzupelnienie paliwa
-        fuelTankLevel = fuelTankCapacity;
-        goToPitstop = false;
+        fuelTankLevel = getFuelTankCapacity();
+        if (goToPitstop){
+//            disablePitButton();
+            goToPitstop = false;
+        }
     }
     else{
         velocity += acceleration;
 
+        currentSpeedLimit += rideStyle;
+
         //zuzycie paliwa
-        fuelTankLevel -= mileage;
+        fuelTankLevel = fuelTankLevel - mileage - 0.05*rideStyle;
         if (fuelTankLevel <= 0){
             fuelTankLevel = 0;
             currentSpeedLimit = 3;
         }
-
     }
 
+     if(current_element->get_pitlane() && current_element->get_pit_end()){
+//         enablePitButton();
+     }
+
     if (velocity > currentSpeedLimit) velocity = currentSpeedLimit;
+    if (velocity < 0) velocity = 0;
+
 
     //wyznacz skok
     step = velocity;
@@ -116,10 +137,17 @@ void Vehicle::incraseLap()
     currlap++;
 }
 
-void Vehicle::setFuelTankCapacity(int c)
+void Vehicle::setRideStyle(int style)
 {
-    fuelTankCapacity = c;
+    if (style > 1) rideStyle = 1;
+    else if (style < -1) rideStyle = -1;
+    else rideStyle = style;
 }
+
+//void Vehicle::setFuelTankCapacity(int c)
+//{
+//    fuelTankCapacity = c;
+//}
 
 int Vehicle::get_track()
 {
@@ -153,12 +181,29 @@ int Vehicle::getLap()
 
 int Vehicle::getFuelTankCapacity()
 {
-    return fuelTankCapacity;
+    int current = baseTankCapacity;
+    switch (tankLevel) {
+    case 1:
+        current = baseTankCapacity*2;
+        break;
+    case 2:
+        current = baseTankCapacity*2;
+        break;
+    default:
+        break;
+    }
+
+    return current;
 }
 
 int Vehicle::getFuelTankLevel()
 {
     return fuelTankLevel;
+}
+
+int Vehicle::getRideStyle()
+{
+    return rideStyle;
 }
 
 Route_Element *Vehicle::get_route_element()
@@ -220,6 +265,17 @@ void Vehicle::drive(int step_time)
 bool Vehicle::turning_to_pitstop()
 {
     return goToPitstop;
+}
+
+void Vehicle::upgradeVehicle(Team *team)
+{
+    maxVelocity = baseVelocity + team->getEngineers();
+}
+
+void Vehicle::upgradeTank(int level)
+{
+    if (level > 0 && level < 3)
+    tankLevel = level;
 }
 
 QString getColorName(Color color)

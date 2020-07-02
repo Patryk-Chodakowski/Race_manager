@@ -128,6 +128,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
 
     int dradius = 0.5 * step;
     if (dradius == 0) dradius = 1;
+    if (step == 0) dradius = 0;
     int curRadius = sqrt(pow((position.get_x() - centre.get_x()),2) + pow((position.get_y() - centre.get_y()),2));
 
     if (abs(curRadius - arcRadius) <= 2) curRadius = arcRadius;

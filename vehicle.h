@@ -2,8 +2,10 @@
 #define VEHICLE_H
 
 #include <QGraphicsItem>
+//#include <QObject>
 
 #include "route_element.h"
+#include "team.h"
 
 class Route_Element;
 
@@ -20,9 +22,11 @@ protected:
     bool running = true;
 
 //    double fuelTankCapacity = 400;
-    double fuelTankCapacity = 50;
+    double baseTankCapacity = 200;
+//    double fuelTankCapacity = baseTankCapacity;
 
-    double fuelTankLevel = fuelTankCapacity;
+    int tankLevel = 0;
+    double fuelTankLevel = 0;
     double mileage = 0.1;
 
     int currentTrack = 0;
@@ -32,9 +36,11 @@ protected:
     int width,height;
     int velocity;
 
-    int maxVelocity;
+    int baseVelocity = 5;
+    int maxVelocity = baseVelocity;
     int acceleration;
 
+    int rideStyle = 0;
     int distance = 0;
     int currlap =-1;
     int step = 0;
@@ -45,6 +51,7 @@ protected:
 
 public:
     Vehicle(Color color);
+    Vehicle(Color color,int fuelTankUpgrade, Team *team = new Team());
 
     void setGoToPitStop(bool go);
     void toggleRun();
@@ -61,7 +68,8 @@ public:
     void setDistance(int d);
     void setStep(int s);
     void incraseLap();
-    void setFuelTankCapacity(int c);
+    void setRideStyle(int style);
+//    void setFuelTankCapacity(int c);
 //    void setFuelTankLevel(int l);
 
     int get_track();
@@ -72,9 +80,13 @@ public:
     int getLap();
     int getFuelTankCapacity();
     int getFuelTankLevel();
+    int getRideStyle();
 
     void drive(int step_time);
     bool turning_to_pitstop();
+
+    void upgradeVehicle(Team *team);
+    void upgradeTank(int level);
 
     Route_Element* get_route_element();
     Point get_position();
@@ -83,6 +95,7 @@ public:
     int get_velocity();
 
     QGraphicsItem * get_graphic_item();
+
 };
 
 #endif // VEHICLE_H

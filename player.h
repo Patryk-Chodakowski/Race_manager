@@ -16,6 +16,7 @@ class Player
     int id;
     int money = 1000;
     int place = 0;
+    int points = 0;
 
     bool human = false;
     static int instance_number;
@@ -28,8 +29,11 @@ public:
 //    void setColor(string _color);
 
     void setPlace(int p);
+    void setPoints(int p);
+
     int getPlace();
     int get_id();
+    int getPoints();
     string getName();
     Vehicle* getCar();
     QString getPlayerColorName();
