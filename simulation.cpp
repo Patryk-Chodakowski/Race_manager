@@ -1,6 +1,7 @@
 #include "simulation.h"
 
 Simulation::Simulation(vector<Player*>& players,string sourceFile)
+    :QObject()
 {
     pv = &players;
 
@@ -14,7 +15,15 @@ Simulation::Simulation(vector<Player*>& players,string sourceFile)
 
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(makeMoves()));
-//    timer->start(sample_time);
+    //    timer->start(sample_time);
+}
+
+Simulation::~Simulation()
+{
+    cout << "Destrukcja symulacji" << endl;
+
+    delete road;
+    delete timer;
 }
 
 Trail* Simulation::get_trail()

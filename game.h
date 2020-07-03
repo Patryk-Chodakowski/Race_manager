@@ -13,8 +13,12 @@ public:
     Game();
     ~Game();
 
+    vector<Player*> *getPlayers();
+    Player *getHuman();
+
     void createPlayer(string name);
     void prepareSimulation(int variant = 0);
+    void deleteSimulation();
     Simulation* getSimulation();
 };
 

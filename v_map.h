@@ -12,10 +12,11 @@ class V_Map
 
 public:
     V_Map(Trail *trail);
-//    ~V_Map();
+    ~V_Map();
 
     void draw_map(QGraphicsScene *scene);
     void draw_vehicle(QGraphicsScene *scene,Vehicle *vehicle);
+    void removeVehicleFromScene(QGraphicsScene *scene,Vehicle *vehicle);
 };
 
 #endif // V_MAP_H

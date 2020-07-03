@@ -64,6 +64,16 @@ void Player::setPoints(int p)
     points = p;
 }
 
+void Player::changeMoney(int m)
+{
+    money = m;
+}
+
+int Player::getMoney()
+{
+    return money;
+}
+
 int Player::getPlace()
 {
     return  place;
@@ -79,6 +89,20 @@ int Player::getPoints()
     return points;
 }
 
+int Player::vehicleUpgradeCost()
+{
+    int cost = 0;
+    cost = 500 + car->getTankUpgrage()*200;
+    return cost;
+}
+
+int Player::teamUpgradeCost()
+{
+    int cost = 0;
+    cost = 500 + team->getEngineers()*200;
+    return cost;
+}
+
 //void Player::setColor(string _color)
 //{
 //    color = _color;
@@ -87,6 +111,11 @@ int Player::getPoints()
 string Player::getName()
 {
     return name;
+}
+
+Team *Player::getTeam()
+{
+    return team;
 }
 
 Vehicle *Player::getCar()

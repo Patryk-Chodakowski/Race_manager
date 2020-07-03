@@ -30,11 +30,17 @@ public:
 
     void setPlace(int p);
     void setPoints(int p);
+    void changeMoney(int m);
 
+    int getMoney();
     int getPlace();
     int get_id();
     int getPoints();
+    int vehicleUpgradeCost();
+    int teamUpgradeCost();
+
     string getName();
+    Team *getTeam();
     Vehicle* getCar();
     QString getPlayerColorName();
 

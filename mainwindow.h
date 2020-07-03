@@ -24,6 +24,8 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    MainWindow(Game &g,QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -46,25 +48,27 @@ private slots:
     void diablePitStop();
     void enablePitstop();
 
+    void on_pushButton_9_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     void setLapLabel();
 
     Simulation *race;
-    Game game;
+    Game *game;
     V_Map *map;
 
     PlayersWidget ** playerWidget;
 
     QGraphicsScene *scene;
-    QGraphicsEllipseItem *ellipse;
-    QGraphicsRectItem *rectangle;
-    QGraphicsLineItem *line;
-    QGraphicsArcItem *arc;
+//    QGraphicsEllipseItem *ellipse;
+//    QGraphicsRectItem *rectangle;
+//    QGraphicsLineItem *line;
+//    QGraphicsArcItem *arc;
 
-    QLabel **description;
-    QGridLayout **playerGrid;
+//    QLabel **description;
+//    QGridLayout **playerGrid;
 
     void updateLabels();
     void togglePitLabel();

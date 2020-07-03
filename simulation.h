@@ -26,6 +26,7 @@ class Simulation : public QObject
 
 public:
     Simulation(vector<Player*>& players,string sourceFile);
+    ~Simulation();
 
     Trail *get_trail();
     Player *get_human();

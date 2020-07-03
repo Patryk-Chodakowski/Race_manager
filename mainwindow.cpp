@@ -8,49 +8,90 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->label->setText("OFF");
-
-    scene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
-    scene->setSceneRect(0,0,1400,700);
-
-    game.prepareSimulation();
-    race = game.getSimulation();
-    map = new V_Map(race->get_trail());
-    map->draw_map(scene);
-    race->getPlayers();
+//    ui->label->setText("OFF");
 
 
-    for(auto player: (*race->getPlayers())){
-        map->draw_vehicle(scene,player->getCar());
-    };
 
-    int nr_players = race->getPlayers()->size();
+//    game.prepareSimulation();
+//    race = game.getSimulation();
+//    map = new V_Map(race->get_trail());
+//    map->draw_map(scene);
+//    race->getPlayers();
+
+
+//    for(auto player: (*race->getPlayers())){
+//        map->draw_vehicle(scene,player->getCar());
+//    };
+
+//    int nr_players = race->getPlayers()->size();
 //    playerGrid = new QGridLayout*[nr_players];
 
 //    description = new QLabel*[nr_players];
 
-    playerWidget = new PlayersWidget*[nr_players];
+//    playerWidget = new PlayersWidget*[nr_players];
 
-    for (int i=0 ; i< nr_players;i++){
+//    for (int i=0 ; i< nr_players;i++){
 
-        playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),race->get_trail()->getLaps(),this);
+//        playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),race->get_trail()->getLaps(),this);
 
-        ui->horizontalLayout->addWidget(playerWidget[i]);
-    }
+//        ui->horizontalLayout->addWidget(playerWidget[i]);
+//    }
 
 
-    race->setVehiclesOnStart();
-    setLapLabel();
-    on_pushButton_normal_clicked();
+//    race->setVehiclesOnStart();
+//    setLapLabel();
+//    on_pushButton_normal_clicked();
 
-    connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
-    connect(race,SIGNAL(disablePitButton()),this,SLOT(diablePitStop()));
-    connect(race,SIGNAL(enablePitButton()),this,SLOT(enablePitstop()));
+//    connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
+//    connect(race,SIGNAL(disablePitButton()),this,SLOT(diablePitStop()));
+//    connect(race,SIGNAL(enablePitButton()),this,SLOT(enablePitstop()));
+}
+
+MainWindow::MainWindow(Game &g, QWidget *parent)
+    :MainWindow(parent)
+{
+   game = &g;
+   race = game->getSimulation();
+
+   scene = new QGraphicsScene(this);
+   ui->graphicsView->setScene(scene);
+   scene->setSceneRect(0,0,1400,700);
+
+   setAttribute(Qt::WA_DeleteOnClose);
+
+   map = new V_Map(race->get_trail());
+   map->draw_map(scene);
+
+   for(auto& player: (*race->getPlayers())){
+       map->draw_vehicle(scene,player->getCar());
+   };
+
+   int nr_players = race->getPlayers()->size();
+   playerWidget = new PlayersWidget*[nr_players];
+
+   for (int i=0 ; i< nr_players;i++){
+       playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),race->get_trail()->getLaps(),this);
+       ui->horizontalLayout->addWidget(playerWidget[i]);
+   }
+
+   race->setVehiclesOnStart();
+
+   setLapLabel();
+   on_pushButton_normal_clicked();
+
+   connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
+   connect(race,SIGNAL(disablePitButton()),this,SLOT(diablePitStop()));
+   connect(race,SIGNAL(enablePitButton()),this,SLOT(enablePitstop()));
 }
 
 MainWindow::~MainWindow()
 {
+    for(auto& player: (*race->getPlayers())){
+        map->removeVehicleFromScene(scene,player->getCar());
+    };
+
+    delete map;
+    delete scene;
     delete ui;
 }
 
@@ -196,4 +237,11 @@ void MainWindow::on_pushButton_slowDown_clicked()
     ui->pushButton_slowDown->setStyleSheet("background-color: red");
 
     race->get_human()->getCar()->setRideStyle(-1);
+}
+
+void MainWindow::on_pushButton_9_clicked()
+{
+    destroyed();
+//    hide();
+    close();
 }

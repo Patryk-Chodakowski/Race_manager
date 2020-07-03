@@ -3,12 +3,10 @@
 
 Game::Game()
 {
-
     createPlayer("Andrzej");
     createPlayer("Rafal");
     createPlayer("Szymon");
     createPlayer("Krzysztof");
-
 }
 
 Game::~Game()
@@ -16,6 +14,16 @@ Game::~Game()
     for (auto& it: players){
         delete it;
     }
+}
+
+vector<Player *> *Game::getPlayers()
+{
+    return &players;
+}
+
+Player *Game::getHuman()
+{
+    return players.at(0);
 }
 
 void Game::createPlayer(string name)
@@ -40,6 +48,11 @@ void Game::prepareSimulation(int variant)
     }
 
     simulation = new Simulation(players,source);
+}
+
+void Game::deleteSimulation()
+{
+    simulation->~Simulation();
 }
 
 Simulation *Game::getSimulation()

@@ -184,7 +184,7 @@ int Vehicle::getFuelTankCapacity()
     int current = baseTankCapacity;
     switch (tankLevel) {
     case 1:
-        current = baseTankCapacity*2;
+        current = baseTankCapacity*1.5;
         break;
     case 2:
         current = baseTankCapacity*2;
@@ -204,6 +204,11 @@ int Vehicle::getFuelTankLevel()
 int Vehicle::getRideStyle()
 {
     return rideStyle;
+}
+
+int Vehicle::getTankUpgrage()
+{
+    return tankLevel;
 }
 
 Route_Element *Vehicle::get_route_element()
@@ -231,6 +236,11 @@ void Vehicle::updatePosition()
 int Vehicle::get_velocity()
 {
     return velocity;
+}
+
+int Vehicle::getMaxVelocity()
+{
+    return maxVelocity;
 }
 
 QGraphicsItem *Vehicle::get_graphic_item()

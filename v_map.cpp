@@ -6,7 +6,12 @@ V_Map::V_Map(Trail *trail)
 
 //    vehicles = _vehicles;
 
-    std::cout<< "utworzono sciezke" << std::endl;
+    //    std::cout<< "utworzono sciezke" << std::endl;
+}
+
+V_Map::~V_Map()
+{
+
 }
 
 //V_Map::~V_Map()
@@ -50,4 +55,9 @@ void V_Map::draw_map(QGraphicsScene *scene)
 void V_Map::draw_vehicle(QGraphicsScene *scene,Vehicle *vehicle)
 {
     scene->addItem(vehicle->get_graphic_item());
+}
+
+void V_Map::removeVehicleFromScene(QGraphicsScene *scene,Vehicle *vehicle)
+{
+    scene->removeItem(vehicle->get_graphic_item());
 }

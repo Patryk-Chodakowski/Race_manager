@@ -4,6 +4,7 @@
 #define DIALOG_H
 
 #include <QDialog>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 
@@ -29,15 +30,14 @@ private slots:
 
     void on_pushButton_team_clicked();
 
+    void raceClosed();
+
 private:
     Ui::Dialog *ui;
 
-    Game game;
+    MainWindow *window;
 
-//    QGraphicsScene *scene;
-//    QGraphicsEllipseItem *ellipse;
-//    QGraphicsRectItem *rectangle;
-//    QGraphicsLineItem *line;
-//    QGraphicsArcItem *arc;
+    Game game;
+    Player *human;
 };
 #endif // DIALOG_H

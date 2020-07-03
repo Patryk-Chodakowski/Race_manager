@@ -81,6 +81,9 @@ public:
     int getFuelTankCapacity();
     int getFuelTankLevel();
     int getRideStyle();
+    int get_velocity();
+    int getMaxVelocity();
+    int getTankUpgrage();
 
     void drive(int step_time);
     bool turning_to_pitstop();
@@ -92,7 +95,7 @@ public:
     Point get_position();
     double get_angle();
     void updatePosition();
-    int get_velocity();
+
 
     QGraphicsItem * get_graphic_item();
 
