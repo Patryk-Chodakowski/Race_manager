@@ -15,8 +15,8 @@ Player::Player(string _name)
     name = _name;
     id = instance_number;
 
-    team = new Team();
     int tank = 0;
+    int engineer = 0;
 
     switch (instance_number) {
     case 1:
@@ -24,17 +24,25 @@ Player::Player(string _name)
         break;
     case 2:
         color = Color::BLACK;
+        tank = 1;
+        engineer = 1;
         break;
     case 3:
         color = Color::YELLOW;
+        tank = 1;
+        engineer = 0;
         break;
     case 4:
         color = Color::GREEN;
+        tank = 0;
+        engineer = 0;
         break;
     default:
         color = Color::GREEN;
         break;
     }
+
+    team = new Team(engineer);
 
     if (!human) car = new Vehicle(color,tank,team);
     else car = new Vehicle(color);

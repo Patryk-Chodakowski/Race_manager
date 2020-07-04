@@ -60,13 +60,16 @@ void Simulation::setVehiclesOnStart()
           if(track == 1) player->getCar()->setOvertaking(true);
           element->placeOnLength(player->getCar(),pos);
 
+          //ulepszenie od zespołu
+          player->getCar()->setMaxVelocity(player->getCar()->getMaxVelocity() + player->getTeam()->getEngineers());
+
           player->setPlace(place);
           player->getCar()->setDistance(road->getLength()-to_start);
           to_start += distance;
           pos -= distance;
           track *= (-1);
           place++;
-      }
+      }      
 
       checkPlayersPlace();
 }
@@ -116,6 +119,7 @@ void Simulation::checkPositionBetweenVehicles()
 
         //obliczenie odleglosci miedzy autami
         player = pv->at(i)->getCar()->getLap()*road->getLength() + pv->at(i)->getCar()->getDistance();
+//        player = pv->at(i)->getCar()->getDistance();
 
         for (int j=0;j<size;j++){
             if (i == j){
@@ -124,7 +128,16 @@ void Simulation::checkPositionBetweenVehicles()
             }
 
             opponent = pv->at(j)->getCar()->getLap()*road->getLength() + pv->at(j)->getCar()->getDistance();
+//            opponent = pv->at(j)->getCar()->getDistance();
             distance[i][j] = opponent - player;
+
+            while(distance[i][j] > (road->getLength() - minDistance)){
+                distance[i][j] -= road->getLength();
+            }
+
+            while(distance[i][j] < - (road->getLength() - minDistance)){
+                distance[i][j] += road->getLength();
+            }
 
             if (abs(closestDistance[i]) > abs(distance[i][j])){
                 closestDistance[i] = distance[i][j];
@@ -442,25 +455,31 @@ void Simulation::raceEnd()
 
     for (auto& player: (*pv)){
         int points = 0;
+        int price = 0;
 
         switch (player->getPlace()) {
         case 1:
                 points = 25;
+                price = 1000;
             break;
         case 2:
                 points = 18;
+                price = 750;
             break;
         case 3:
                 points = 15;
+                price = 500;
             break;
         case 4:
                 points = 12;
+                price = 250;
             break;
         default:
             break;
         }
 
-        player->setPoints(points);
+        player->setPoints(player->getPoints() + points);
+        player->changeMoney(player->getMoney() + price);
     }
 
     raceEnded();

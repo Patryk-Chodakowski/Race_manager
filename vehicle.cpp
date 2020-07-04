@@ -142,6 +142,11 @@ void Vehicle::setRideStyle(int style)
     else rideStyle = style;
 }
 
+void Vehicle::setMaxVelocity(int v)
+{
+    maxVelocity = v;
+}
+
 //void Vehicle::setFuelTankCapacity(int c)
 //{
 //    fuelTankCapacity = c;
@@ -297,6 +302,7 @@ void Vehicle::resetVehicleBeforeStart()
     currlap = -1;
     step = 0;
     angle = 0;
+    maxVelocity = baseVelocity;
 }
 
 QString getColorName(Color color)

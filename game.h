@@ -14,7 +14,7 @@ public:
 
     vector<Player*> *getPlayers();
     Player *getHuman();
-    int currentRaceNumber = 1;
+    int currentRaceNumber = 0;
     int raceLimit = 2;
 
     string getRaceName();
@@ -22,6 +22,7 @@ public:
     void nextRace();
     int getCurrRace();
     int getRaceLimit();
+    int getHumanStanding();
     void createPlayer(string name);
     void prepareSimulation();
     void deleteSimulation();

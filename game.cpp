@@ -41,7 +41,7 @@ string Game::getRaceName()
             name = "GP France";
             break;
         default:
-            throw std::invalid_argument("Brak zdefiniowanej mapy");
+            name = "Koniec";
     }
     return name;
 }
@@ -59,6 +59,17 @@ int Game::getCurrRace()
 int Game::getRaceLimit()
 {
     return raceLimit;
+}
+
+int Game::getHumanStanding()
+{
+    int tmp = 1;
+
+    for(auto& p:players){
+        if(p->getPoints() > players.at(0)->getPoints()) tmp++;
+    }
+
+    return tmp;
 }
 
 void Game::createPlayer(string name)

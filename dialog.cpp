@@ -61,15 +61,16 @@ void Dialog::updateDialog()
 
     ui->race->setText(game.getRaceName().c_str());
 
+
+
     if (game.getCurrRace() >= game.raceLimit){
         //koniec gry
+        ui->pushButton_race->setDisabled(true);
+
         QMessageBox msg(this);
         msg.setWindowTitle("Komunikat");
-        //dorobic metode wyznaczania miejsca w klasyfikacji
-        msg.setText("Koniec gry! Zajęto " + QString::number(human->getPlace()) + " pozycję!");
+        msg.setText("Koniec gry! Zajęto " + QString::number(game.getHumanStanding()) + " pozycję!");
         msg.exec();
-
-        close();
     };
 }
 

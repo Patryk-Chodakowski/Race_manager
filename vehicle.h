@@ -64,6 +64,7 @@ public:
     void setStep(int s);
     void incraseLap();
     void setRideStyle(int style);
+    void setMaxVelocity(int v);
 
     int get_track();
     bool getOvertaking();
