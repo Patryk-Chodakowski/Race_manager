@@ -25,6 +25,11 @@ Straight::Straight(Point _start, int start_radius,Point _end,int end_radius)
     item = line;
 }
 
+Straight::~Straight()
+{
+
+}
+
 int Straight::positionToDistanceProjection(Vehicle *v)
 {
     Point result(0,0);

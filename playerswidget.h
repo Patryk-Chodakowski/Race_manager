@@ -33,7 +33,6 @@ private:
     Player *player;
     QLabel *name, *position, *lap;
     QProgressBar *bar;
-//    QGridLayout *grid;
 };
 
 #endif // PLAYERSWIDGET_H

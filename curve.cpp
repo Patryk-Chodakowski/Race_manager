@@ -22,6 +22,11 @@ Curve::Curve(int r)
     radius = r;
 }
 
+Curve::~Curve()
+{
+
+}
+
 int Curve::positionToDistanceProjection(Vehicle *v)
 {
     return 0;

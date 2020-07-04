@@ -9,7 +9,15 @@ Route_Element::Route_Element()
 //    is_pitlane = false;
 //    is_turn_to_pitlane = false;
 //    pit_start = false;
-//    pit_end = false;
+    //    pit_end = false;
+}
+
+Route_Element::~Route_Element()
+{
+    next = nullptr;
+    prev = nullptr;
+    pitlane_element = nullptr;
+    delete item;
 }
 
 QGraphicsItem *Route_Element::get_graphic_item()

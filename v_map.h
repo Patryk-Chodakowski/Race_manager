@@ -8,7 +8,6 @@
 class V_Map
 {
     Trail *way;
-//    Vehicle *vehicles;
 
 public:
     V_Map(Trail *trail);

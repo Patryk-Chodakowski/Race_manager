@@ -8,43 +8,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    ui->label->setText("OFF");
-
-
-
-//    game.prepareSimulation();
-//    race = game.getSimulation();
-//    map = new V_Map(race->get_trail());
-//    map->draw_map(scene);
-//    race->getPlayers();
-
-
-//    for(auto player: (*race->getPlayers())){
-//        map->draw_vehicle(scene,player->getCar());
-//    };
-
-//    int nr_players = race->getPlayers()->size();
-//    playerGrid = new QGridLayout*[nr_players];
-
-//    description = new QLabel*[nr_players];
-
-//    playerWidget = new PlayersWidget*[nr_players];
-
-//    for (int i=0 ; i< nr_players;i++){
-
-//        playerWidget[i] = new PlayersWidget(race->getPlayers()->at(i),race->get_trail()->getLaps(),this);
-
-//        ui->horizontalLayout->addWidget(playerWidget[i]);
-//    }
-
-
-//    race->setVehiclesOnStart();
-//    setLapLabel();
-//    on_pushButton_normal_clicked();
-
-//    connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
-//    connect(race,SIGNAL(disablePitButton()),this,SLOT(diablePitStop()));
-//    connect(race,SIGNAL(enablePitButton()),this,SLOT(enablePitstop()));
 }
 
 MainWindow::MainWindow(Game &g, QWidget *parent)
@@ -58,6 +21,7 @@ MainWindow::MainWindow(Game &g, QWidget *parent)
    scene->setSceneRect(0,0,1400,700);
 
    setAttribute(Qt::WA_DeleteOnClose);
+   setWindowTitle(race->get_trail()->getName().c_str());
 
    map = new V_Map(race->get_trail());
    map->draw_map(scene);
@@ -65,6 +29,10 @@ MainWindow::MainWindow(Game &g, QWidget *parent)
    for(auto& player: (*race->getPlayers())){
        map->draw_vehicle(scene,player->getCar());
    };
+
+   race->setVehiclesOnStart();
+   setLapLabel();
+   on_pushButton_normal_clicked();
 
    int nr_players = race->getPlayers()->size();
    playerWidget = new PlayersWidget*[nr_players];
@@ -74,14 +42,10 @@ MainWindow::MainWindow(Game &g, QWidget *parent)
        ui->horizontalLayout->addWidget(playerWidget[i]);
    }
 
-   race->setVehiclesOnStart();
-
-   setLapLabel();
-   on_pushButton_normal_clicked();
-
    connect(race,SIGNAL(updateView()),this,SLOT(refreshPanel()));
    connect(race,SIGNAL(disablePitButton()),this,SLOT(diablePitStop()));
    connect(race,SIGNAL(enablePitButton()),this,SLOT(enablePitstop()));
+   connect(race,SIGNAL(raceEnded()),this,SLOT(finishRace()));
 }
 
 MainWindow::~MainWindow()
@@ -89,6 +53,13 @@ MainWindow::~MainWindow()
     for(auto& player: (*race->getPlayers())){
         map->removeVehicleFromScene(scene,player->getCar());
     };
+
+    if (game->getSimulation()) game->getSimulation()->~Simulation();
+
+    int nr_players = race->getPlayers()->size();
+
+    for (int i=0 ; i< nr_players;i++) delete playerWidget[i];
+    delete [] playerWidget;
 
     delete map;
     delete scene;
@@ -162,20 +133,28 @@ void MainWindow::enablePitstop()
 
 }
 
+void MainWindow::finishRace()
+{
+    QString txt = "";
+    if (race->get_human()->getPlace() == 1) txt = "Gratulacje! Wygrano wyścig!";
+    else txt = "Koniec wyścigu! Zajęto " + QString::number(race->get_human()->getPlace())  + " miejsce";;
+
+    QMessageBox msg(this);
+    msg.setWindowTitle("Komunikat");
+    msg.setText(txt);
+    msg.exec();
+
+    game->nextRace();
+    destroyed();
+    close();
+}
+
 void MainWindow::updateLabels()
 {
     int nr_players = race->getPlayers()->size();
 
     for (int i=0 ; i< nr_players;i++){
-//        QString text = race->getPlayers()->at(i)->getName().c_str();
-//        text += " ";
-//        text += QString::number(race->getPlayers()->at(i)->getCar()->getDistance());
-
-//        description[i]->setText(text);
-//        description[i]->update();
           playerWidget[i]->updateWidget();
-
-//        ui->horizontalLayout->addWidget(description[i]);
     }
 
 }
@@ -242,6 +221,5 @@ void MainWindow::on_pushButton_slowDown_clicked()
 void MainWindow::on_pushButton_9_clicked()
 {
     destroyed();
-//    hide();
     close();
 }

@@ -1,7 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-//#include "player.h"
 #include "simulation.h"
 
 class Game
@@ -15,9 +14,16 @@ public:
 
     vector<Player*> *getPlayers();
     Player *getHuman();
+    int currentRaceNumber = 1;
+    int raceLimit = 2;
 
+    string getRaceName();
+
+    void nextRace();
+    int getCurrRace();
+    int getRaceLimit();
     void createPlayer(string name);
-    void prepareSimulation(int variant = 0);
+    void prepareSimulation();
     void deleteSimulation();
     Simulation* getSimulation();
 };

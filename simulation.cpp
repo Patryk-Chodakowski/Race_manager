@@ -4,24 +4,21 @@ Simulation::Simulation(vector<Player*>& players,string sourceFile)
     :QObject()
 {
     pv = &players;
-
     road = new Trail(sourceFile);
-//    road->create_elements();
 
     human = players.at(0);
 
-//    map = new V_Map(road);
-//    map->draw_vehicle();
+    for (auto& p: players){
+        p->getCar()->resetVehicleBeforeStart();
+    }
 
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(makeMoves()));
-    //    timer->start(sample_time);
 }
 
 Simulation::~Simulation()
 {
-    cout << "Destrukcja symulacji" << endl;
-
+    cout << "DESTRUKTOR SYMULACJI"<< endl;
     delete road;
     delete timer;
 }
@@ -70,6 +67,8 @@ void Simulation::setVehiclesOnStart()
           track *= (-1);
           place++;
       }
+
+      checkPlayersPlace();
 }
 
 void Simulation::checkPositionBetweenVehicles()
@@ -439,8 +438,6 @@ void Simulation::simPause()
 
 void Simulation::raceEnd()
 {
-    cout << "KONIEC WYSCIGU" << endl;
-
     simPause();
 
     for (auto& player: (*pv)){
@@ -466,11 +463,7 @@ void Simulation::raceEnd()
         player->setPoints(points);
     }
 
-    //destruktory
-
-    //sygnal wylaczenia, do destruktora
-
-
+    raceEnded();
 }
 
 int Simulation::getCurrentLap()
@@ -500,7 +493,5 @@ void Simulation::makeMoves()
     checkPlayersPlace();
 
     updateView();
-//    contestants->set_position(Point(contestants->get_position().get_x(),contestants->get_position().get_y() + contestants->get_velocity()));
-//    contestants->updatePosition();
 }
 

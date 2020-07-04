@@ -82,7 +82,7 @@ public:
     virtual void log();
 
     Route_Element();
-//    ~Route_Element();
+    virtual ~Route_Element();
 
     QGraphicsItem* get_graphic_item();
 

@@ -19,10 +19,9 @@ Dialog::Dialog(QWidget *parent) :
 
 Dialog::~Dialog()
 {
+    cout << "DESTRUKTOR Dialog" << endl;
     delete ui;
 }
-
-
 
 void Dialog::updateDialog()
 {
@@ -36,6 +35,13 @@ void Dialog::updateDialog()
 
     ui->engineers_level->setText(QString::number(human->getTeam()->getEngineers()+1));
     ui->engineers_upgrade_cost->setText(QString::number(human->teamUpgradeCost()));
+
+    ui->table->clearContents();
+    int size = ui->table->rowCount();
+
+    for (int i=size;i>=0;i--){
+        ui->table->removeRow(i);
+    }
 
     QLabel l[game.getPlayers()->size()];
     int i = 0;
@@ -53,6 +59,18 @@ void Dialog::updateDialog()
     ui->table->sortItems(0);
     ui->table->sortItems(1,Qt::DescendingOrder);
 
+    ui->race->setText(game.getRaceName().c_str());
+
+    if (game.getCurrRace() >= game.raceLimit){
+        //koniec gry
+        QMessageBox msg(this);
+        msg.setWindowTitle("Komunikat");
+        //dorobic metode wyznaczania miejsca w klasyfikacji
+        msg.setText("Koniec gry! Zajęto " + QString::number(human->getPlace()) + " pozycję!");
+        msg.exec();
+
+        close();
+    };
 }
 
 void Dialog::on_pushButton_race_clicked()
@@ -63,7 +81,6 @@ void Dialog::on_pushButton_race_clicked()
     connect(window,SIGNAL(destroyed()),this,SLOT(raceClosed()));
     window->showMaximized();
     hide();
-
 }
 
 void Dialog::on_pushButton_tank_clicked()
@@ -116,6 +133,7 @@ void Dialog::raceClosed()
 {
 //    game.deleteSimulation();
     show();
+    updateDialog();
 
 //    delete window;
 }

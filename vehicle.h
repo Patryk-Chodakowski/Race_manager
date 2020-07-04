@@ -21,37 +21,32 @@ protected:
     bool is_overtaken = false;
     bool running = true;
 
-//    double fuelTankCapacity = 400;
     double baseTankCapacity = 200;
-//    double fuelTankCapacity = baseTankCapacity;
+    int width = 40;
+    int height = 60;
+    int baseVelocity = 5;
+    int maxVelocity = baseVelocity;
+    int acceleration = 1;
 
     int tankLevel = 0;
     double fuelTankLevel = 0;
     double mileage = 0.1;
-
     int currentTrack = 0;
     Point position;
-    double angle;
-
-    int width,height;
-    int velocity;
-
-    int baseVelocity = 5;
-    int maxVelocity = baseVelocity;
-    int acceleration;
-
+    double angle = 0;
+    int velocity = 0;
     int rideStyle = 0;
     int distance = 0;
     int currlap =-1;
     int step = 0;
 
     Route_Element *current_element;
-
     QGraphicsItem *model;
 
 public:
     Vehicle(Color color);
     Vehicle(Color color,int fuelTankUpgrade, Team *team = new Team());
+    ~Vehicle();
 
     void setGoToPitStop(bool go);
     void toggleRun();
@@ -69,8 +64,6 @@ public:
     void setStep(int s);
     void incraseLap();
     void setRideStyle(int style);
-//    void setFuelTankCapacity(int c);
-//    void setFuelTankLevel(int l);
 
     int get_track();
     bool getOvertaking();
@@ -90,15 +83,14 @@ public:
 
     void upgradeVehicle(Team *team);
     void upgradeTank(int level);
+    void resetVehicleBeforeStart();
 
     Route_Element* get_route_element();
     Point get_position();
     double get_angle();
     void updatePosition();
 
-
     QGraphicsItem * get_graphic_item();
-
 };
 
 #endif // VEHICLE_H

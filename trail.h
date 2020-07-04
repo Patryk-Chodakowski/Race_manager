@@ -20,14 +20,20 @@ class Trail
     int length = 0;
     int laps = 6;
 
-    Route_Element *inner_trail, *outer_trail;
+//    Route_Element *inner_trail, *outer_trail;
     Route_Element *central_trail;
 
 public:
     Trail(string sourceFile = "punkty_mapy.txt");
+    ~Trail();
+
     void create_elements(string sourceFile);
+    void setLaps(int l);
+    void setName(string n);
+
     int getLength();
     int getLaps();
+    string getName();
     Route_Element *get_elements();
 
 private:

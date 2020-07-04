@@ -11,12 +11,16 @@ Game::Game()
 
 Game::~Game()
 {
-    for (auto& it: players){
+    for(auto& it: players){
         delete it;
+    }
+
+    while(!players.empty()){
+        players.pop_back();
     }
 }
 
-vector<Player *> *Game::getPlayers()
+vector<Player*> *Game::getPlayers()
 {
     return &players;
 }
@@ -24,6 +28,37 @@ vector<Player *> *Game::getPlayers()
 Player *Game::getHuman()
 {
     return players.at(0);
+}
+
+string Game::getRaceName()
+{
+    string name = "";
+    switch (currentRaceNumber) {
+        case 0:
+            name = "GP Monaco";
+        break;
+        case 1:
+            name = "GP France";
+            break;
+        default:
+            throw std::invalid_argument("Brak zdefiniowanej mapy");
+    }
+    return name;
+}
+
+void Game::nextRace()
+{
+    currentRaceNumber++;
+}
+
+int Game::getCurrRace()
+{
+    return currentRaceNumber;
+}
+
+int Game::getRaceLimit()
+{
+    return raceLimit;
 }
 
 void Game::createPlayer(string name)
@@ -36,18 +71,30 @@ void Game::createPlayer(string name)
     }
 }
 
-void Game::prepareSimulation(int variant)
+void Game::prepareSimulation()
 {
     string source = "";
-    switch (variant) {
+    int laps = 0;
+    string name = "";
+
+    name = getRaceName();
+
+    switch (currentRaceNumber) {
         case 0:
             source = "punkty_mapy.txt";
+            laps = 4;
+        break;
+    case 1:
+        source = "mapa_2.txt";
+        laps = 3;
         break;
     default:
         throw std::invalid_argument("Brak zdefiniowanej mapy");
     }
 
     simulation = new Simulation(players,source);
+    simulation->get_trail()->setLaps(laps);
+    simulation->get_trail()->setName(name);
 }
 
 void Game::deleteSimulation()

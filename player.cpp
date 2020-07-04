@@ -145,6 +145,8 @@ int Player::getInstancesNumber()
 
 Player::~Player()
 {
+    delete team;
+    delete car;
+
     instance_number--;
-    cout << "usuwam " << name << " " << instance_number << endl;
 }

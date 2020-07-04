@@ -23,6 +23,7 @@ public:
     Curve();
     Curve(Point prev, Point current, Point next, int _radius);
     Curve(int r);
+    ~Curve();
 
 //    Point relocateByTrack(Point source);
 

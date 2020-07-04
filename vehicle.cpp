@@ -2,14 +2,7 @@
 
 Vehicle::Vehicle(Color color)
 {
-    angle = 0;
-    width =  40;
-    height = 60;
-    velocity = 0;
-//    maxVelocity = 5;
-    acceleration = 1;
-
-    fuelTankLevel = getFuelTankCapacity();
+    resetVehicleBeforeStart();
 
     QString txt = getColorName(color);
 
@@ -27,6 +20,11 @@ Vehicle::Vehicle(Color color, int fuelTankUpgrade, Team *team)
     upgradeTank(fuelTankUpgrade);
 
     fuelTankLevel = getFuelTankCapacity();
+}
+
+Vehicle::~Vehicle()
+{
+    delete model;
 }
 
 void Vehicle::setGoToPitStop(bool go)
@@ -285,7 +283,20 @@ void Vehicle::upgradeVehicle(Team *team)
 void Vehicle::upgradeTank(int level)
 {
     if (level > 0 && level < 3)
-    tankLevel = level;
+        tankLevel = level;
+}
+
+void Vehicle::resetVehicleBeforeStart()
+{
+    goToPitstop = false;
+    running = true;
+    fuelTankLevel = getFuelTankCapacity();
+    velocity = 0;
+    rideStyle = 0;
+    distance = 0;
+    currlap = -1;
+    step = 0;
+    angle = 0;
 }
 
 QString getColorName(Color color)

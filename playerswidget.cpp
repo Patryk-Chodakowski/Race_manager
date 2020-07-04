@@ -9,7 +9,6 @@ PlayersWidget::PlayersWidget(Player *p,int _lapLimit, QWidget *parent) :
     player = p;
     lapLimit = _lapLimit;
 
-//    ui->verticalLayout->setParent(ui->frame);
     vertical = new QVBoxLayout(ui->frame);
     horizontal = new QHBoxLayout();
     name = new QLabel();
@@ -43,9 +42,12 @@ PlayersWidget::~PlayersWidget()
 {
     delete name;
     delete position;
+    delete lap;
+
     delete horizontal;
     delete bar;
     delete vertical;
+
     delete ui;
 }
 

@@ -4,7 +4,6 @@
 #define DIALOG_H
 
 #include <QDialog>
-#include <QMessageBox>
 
 #include "mainwindow.h"
 

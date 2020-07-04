@@ -13,15 +13,14 @@ class Simulation : public QObject
 {
     Q_OBJECT;
 
-    vector<Player*> *pv;
-
-    Player *human;
     Trail *road;
+    QTimer *timer;
+
+    vector<Player*> *pv;
+    Player *human;
+
     int currentLap = 0;
-
     int minDistance = 80;
-
-//    V_Map *map;
     int sample_time = 20;
 
 public:
@@ -30,12 +29,10 @@ public:
 
     Trail *get_trail();
     Player *get_human();
-//    V_Map *get_map();
     vector<Player*> *getPlayers();
 
-    QTimer *timer;
-
     void setVehiclesOnStart();
+
     void checkPositionBetweenVehicles();
     void checkPlayersPlace();
 
@@ -44,7 +41,6 @@ public:
 
     void raceEnd();
     int getCurrentLap();
-//    void moveVehicles();
 
 public: signals:
     void updateView();
@@ -53,9 +49,10 @@ public: signals:
     void disablePitButton();
     void enablePitButton();
 
+    void raceEnded();
+
 public slots:
     void makeMoves();
-
 };
 
 #endif // SIMULATION_H

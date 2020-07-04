@@ -6,6 +6,27 @@ Trail::Trail(string sourceFile)
     create_elements(sourceFile);
 }
 
+Trail::~Trail()
+{
+    cout << "USUWAM SCIEZKE" << endl;
+
+    Route_Element *tmp = central_trail->get_next_element();
+    while(central_trail->get_next_element()){
+        if(central_trail->get_turn_to_pitlane()){
+            Route_Element *tmp2 = central_trail->get_pitlane_element();
+            Route_Element *tmp3;
+            while(tmp2->get_pitlane()){
+                tmp3 = tmp2->get_next_element();
+                delete tmp2;
+                tmp2 = tmp3;
+            }
+        }
+        tmp = central_trail->get_next_element();
+        delete central_trail;
+        central_trail = tmp;
+    }
+}
+
 void Trail::create_elements(string sourceFile){
     fstream file;
     string tmp;
@@ -180,6 +201,16 @@ void Trail::create_elements(string sourceFile){
     }while(!elem->get_finish_line());
 }
 
+void Trail::setLaps(int l)
+{
+    laps = l;
+}
+
+void Trail::setName(string n)
+{
+    name = n;
+}
+
 int Trail::getLength()
 {
     return length;
@@ -188,6 +219,11 @@ int Trail::getLength()
 int Trail::getLaps()
 {
     return laps;
+}
+
+string Trail::getName()
+{
+    return name;
 }
 
 Route_Element *Trail::get_elements()

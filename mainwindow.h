@@ -8,10 +8,10 @@
 #include <QTimer>
 #include <QLabel>
 #include <QGridLayout>
+#include <QMessageBox>
 
 #include "qgraphicsarcitem.h"
 #include "playerswidget.h"
-//#include "simulation.h"
 #include "game.h"
 
 QT_BEGIN_NAMESPACE
@@ -47,6 +47,7 @@ private slots:
     void refreshPanel();
     void diablePitStop();
     void enablePitstop();
+    void finishRace();
 
     void on_pushButton_9_clicked();
 
@@ -60,15 +61,7 @@ private:
     V_Map *map;
 
     PlayersWidget ** playerWidget;
-
     QGraphicsScene *scene;
-//    QGraphicsEllipseItem *ellipse;
-//    QGraphicsRectItem *rectangle;
-//    QGraphicsLineItem *line;
-//    QGraphicsArcItem *arc;
-
-//    QLabel **description;
-//    QGridLayout **playerGrid;
 
     void updateLabels();
     void togglePitLabel();
