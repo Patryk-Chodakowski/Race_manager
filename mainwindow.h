@@ -18,6 +18,10 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/*!
+\brief Okno wyścigu
+*/
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -29,41 +33,58 @@ public:
     ~MainWindow();
 
 private slots:
+    ///\brief Przycisk PitStop
     void on_pushButton_clicked();
-    void on_pushButton_3_clicked();
-    void on_pushButton_2_clicked();
-    void on_pushButton_4_clicked();
-    void on_pushButton_5_clicked();
-    void on_pushButton_6_clicked();
-    void on_pushButton_7_clicked();
-    void on_pushButton_8_clicked();
 
+    ///\brief Przycisk Normalnej prędkości
     void on_pushButton_normal_clicked();
 
+    ///\brief Przycisk Przyspieszenia pojazdu
     void on_pushButton_speedUp_clicked();
 
+    ///\brief Przycisk Spowolnienia pojazdu
     void on_pushButton_slowDown_clicked();
 
+    ///\brief Odświerza panel danych o uczestnikach wyscigu
     void refreshPanel();
+
+    ///\brief Blokuje przycisk PitStop
     void diablePitStop();
+
+    ///\brief Aktywuje przycisk PitStop
     void enablePitstop();
+
+    ///\brief Kończy wyścig i rozdaje punkty
     void finishRace();
 
-    void on_pushButton_9_clicked();
+    ///\brief Przycisk powrotu
+    void on_back_clicked();
+
+    ///\brief Przycisk pauzy
+    void on_pause_clicked();
+
+    ///\brief Przycisk startu
+    void on_start_clicked();
 
 private:
     Ui::MainWindow *ui;
 
+    ///\brief Aktualizuje licznik okrążeń
     void setLapLabel();
 
+    /// Wskaźnik na wyścig
     Simulation *race;
+    /// Wskaźnik na grę
     Game *game;
+    /// Wskaźnik na mapę
     V_Map *map;
 
+    /// Wskaźnik na tablicę dynamiczą obieków prezentujących stan uczestników
     PlayersWidget ** playerWidget;
+    /// Wskaźnik na scenę
     QGraphicsScene *scene;
 
+    ///\brief Aktualizuje widżety ze stanem uczestników
     void updateLabels();
-    void togglePitLabel();
 };
 #endif // MAINWINDOW_H

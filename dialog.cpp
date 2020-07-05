@@ -19,7 +19,6 @@ Dialog::Dialog(QWidget *parent) :
 
 Dialog::~Dialog()
 {
-    cout << "DESTRUKTOR Dialog" << endl;
     delete ui;
 }
 
@@ -46,13 +45,9 @@ void Dialog::updateDialog()
     QLabel l[game.getPlayers()->size()];
     int i = 0;
     for (auto& p: *(game.getPlayers())){
-
-        cout << i << " " << p->getName() << endl;
-
         ui->table->insertRow(i);
         ui->table->setItem(i,0,new QTableWidgetItem(QString::fromStdString(p->getName())));
         ui->table->setItem(i,1,new QTableWidgetItem(QString::number(p->getPoints())));
-
         i++;
     };
 
@@ -63,7 +58,7 @@ void Dialog::updateDialog()
 
 
 
-    if (game.getCurrRace() >= game.raceLimit){
+    if (game.getCurrRace() >= game.getRaceLimit()){
         //koniec gry
         ui->pushButton_race->setDisabled(true);
 
@@ -132,9 +127,6 @@ void Dialog::on_pushButton_team_clicked()
 
 void Dialog::raceClosed()
 {
-//    game.deleteSimulation();
     show();
     updateDialog();
-
-//    delete window;
 }

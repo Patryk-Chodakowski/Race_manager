@@ -2,14 +2,7 @@
 
 Route_Element::Route_Element()
 {
-//    prev = NULL;
-//    next = NULL;
-//    pitlane_element = NULL;
 
-//    is_pitlane = false;
-//    is_turn_to_pitlane = false;
-//    pit_start = false;
-    //    pit_end = false;
 }
 
 Route_Element::~Route_Element()
@@ -25,17 +18,17 @@ QGraphicsItem *Route_Element::get_graphic_item()
     return item;
 }
 
-void Route_Element::set_start(Point point)
+void Route_Element::set_start(Point<int> point)
 {
     start = point;
 }
 
-void Route_Element::set_end(Point point)
+void Route_Element::set_end(Point<int> point)
 {
     end = point;
 }
 
-void Route_Element::set_direction(Point from, Point to)
+void Route_Element::set_direction(Point<int> from, Point<int> to)
 {
     direction = from.direction_vector(to);
 }
@@ -182,17 +175,17 @@ Route_Element *Route_Element::getPitBypass()
     return ptr;
 }
 
-Point Route_Element::get_dir()
+Point<int> Route_Element::get_dir()
 {
     return direction;
 }
 
-Point Route_Element::get_start()
+Point<int> Route_Element::get_start()
 {
     return start;
 }
 
-Point Route_Element::get_end()
+Point<int> Route_Element::get_end()
 {
     return end;
 }
@@ -211,16 +204,6 @@ int Route_Element::get_angle()
 {
     return 0;
 }
-
-//void Route_Element::test(Vehicle *v)
-//{
-//    std::cout<< "funkcja testowa bangla " << v->get_angle() << std::endl;
-//}
-
-//Route_Element *Route_Element::calculateTrajectory(Point &position, int &angle, int step)
-//{
-
-//}
 
 int Route_Element::calculateTrajectory(Vehicle* v,int step){
 

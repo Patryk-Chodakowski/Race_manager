@@ -1,25 +1,12 @@
 #include "curve.h"
 
-Curve::Curve()
-    : Route_Element()
-{
-    curve = true;
-}
-
-Curve::Curve(Point prev, Point current, Point next, int _radius)
+Curve::Curve(Point<int> prev, Point<int> current, Point<int> next, int _radius)
     : Route_Element()
 {
     this->set_ends_from_points(prev,current,next,_radius);
-
     QGraphicsArcItem *arc = new QGraphicsArcItem(centre,get_start(),get_end(),_radius,width);
-//    arc->changeApperanccene(QPen(Qt::gray,width,Qt::SolidLine,Qt::FlatCap,Qt::RoundJoin));
-    item = arc;
-}
 
-Curve::Curve(int r)
-    : Route_Element()
-{
-    radius = r;
+    item = arc;
 }
 
 Curve::~Curve()
@@ -34,7 +21,7 @@ int Curve::positionToDistanceProjection(Vehicle *v)
 
 void Curve::placeOnLength(Vehicle *v,int length)
 {
-    Point begin = start;
+    Point<int> begin = start;
     int arcRadius = radius;
     int tmp = 1;
     if (is_inner) tmp = -1;
@@ -48,7 +35,7 @@ void Curve::placeOnLength(Vehicle *v,int length)
         break;
     }
 
-    Point dir = start.direction_vector(centre);
+    Point<int> dir = start.direction_vector(centre);
     begin.set_x(centre.get_x() - dir.get_x() * arcRadius);
     begin.set_y(centre.get_y() - dir.get_y() * arcRadius);
 
@@ -97,12 +84,12 @@ int Curve::get_angle()
 
 int Curve::calculateTrajectory(Vehicle *v, int step)
 {
-    Point position = v->get_position();
+    Point<int> position = v->get_position();
     int angle = v->get_angle();
 
-    Point begin = start;
-    Point finish = end;
-    Point dir;
+    Point<int> begin = start;
+    Point<int> finish = end;
+    Point<int> dir;
     int arcLength = length;
     int arcRadius = radius;
 
@@ -155,9 +142,6 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     dir = end.direction_vector(centre);
     finish.set_x(centre.get_x() - dir.get_x() * curRadius);
     finish.set_y(centre.get_y() - dir.get_y() * curRadius);
-
-//    std::cout << " curR " << curRadius << " arcR " << arcRadius << " arcL " << arcLength
-//              << " dang " << dangle << " abs " << abs(curRadius - arcRadius) << " step " << step << std::endl;
 
     //wyznaczenie luku
     switch (quater) {
@@ -282,13 +266,7 @@ int Curve::calculateTrajectory(Vehicle *v, int step)
     else{
         int bypass_end = bypass->positionToDistanceProjection(v);
         v->setDistance(v->getDistance() + (bypass_end - bypass_start));
-//        std::cout << "bypass curv " <<  v->getDistance() << " " << v->getDistance() << " " << (bypass_end - bypass_start) << std::endl;
     }
-
-
-//    std::cout << " z " << z;
-//    position.log_point();
-//    centre.log_point();
 
     return rest;
 }
@@ -303,22 +281,22 @@ void Curve::set_radius(int r)
     radius = r;
 }
 
-void Curve::set_ends_from_points(Point prev, Point current, Point next, int _radius)
+void Curve::set_ends_from_points(Point<int> prev, Point<int> current, Point<int> next, int _radius)
 {
     this->set_direction(prev,next);
     radius = _radius;
 
-    Point dir = prev.direction_vector(current);
-    Point s(current.get_x()-dir.get_x()*radius,current.get_y()-dir.get_y()*radius);
+    Point<int> dir = prev.direction_vector(current);
+    Point<int> s(current.get_x()-dir.get_x()*radius,current.get_y()-dir.get_y()*radius);
     this->set_start(s);
 
     dir = current.direction_vector(next);
-    Point e(current.get_x()+dir.get_x()*radius,current.get_y()+dir.get_y()*radius);
+    Point<int> e(current.get_x()+dir.get_x()*radius,current.get_y()+dir.get_y()*radius);
     this->set_end(e);
 
     length = 1.5 * radius;
 
-    Point c(get_start().get_x()+dir.get_x()*radius,get_start().get_y()+dir.get_y()*radius);
+    Point<int> c(get_start().get_x()+dir.get_x()*radius,get_start().get_y()+dir.get_y()*radius);
     centre = c;
 
     quater = ArcQuaterFromPoint(s,c,e);
@@ -337,3 +315,4 @@ void Curve::log_curve()
     centre.log_point();
     std::cout << "radius: " << radius << std::endl << std::endl;;
 }
+

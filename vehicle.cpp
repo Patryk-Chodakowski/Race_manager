@@ -55,7 +55,6 @@ void Vehicle::calculateStep()
         //uzupelnienie paliwa
         fuelTankLevel = getFuelTankCapacity();
         if (goToPitstop){
-//            disablePitButton();
             goToPitstop = false;
         }
     }
@@ -72,10 +71,6 @@ void Vehicle::calculateStep()
         }
     }
 
-     if(current_element->get_pitlane() && current_element->get_pit_end()){
-//         enablePitButton();
-     }
-
     if (velocity > currentSpeedLimit) velocity = currentSpeedLimit;
     if (velocity < 0) velocity = 0;
 
@@ -90,7 +85,7 @@ void Vehicle::stopVehicle()
     velocity = 0;
 }
 
-void Vehicle::set_position(Point _position)
+void Vehicle::set_position(Point<int> _position)
 {
     position = _position;
 }
@@ -146,11 +141,6 @@ void Vehicle::setMaxVelocity(int v)
 {
     maxVelocity = v;
 }
-
-//void Vehicle::setFuelTankCapacity(int c)
-//{
-//    fuelTankCapacity = c;
-//}
 
 int Vehicle::get_track()
 {
@@ -219,7 +209,7 @@ Route_Element *Vehicle::get_route_element()
     return current_element;
 }
 
-Point Vehicle::get_position()
+Point<int> Vehicle::get_position()
 {
     return position;
 }
@@ -251,15 +241,10 @@ QGraphicsItem *Vehicle::get_graphic_item()
     return model;
 }
 
-void Vehicle::drive(int step_time)
+void Vehicle::drive()
 {
-    //wyznacz z parametrow pojazdu skok drogi na jednoske czasu
-//    calculateStep();
-
-
     step = current_element->calculateTrajectory(this,step);
     while (step != 0){
-        std::cout << "pentla " << step << std::endl;
 
         if(goToPitstop && current_element->get_turn_to_pitlane()){
             current_element = current_element->get_pitlane_element();
@@ -269,8 +254,6 @@ void Vehicle::drive(int step_time)
 
         step = current_element->calculateTrajectory(this,step);
     };
-
-//    std::cout << "mam pozycje " << distance << std::endl;
 
     updatePosition();
 }

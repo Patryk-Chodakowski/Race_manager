@@ -4,7 +4,7 @@
 Game::Game()
 {
     createPlayer("Andrzej");
-    createPlayer("Rafal");
+    createPlayer("Rafał");
     createPlayer("Szymon");
     createPlayer("Krzysztof");
 }

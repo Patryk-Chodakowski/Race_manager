@@ -2,14 +2,11 @@
 
 Trail::Trail(string sourceFile)
 {
-//    central_trail = new Route_Element();
     create_elements(sourceFile);
 }
 
 Trail::~Trail()
 {
-    cout << "USUWAM SCIEZKE" << endl;
-
     Route_Element *tmp = central_trail->get_next_element();
     while(central_trail->get_next_element()){
         if(central_trail->get_turn_to_pitlane()){
@@ -34,15 +31,12 @@ void Trail::create_elements(string sourceFile){
     int i = 0, finish_line;
 
     struct map_source_point{
-        Point p;
+        Point<int> p;
         int r;
         char type;
     };
 
     vector<map_source_point> source;
-
-    //wczytanie pliku z mapa
-//    string sourceFile ="punkty_mapy.txt" ;
 
     file.open(sourceFile.c_str(),ios::in);
     if(!file.good()){
@@ -120,7 +114,6 @@ void Trail::create_elements(string sourceFile){
     Route_Element *pit_entry, *pit_exit;
 
     for (int i = 0 ; i < size - 1 ; i++){
-//        cout << i << endl;
 
         Curve *arc = new Curve(source[prev].p,source[current].p,source[next].p,source[current].r);
         arc->set_interspace(interspace);
@@ -171,13 +164,13 @@ void Trail::create_elements(string sourceFile){
         if (next > size - 1) next = 0;
         if (prev < 0) prev = size - 1;
     }
-    cout << "ostatnia prosta"<< endl;
+//    cout << "ostatnia prosta"<< endl;
     Straight *line = new Straight(source[pitStart].p, - source[pitStart].r,source[pitEnd].p, - source[pitEnd].r);
     line->set_interspace(interspace);
     length += line->get_length();
 
-    line->log_straight();
-    cout << "trasa: " << length << endl;
+//    line->log_straight();
+//    cout << "trasa: " << length << endl;
 
     pit_entry->set_next(line);
     line->set_prev(pit_entry);

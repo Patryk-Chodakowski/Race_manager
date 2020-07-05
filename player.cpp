@@ -10,8 +10,6 @@ Player::Player(string _name)
 
     if (instance_number == 1) human = true;
 
-    cout << "gracz " <<  instance_number << " " << _name << endl;
-
     name = _name;
     id = instance_number;
 
@@ -111,11 +109,6 @@ int Player::teamUpgradeCost()
     return cost;
 }
 
-//void Player::setColor(string _color)
-//{
-//    color = _color;
-//}
-
 string Player::getName()
 {
     return name;
@@ -145,11 +138,6 @@ int Player::getInstancesNumber()
 {
     return instance_number;
 }
-
-//string Player::getColor()
-//{
-//    return color;
-//}
 
 Player::~Player()
 {

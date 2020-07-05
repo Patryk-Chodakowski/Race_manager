@@ -3,21 +3,12 @@
 V_Map::V_Map(Trail *trail)
 {
     way = trail;
-
-//    vehicles = _vehicles;
-
-    //    std::cout<< "utworzono sciezke" << std::endl;
 }
 
 V_Map::~V_Map()
 {
 
 }
-
-//V_Map::~V_Map()
-//{
-//    delete way;
-//}
 
 void V_Map::draw_map(QGraphicsScene *scene)
 {
@@ -35,7 +26,6 @@ void V_Map::draw_map(QGraphicsScene *scene)
 
     line->setPen(QPen(Qt::black,elements->getWidth(),Qt::SolidLine,Qt::FlatCap));
     scene->addItem(line);
-
     elements = elements->get_next_element();
 
     while(!elements->get_finish_line()){

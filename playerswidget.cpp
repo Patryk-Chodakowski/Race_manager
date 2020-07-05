@@ -72,6 +72,5 @@ QString PlayersWidget::formatLaps()
     if (current > lapLimit) result = "Okrążenia: koniec";
     else result = "Okrążenia: " + QString::number(current);
 
-
     return result;
 }

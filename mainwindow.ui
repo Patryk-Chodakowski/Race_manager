@@ -61,58 +61,6 @@
      <string>PitStop</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>1160</x>
-      <y>20</y>
-      <width>121</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>track--</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>20</y>
-      <width>121</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>track++</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>1610</x>
-      <y>530</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>OFF</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>1560</x>
-      <y>630</y>
-      <width>91</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>time++</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -124,11 +72,11 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout"/>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="start">
     <property name="geometry">
      <rect>
-      <x>1560</x>
-      <y>720</y>
+      <x>1130</x>
+      <y>20</y>
       <width>91</width>
       <height>81</height>
      </rect>
@@ -137,43 +85,17 @@
      <string>start</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="pause">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>720</y>
+      <x>980</x>
+      <y>20</y>
       <width>91</width>
       <height>81</height>
      </rect>
     </property>
     <property name="text">
      <string>pause</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>1460</x>
-      <y>630</y>
-      <width>91</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>stop/run</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>1050</x>
-      <y>20</y>
-      <width>71</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>track_0</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_lap">
@@ -233,11 +155,11 @@
      <string>Oszczędzaj</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_9">
+   <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
-      <x>1520</x>
-      <y>840</y>
+      <x>1470</x>
+      <y>740</y>
       <width>91</width>
       <height>61</height>
      </rect>

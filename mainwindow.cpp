@@ -79,42 +79,6 @@ void MainWindow::on_pushButton_clicked()
     }
 }
 
-void MainWindow::togglePitLabel(){
-   if(ui->label->text() == "OFF") ui->label->setText("ON");
-   else ui->label->setText("OFF");
-   ui->label->update();
-}
-
-void MainWindow::on_pushButton_3_clicked()
-{
-//    Vehicle *v = race->get_vehicles();
-//    int t = v->get_track();
-//    t++;
-//    if (t>1) t = 1;
-//    v->set_track(t);
-
-    race->get_human()->getCar()->set_track(1);
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-//    Vehicle *v = race->get_vehicles();
-//    int t = v->get_track();
-//    t--;
-//    if (t<-1) t = -1;
-//    v->set_track(t);
-
-    race->get_human()->getCar()->set_track(-1);
-}
-
-void MainWindow::on_pushButton_4_clicked()
-{
-    race->makeMoves();
-    updateLabels();
-    setLapLabel();
-//    ui->graphicsView->update();
-}
-
 void MainWindow::refreshPanel()
 {
     updateLabels();
@@ -159,28 +123,6 @@ void MainWindow::updateLabels()
 
 }
 
-void MainWindow::on_pushButton_5_clicked()
-{
-    race->simStart();
-}
-
-void MainWindow::on_pushButton_6_clicked()
-{
-    race->simPause();
-}
-
-void MainWindow::on_pushButton_7_clicked()
-{
-    Vehicle *v = race->get_human()->getCar();
-    v->toggleRun();
-
-}
-
-void MainWindow::on_pushButton_8_clicked()
-{
-    race->get_human()->getCar()->set_track(0);
-}
-
 void MainWindow::setLapLabel()
 {
     int lap = race->getCurrentLap();
@@ -218,8 +160,18 @@ void MainWindow::on_pushButton_slowDown_clicked()
     race->get_human()->getCar()->setRideStyle(-1);
 }
 
-void MainWindow::on_pushButton_9_clicked()
+void MainWindow::on_back_clicked()
 {
     destroyed();
     close();
+}
+
+void MainWindow::on_pause_clicked()
+{
+    race->simPause();
+}
+
+void MainWindow::on_start_clicked()
+{
+    race->simStart();
 }

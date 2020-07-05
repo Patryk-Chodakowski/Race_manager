@@ -1,9 +1,8 @@
 #include "qgraphicsarcitem.h"
 
-QGraphicsArcItem::QGraphicsArcItem(Point centre, Point start, Point end, int radius, int _width)
+QGraphicsArcItem::QGraphicsArcItem(Point<int> centre, Point<int> start, Point<int> end, int radius, int _width)
     :QGraphicsItem(), x(centre.get_x() - radius), y(centre.get_y() - radius), r(radius)
 {
-
     //rysowanie luku ze sprawdzeniem strony
     width = _width;
     quater = ArcQuaterFromPoint(start,centre,end);

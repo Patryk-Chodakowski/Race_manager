@@ -6,13 +6,13 @@ Straight::Straight()
 
 }
 
-Straight::Straight(Point _start, int start_radius,Point _end,int end_radius)
+Straight::Straight(Point<int> _start, int start_radius,Point<int> _end,int end_radius)
 {
     set_direction(_start,_end);
-    Point dir = get_dir();
+    Point<int> dir = get_dir();
 
-    Point s(_start.get_x()+dir.get_x()*start_radius,_start.get_y()+dir.get_y()*start_radius);
-    Point e(_end.get_x()-dir.get_x()*end_radius,_end.get_y()-dir.get_y()*end_radius);
+    Point<int> s(_start.get_x()+dir.get_x()*start_radius,_start.get_y()+dir.get_y()*start_radius);
+    Point<int> e(_end.get_x()-dir.get_x()*end_radius,_end.get_y()-dir.get_y()*end_radius);
 
     set_start(s);
     set_end(e);
@@ -32,9 +32,8 @@ Straight::~Straight()
 
 int Straight::positionToDistanceProjection(Vehicle *v)
 {
-    Point result(0,0);
-    Point position = v->get_position();
-
+    Point<int> result(0,0);
+    Point<int> position = v->get_position();
 
     if(direction.get_x() == 0){
         result.set_x(start.get_x());
@@ -49,8 +48,6 @@ int Straight::positionToDistanceProjection(Vehicle *v)
             else result.set_y(position.get_y());
         }
     }else{
-//        result.set_x(v->get_position().get_x());
-
         if (direction.get_x() > 0){
             if (position.get_x() < start.get_x()) result.set_x(start.get_x());
             else if((position.get_x() > end.get_x())) result.set_x(end.get_x());
@@ -65,16 +62,14 @@ int Straight::positionToDistanceProjection(Vehicle *v)
 
     int d = abs(result.get_x() - start.get_x()) + abs(result.get_y() - start.get_y());
 
-//    std::cout << "Licze bypas " << d << " " << std::endl;
-
     return d;
 }
 
 int Straight::calculateTrajectory(Vehicle *v, int step)
 {
-    Point position = v->get_position();
-    Point begin = start;
-    Point finish = end;
+    Point<int> position = v->get_position();
+    Point<int> begin = start;
+    Point<int> finish = end;
     int rest = 0;
 
     Route_Element *bypass = this;
@@ -152,7 +147,6 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
     {
 
         rest = abs( direction.get_x()*(finish.get_x() - position.get_x()) + direction.get_y()*(finish.get_y() - position.get_y()) );
-//        position = finish;
 
         position.set_x(position.get_x() - direction.get_x()*rest);
         position.set_y(position.get_y() - direction.get_y()*rest);
@@ -160,14 +154,11 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
         v->set_position(position);
 
         if(!is_pitlane){
-//            v->setDistance( v->getDistance() + (step - rest));
             v->setDistance(lengthSoFar + length);
         }
         else{
             int bypass_end = bypass->positionToDistanceProjection(v);
             v->setDistance(v->getDistance() + (bypass_end - bypass_start));
-            std::cout << "bypass str " <<  v->getDistance() << std::endl;
-
         }
 
         //wykonanie okrążenia
@@ -184,7 +175,6 @@ int Straight::calculateTrajectory(Vehicle *v, int step)
         else{
             int bypass_end = bypass->positionToDistanceProjection(v);
             v->setDistance(v->getDistance() + (bypass_end - bypass_start));
-//            std::cout << "bypass str " <<  v->getDistance() << std::endl;
         }
     }
 
@@ -219,7 +209,7 @@ int Straight::get_angle(){
 }
 
 void Straight::placeOnLength(Vehicle *v, int length){
-    Point begin = start;
+    Point<int> begin = start;
 
     switch (v->get_track()) {
     case -1:
