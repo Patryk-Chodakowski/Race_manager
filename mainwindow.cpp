@@ -175,3 +175,17 @@ void MainWindow::on_start_clicked()
 {
     race->simStart();
 }
+
+void MainWindow::on_cheat_clicked()
+{
+
+    Player *p;
+    for(auto& player: (*race->getPlayers())){
+        if (player->getPlace() == 1) p = player;
+    }
+
+    race->get_human()->getCar()->set_route_element(p->getCar()->get_route_element());
+    race->get_human()->getCar()->setLap(p->getCar()->getLap());
+    int dist = p->getCar()->getDistance() - p->getCar()->get_route_element()->getLengthSoFar() + 100;
+    race->get_human()->getCar()->get_route_element()->placeOnLength(race->get_human()->getCar(),dist);
+}

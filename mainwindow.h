@@ -66,6 +66,8 @@ private slots:
     ///\brief Przycisk startu
     void on_start_clicked();
 
+    void on_cheat_clicked();
+
 private:
     Ui::MainWindow *ui;
 

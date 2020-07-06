@@ -168,6 +168,19 @@
      <string>Wróć</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="cheat">
+    <property name="geometry">
+     <rect>
+      <x>1460</x>
+      <y>610</y>
+      <width>121</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CHEAT</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

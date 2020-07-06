@@ -172,6 +172,11 @@ int Vehicle::getLap()
     return currlap;
 }
 
+void Vehicle::setLap(int lap)
+{
+    currlap = lap;
+}
+
 int Vehicle::getFuelTankCapacity()
 {
     int current = baseTankCapacity;

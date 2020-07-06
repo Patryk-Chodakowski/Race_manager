@@ -129,6 +129,8 @@ public:
     int getStep();
     ///\brief Zwraca liczbę przejechanych okrążeń
     int getLap();
+    ///\brief Ustawia liczbę przejechanych okrążeń
+    void setLap(int lap);
     ///\brief Zwraca pojemność baku paliwa
     int getFuelTankCapacity();
     ///\brief Zwraca poziom paliwa
